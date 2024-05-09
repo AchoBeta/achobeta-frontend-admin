@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@pinia/nuxt": "^0.5.1",
+    "@vueuse/nuxt": "^10.9.0",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.11.1",
     "postcss": "^8.4.38",

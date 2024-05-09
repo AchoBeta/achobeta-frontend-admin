@@ -6,4 +6,3 @@
 import { useCounterStore } from '@/stores/counter'
 const counterStore = useCounterStore()
 </script>
-
