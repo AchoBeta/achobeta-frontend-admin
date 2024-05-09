@@ -1,6 +1,6 @@
 <template>
   <div>Current Count: {{ counterStore.count }}</div>
-  <div class="btn" @click="counterStore.increment()">+1</div>
+  <!-- <div class="btn" @click="counterStore.increment()">+1</div> -->
 </template>
 <script setup>
 import { useCounterStore } from '@/stores/counter'
