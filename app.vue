@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <NuxtPage/>
 
 
   <div v-if="!haslogin">
@@ -16,12 +18,12 @@
 
     </div>
   </div>
-
-
-
-
-
 </template>
+
+<style>
+
+</style>
+
 <script setup lang="ts">
 const haslogin = false
 </script>
