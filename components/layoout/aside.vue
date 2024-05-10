@@ -1,5 +1,5 @@
 <template>
-    <asdie class="flex flex-col  w-56 bg-[#fbfbfb] pl-1">
+    <asdie data-theme="dark" class="flex flex-col  w-56 bg-bg-base pl-1">
       <!-- LOGO -->
       <div class="text-3xl  font-bold text-center mt-8 mb-4">LOGO</div>
       <!-- 头像 -->
@@ -16,14 +16,15 @@
       </div>
       <!-- 菜单栏 -->
       <div>
-          <h1 class="text-sm text-black ml-6 font-bold my-2">主菜单</h1>
-          <template v-for="(item) in itemsList" :key="index">
+          <h1 class="text-sm  ml-6 font-bold my-2">主菜单</h1>
+          <template v-for="(item) in menuList" :key="index">
             <layoout-aside-item  :routeName="item.routeName" :content="item.content"></layoout-aside-item>
           </template>
       </div>
+      <!-- 其它栏 -->
       <div>
-          <h1 class="text-sm text-black ml-6 font-bold my-2">其它</h1>
-          <template v-for="(item) in 2" :key="index">
+          <h1 class="text-sm  ml-6 font-bold my-2">其它</h1>
+          <template v-for="(item) in othersList" :key="index">
             <layoout-aside-item  :routeName="item.routeName" :content="item.content"></layoout-aside-item>
           </template>
       </div>
@@ -31,7 +32,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-const itemsList = ref([{
+const menuList = ref([{
   routeName: '/',
   content: '首页'
 },{
@@ -49,6 +50,16 @@ const itemsList = ref([{
 },{
   routeName: '/',
   content: '面试评价'
+}])
+const othersList = ref([{
+  routeName: '/',
+  content: '意见反馈'
+},{
+  routeName: '/',
+  content: '个人信息'
+},{
+  routeName: '/',
+  content: '设置'
 }])
 
 </script>
