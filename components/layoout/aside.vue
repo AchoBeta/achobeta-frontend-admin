@@ -39,26 +39,26 @@ const menuList = ref([{
   routeName: '/user',
   content: '用户'
 },{
-  routeName: '/',
+  routeName: '/interviewer',
   content: '面试官'
 },{
-  routeName: '/',
+  routeName: '/email',
   content: '邮箱通知'
 },{
-  routeName: '/',
+  routeName: '/schedule',
   content: '招新日程'
 },{
-  routeName: '/',
+  routeName: '/evaluation',
   content: '面试评价'
 }])
 const othersList = ref([{
-  routeName: '/',
+  routeName: '/feedback',
   content: '意见反馈'
 },{
-  routeName: '/',
+  routeName: '/personalData',
   content: '个人信息'
 },{
-  routeName: '/',
+  routeName: '/setting',
   content: '设置'
 }])
 
