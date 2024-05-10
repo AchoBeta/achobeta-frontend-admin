@@ -6,7 +6,7 @@
       <!-- 顶部导航栏 -->
       <layoout-header></layoout-header>
       <!-- 内容区域 -->
-      <NuxtPage></NuxtPage>
+      <NuxtPage ></NuxtPage>
     </div>
   </div>
 </template>
