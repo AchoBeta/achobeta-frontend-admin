@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  app:{
+  app: {
     head: {
       title: 'achobeta招新管理系统',
       meta: [
@@ -8,20 +8,19 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { hid: 'description', name: 'description', content: '实验室招新管理系统' }
       ],
-      // 引入font awesome https://fontawesome.com/
-      script:[
+      // 引入font awesome 图标库 https://fontawesome.com/
+      script: [
         'https://kit.fontawesome.com/c07f3e1d31.js'
       ]
     }
   },
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt', '@vueuse/nuxt'],
-  css:['@/assets/css/tailwind.css'],
+  modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt'],
+  css: ['@/assets/css/tailwind.css'],
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
-
 })
