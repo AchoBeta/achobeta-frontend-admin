@@ -3,7 +3,7 @@
   // (remove this if your ESLint extension above v3.0.5)
   "eslint.experimental.useFlatConfig": true,
   // Disable the default formatter, use eslint instead
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   // Auto fix
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",

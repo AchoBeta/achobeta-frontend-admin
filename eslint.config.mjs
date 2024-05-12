@@ -4,4 +4,5 @@ export default antfu({
   rules: {
     'no-tabs': 'error',
   },
+  typescript: true,
 })
