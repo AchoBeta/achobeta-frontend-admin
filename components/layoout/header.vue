@@ -1,4 +1,10 @@
-<script setup></script>
+<script lang="ts" setup>
+import { storeToRefs } from 'pinia'
+import { useMenuStore } from '@/stores'
+
+const menueStore = storeToRefs(useMenuStore())
+const menuList = [...menueStore.menuList.value, ...menueStore.otherMenuList.value]
+</script>
 
 <template>
   <header class="navbar bg-[#fbfbfb]">
@@ -15,19 +21,22 @@
           </svg>
         </button>
         <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-          <li><a>Item 1</a></li>
-          <li><a>Item 2</a></li>
+          <li v-for="(item) in menuList" :key="item.id">
+            <NuxtLink :to="item.routeName">
+              {{ item.name }}
+            </NuxtLink>
+          </li>
         </ul>
       </div>
     </div>
     <!-- 页面名称 -->
-    <div class="flex-1">
+    <div class="flex-1 text-xl font-bold ml-2">
       首页
     </div>
     <!-- 消息栏 -->
     <div class="flex-none">
       <!-- 搜索框 -->
-      <label class="input input-bordered flex items-center gap-2 mr-8">
+      <label class="input input-bordered flex items-center gap-2 mr-8 ">
         <input type="text" class="grow" placeholder="Search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
           <path
@@ -38,14 +47,29 @@
         </svg>
       </label>
       <!-- 通知项 -->
-      <template v-for="(item, index) in 3" :key="index">
-        <div class="indicator mx-4 mt-2 ">
-          <span class="indicator-item badge badge-secondary badge-sm" />
-          <div class="grid w-10 h-10 rounded-full bg-base-300 place-items-center" />
+      <!-- 文件 -->
+      <div class="indicator mx-4 mt-2 hover:scale-105 ">
+        <span class="indicator-item badge badge-primary badge-sm">2</span>
+        <div class="grid w-10 h-10 rounded-full  place-items-center">
+          <i class="fa-solid fa-folder-open fa-xl text-[#a6adbb]" />
         </div>
-      </template>
+      </div>
+      <!-- 信息 -->
+      <div class="indicator mx-4 mt-2 hover:scale-105 ">
+        <span class="indicator-item badge badge-secondary badge-sm">10</span>
+        <div class="grid w-10 h-10 rounded-full  place-items-center">
+          <i class="fa-solid fa-envelope fa-xl text-[#a6adbb]" />
+        </div>
+      </div>
+      <!-- 通知 -->
+      <div class="indicator mx-4 mt-2 hover:scale-105 ">
+        <span class="indicator-item badge badge-error  badge-sm">99+</span>
+        <div class="grid w-10 h-10 rounded-full  place-items-center">
+          <i class="fa-solid fa-bell fa-xl text-[#a6adbb]" />
+        </div>
+      </div>
       <!-- 主题切换 -->
-      <label class="swap swap-rotate mr-4 ml-2">
+      <label class="swap swap-rotate mr-4  ml-6">
 
         <!-- this hidden checkbox controls the state -->
         <input type="checkbox" class="theme-controller" value="black">
@@ -63,10 +87,7 @@
             d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"
           />
         </svg>
-
       </label>
-
-      <input type="checkbox" value="synthwave" class="toggle theme-controller">
     </div>
   </header>
 </template>

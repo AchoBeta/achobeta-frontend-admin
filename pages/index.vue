@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="flex h-screen">
+  <div class="flex min-h-screen">
     <!-- 侧边导航栏 -->
     <layoout-aside />
     <div class="flex flex-col flex-1">
