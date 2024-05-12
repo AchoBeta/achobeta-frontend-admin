@@ -33,8 +33,16 @@ const props = defineProps({
       </p>
     </div>
     <div class="w-1/3 h-full flex justify-center content-center items-center">
-      <div :style="{ color: props.ringcolor }" class="radial-progress w-16 h-16  bg-[#f5f5f5]" style="--value:80;" role="progressbar">
-        80%
+      <!-- <div :style="{ color: props.ringcolor }" class="radial-progress w-16 h-16  bg-[#f5f5f5]" style="--value:70;"
+        role="progressbar">
+        70%
+      </div> -->
+      <div
+        :style="{ color: props.ringcolor }"
+        class="radial-progress  bg-[#f5f5f5] text-primary-content border-4 border-[#f5f5f5]" style="--value:70;"
+        role="progressbar"
+      >
+        70%
       </div>
     </div>
   </div>
@@ -42,7 +50,7 @@ const props = defineProps({
 
 <style scoped>
 .single-card {
-    box-shadow:  -9px 9px 18px #ebebeb,
-             9px -9px 18px #ffffff;
+  box-shadow: -9px 9px 18px #ebebeb,
+    9px -9px 18px #ffffff;
 }
 </style>
