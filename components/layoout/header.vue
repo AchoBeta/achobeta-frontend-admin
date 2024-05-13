@@ -7,7 +7,7 @@ const menuList = [...menueStore.menuList.value, ...menueStore.otherMenuList.valu
 </script>
 
 <template>
-  <header class="navbar bg-[#fbfbfb]">
+  <header class="navbar  bg-[#fbfbfb]">
     <!-- 更多 -->
     <div class="flex-none">
       <!-- 下拉菜单 todo 封装二次点击关闭 -->

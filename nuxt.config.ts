@@ -7,7 +7,6 @@ export default defineNuxtConfig({
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { hid: 'description', name: 'description', content: '实验室招新管理系统' },
-        { hid: 'description', name: 'description', content: '实验室招新管理系统' },
       ],
       // 引入font awesome 图标库 https://fontawesome.com/
       script: [
