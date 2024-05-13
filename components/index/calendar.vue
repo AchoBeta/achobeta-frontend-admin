@@ -23,31 +23,31 @@ export default {
 
 <style scoped>
 .fc .fc-toolbar-title {
-    color: red !important;
+  color: red !important;
 }
 
 .fc-daygrid-day-frame {
-    background-color: aquamarine !important;
+  background-color: aquamarine !important;
 
 }
 
 .fc-theme-standard {
-    background-color: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
 .fc-daygrid-day.fc-day-today {
-    background-color: #dd8484 !important;
+  background-color: #dd8484 !important;
 
 }
 
 .fc-daygrid-day-top {
-    background-color: #dd8484 !important;
-    display: flex !important;
-    justify-content: center !important;
+  background-color: #dd8484 !important;
+  display: flex !important;
+  justify-content: center !important;
 }
 
 .fc-daygrid-day-events {
-    background-color: #dd8484 !important;
+  background-color: #dd8484 !important;
 
 }
 </style>

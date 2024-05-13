@@ -189,24 +189,18 @@ const chartData = {
 </script>
 
 <template>
-  <div class="h-full w-full flex mx-auto ">
-    <!-- <div class="text-xl">
-      首页
-    </div> -->
-
-    <div class="left-container w-1/2 h-full ">
-      <!-- 四个卡片 -->
-      <div
-        class="p-5 data-cards flex flex-wrap items-start content-start justify-around bg-[#fbfbfb] w-full h-2/5 pb-10"
-      >
+  <div class="flex-1 bg-pink-200 w-full flex mx-auto ">
+    <!-- 卡片区域 -->
+    <div class="left-container w-1/2 h-full">
+      <div class="p-5 data-cards flex flex-wrap items-start content-start justify-around bg-[#fbfbfb] w-full  pb-10">
         <index-singlecard title="3902" text="面试人数" subtext="334do333333333 " :icon="imgSrc" />
         <index-singlecard text="面试官人数" color="#093cbd" />
         <index-ringcard />
         <index-ringcard ringcolor="#ff7b6f" />
       </div>
-      <div class=" calendar px-4 py-5 w-full h-3/5">
+      <!-- 日历 -->
+      <div class="calendar px-4 py-5 w-full h-3/5">
         <div class="calendar-header flex p-3 justify-between items-center">
-          <!-- 日历 -->
           <index-calendar />
           <!-- <no-ssr>
             <a-calendar fullscreen v-model:value="value" @panelChange="onPanelChange" />
@@ -218,8 +212,8 @@ const chartData = {
       </div>
       <!-- <div class="Situation-user p-5 bg-green-200 w-full h-1/5"> </div> -->
     </div>
-    <div class="right-container w-1/2 h-full bg-red-700">
-      <!-- 平滑折线图 -->
+    <!-- 平滑折线图 -->
+    <div class="right-container w-1/2 h-full  bg-red-700">
       <div class="p-5 bg-white h-2/5 w-full">
         <index-totalRevenue :chart-data="chartData" />
       </div>
