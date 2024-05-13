@@ -1,7 +1,6 @@
 <script>
-import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import FullCalendar from '@fullcalendar/vue3'
 
 export default {
   components: {
@@ -10,7 +9,7 @@ export default {
   data() {
     return {
       calendarOptions: {
-        plugins: [dayGridPlugin, interactionPlugin],
+        plugins: [dayGridPlugin],
         initialView: 'dayGridMonth',
       },
     }
@@ -19,11 +18,36 @@ export default {
 </script>
 
 <template>
-  <FullCalendar :options="calendarOptions" />
+  <FullCalendar day-headers="false" style="width: 100%; height: 100%;" :options="calendarOptions" />
 </template>
 
 <style scoped>
 .fc .fc-toolbar-title {
-  color: red !important;
+    color: red !important;
+}
+
+.fc-daygrid-day-frame {
+    background-color: aquamarine !important;
+
+}
+
+.fc-theme-standard {
+    background-color: #ffffff !important;
+}
+
+.fc-daygrid-day.fc-day-today {
+    background-color: #dd8484 !important;
+
+}
+
+.fc-daygrid-day-top {
+    background-color: #dd8484 !important;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.fc-daygrid-day-events {
+    background-color: #dd8484 !important;
+
 }
 </style>

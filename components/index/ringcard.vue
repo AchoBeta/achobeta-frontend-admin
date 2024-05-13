@@ -37,12 +37,15 @@ const props = defineProps({
         role="progressbar">
         70%
       </div> -->
-      <div
-        :style="{ color: props.ringcolor }"
-        class="radial-progress  bg-[#f5f5f5] text-primary-content border-4 border-[#f5f5f5]" style="--value:70;"
-        role="progressbar"
-      >
-        70%
+
+      <div class=" w-16 h-16">
+        <div
+          :style="{ color: props.ringcolor }"
+          class="radial-progress  bg-[#f5f5f5] text-primary-content border-4 border-[#f5f5f5]"
+          style="--value:70;" role="progressbar"
+        >
+          70%
+        </div>
       </div>
     </div>
   </div>
@@ -50,7 +53,7 @@ const props = defineProps({
 
 <style scoped>
 .single-card {
-  box-shadow: -9px 9px 18px #ebebeb,
-    9px -9px 18px #ffffff;
+    box-shadow: -9px 9px 18px #ebebeb,
+        9px -9px 18px #ffffff;
 }
 </style>
