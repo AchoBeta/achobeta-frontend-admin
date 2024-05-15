@@ -39,6 +39,9 @@ export default {
       // 使用 data 设置图表
       myChart.setOption(data)
       this.echartInstance = myChart
+      window.addEventListener('resize', () => {
+        myChart.resize()
+      })
     },
   },
 }
