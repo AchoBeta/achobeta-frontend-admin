@@ -1,6 +1,6 @@
 // 统一管理导出
 import { createPinia } from 'pinia'
-//@ts-ignore
+
 import persist from 'pinia-plugin-persistedstate'
 import { useMenuStore } from './modules/menuStore'
 import { useCounterStore } from './modules/counterStore'
@@ -12,4 +12,4 @@ pinia.use(persist)
 
 export default pinia
 // 模块统一导出
-export { useMenuStore, useCounterStore } 
+export { useMenuStore, useCounterStore }

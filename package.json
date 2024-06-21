@@ -18,12 +18,21 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.11",
+    "@fullcalendar/daygrid": "^6.1.11",
+    "@fullcalendar/interaction": "^6.1.11",
+    "@fullcalendar/vue3": "^6.1.11",
+    "ant-design-vue": "4.0.0-rc.6",
+    "echarts": "^5.5.0",
+    "less": "^4.2.0",
+    "less-loader": "^12.2.0",
     "nuxt": "^3.10.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@ant-design-vue/nuxt": "^1.4.1",
     "@antfu/eslint-config": "^2.17.0",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
