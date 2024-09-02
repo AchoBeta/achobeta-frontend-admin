@@ -16,10 +16,8 @@ const othersList = ref(menuStore.otherMenuList)
     </div>
     <!-- 头像 -->
     <div class="flex items-center ml-6 px-2 mb-4 border rounded-lg w-44 h-16 ">
-      <img
-        src="https://raw.githubusercontent.com/singleeeee/imgStorage/main/img/202405121150054.jpg"
-        class="rounded-lg w-12  bg-blue-400" mode="scaleToFill"
-      >
+      <img src="https://raw.githubusercontent.com/singleeeee/imgStorage/main/img/202405121150054.jpg"
+        class="rounded-lg w-12  bg-blue-400" mode="scaleToFill">
       <div class="px-3">
         <h2 class="font-bold text-sm text-slate-900 pb-1">
           半糖小子
