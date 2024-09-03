@@ -20,7 +20,7 @@ interface RequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
     interceptors?: RequestInterceptors<T>
 }
 
-export {
+export type {
     AxiosError, AxiosInstance, AxiosRequestHeaders, AxiosResponse, InternalAxiosRequestConfig, RequestConfig, RequestInterceptors
 }
 

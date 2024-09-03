@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+
   app: {
     head: {
       title: 'achobeta招新管理系统',
@@ -17,6 +18,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt',
   ],
+
   css: ['@/assets/css/tailwind.css'],
   postcss: {
     plugins: {
@@ -24,4 +26,6 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+
+
 })
