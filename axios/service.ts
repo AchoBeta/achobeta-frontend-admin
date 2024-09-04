@@ -1,10 +1,12 @@
 import { REQUEST_TIMEOUT } from '@/constants'
 import axios, { AxiosError } from 'axios'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 import { useUserStoreWithOut } from '~/stores/modules/userStore'
 import { defaultRequestInterceptors, defaultResponseInterceptors } from './config'
 import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig, RequestConfig } from './types'
-export const PATH_URL = import.meta.env.VITE_API_BASE_PATH
+export const PATH_URL = undefined
+//import.meta.env.VITE_API_BASE_PATH
+import { message } from 'ant-design-vue'
 
 const abortControllerMap: Map<string, AbortController> = new Map()
 
@@ -34,12 +36,12 @@ axiosInstance.interceptors.response.use(
     (error: AxiosError) => {
         console.log(error) // for debug
         if (error.response.data.code === 401) {
-            ElMessage.error('登录失效,请重新登录')
+            message.error('登录失效,请重新登录')
             const userStore = useUserStoreWithOut()
             userStore.logout()
         } else {
 
-            ElMessage.error(error)
+            message.error(error)
         }
 
         return Promise.reject(error)
