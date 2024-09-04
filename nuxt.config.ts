@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt',
+  modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt'
   ],
   css: ['@/assets/css/tailwind.css'],
   postcss: {
@@ -24,4 +24,17 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  vite: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://qehstm.natappfree.cc',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/api/, '/api'),
+        },
+      },
+    },
+  },
+
+
 })

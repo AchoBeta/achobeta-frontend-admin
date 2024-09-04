@@ -13,7 +13,7 @@ export const loginApi = (data: UserType): Promise<IResponse<UserType>> => {
 
 
     data = newdata
-    return request.post({ url: '/api/user/login', data })
+    return request.post({ url: '/api/v1/auth/login', data })
     // return {
     //   code: 200,
     //   data: {
