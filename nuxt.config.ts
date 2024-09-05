@@ -28,7 +28,7 @@ export default defineNuxtConfig({
     server: {
       proxy: {
         '/api': {
-          target: 'http://7c7hc5.natappfree.cc',
+          target: 'http://m5vtgg.natappfree.cc',
           changeOrigin: true,
           rewrite: (path: string) => path.replace(/^\/api/, '/api'),
         },

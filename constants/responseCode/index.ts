@@ -23,4 +23,12 @@ export const responseCode = {
     name: '服务器内部错误',
     value: 500,
   },
+  UNLOGIN: {
+    name: '未登录',
+    value: 2001,
+  },
+  UNVALID_TOKEN: {
+    name: '无效的token',
+    value: 2009,
+  },
 }
