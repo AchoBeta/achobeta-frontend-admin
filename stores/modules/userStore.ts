@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user', {
             token: '',
             // 记住我
             rememberMe: true,
-            loginInfo: undefined
+            loginInfo: { password: '', username: '' }
         }
     },
     getters: {
@@ -70,8 +70,11 @@ export const useUserStore = defineStore('user', {
         }
     },
     persist:
-        true,
-
+    {
+        key: 'user',
+        storage: persistedState.localStorage,
+        paths: ['token', 'userInfo', 'rememberMe', 'loginInfo']
+    },
 
 })
 
