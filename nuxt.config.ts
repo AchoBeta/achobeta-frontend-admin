@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt'
+  modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt',
   ],
 
   css: ['@/assets/css/tailwind.css'],
@@ -30,13 +30,11 @@ export default defineNuxtConfig({
     server: {
       proxy: {
         '/api': {
-          target: 'http://qehstm.natappfree.cc',
+          target: 'http://txc27t.natappfree.cc',
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, '/api'),
+          rewrite: (path: string) => path.replace(/^\/api/, '/api'),
         },
       },
     },
   },
-
-
 })

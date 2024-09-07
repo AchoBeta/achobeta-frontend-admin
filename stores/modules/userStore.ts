@@ -69,7 +69,10 @@ export const useUserStore = defineStore('user', {
             this.loginInfo = loginInfo
         }
     },
-    persist: true
+    persist:
+        true,
+
+
 })
 
 export const useUserStoreWithOut = () => {
