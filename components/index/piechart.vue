@@ -5,7 +5,7 @@ const chartData1 = {
     left: 'center',
     bottom: '10%',
     textStyle: {
-      fontSize: 18,
+      fontSize: 16,
     },
   },
   tooltip: {
@@ -20,7 +20,7 @@ const chartData1 = {
       label: {
         show: true,
         position: 'center',
-        fontSize: '30',
+        fontSize: '25',
         fontWeight: 'bold',
         formatter: ' {c}% ',
       },
@@ -67,7 +67,7 @@ const chartData2 = {
       label: {
         show: true,
         position: 'center',
-        fontSize: '30',
+        fontSize: '25',
         fontWeight: 'bold',
         formatter: ' {c}% ',
       },
@@ -113,7 +113,7 @@ const chartData3 = {
       label: {
         show: true,
         position: 'center',
-        fontSize: '30',
+        fontSize: '25',
         fontWeight: 'bold',
         formatter: ' {c}% ',
       },

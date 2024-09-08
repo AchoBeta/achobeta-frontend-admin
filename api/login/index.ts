@@ -1,7 +1,8 @@
-import type { UserType } from './types'
 import request from '@/axios'
+import type { UserType } from './types'
 
-export function loginApi(data: UserType): Promise<IResponse<UserType>> {
+
+export function loginApi(data: UserType): Promise<IResponse<{ access_token: string, expires_in: number }>> {
   const payload: any = {
     login_type: 'password',
     password_params: {

@@ -34,6 +34,11 @@ export const useMenuStore = defineStore('menuList', () => {
     routeName: '/evaluation',
     icon: 'fa-solid fa-book fa-lg',
     name: '面试评价',
+  },{
+    id: 7,
+    routeName: '/examPaperBank',
+    icon: 'fa-solid fa-folder fa-lg',
+    name: '试卷库',
   }])
 
   // 其它菜单

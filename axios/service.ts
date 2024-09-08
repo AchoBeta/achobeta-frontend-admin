@@ -1,13 +1,14 @@
+import { REQUEST_TIMEOUT } from '@/constants'
+import { responseCode } from '@/constants/responseCode'
+import { message } from 'ant-design-vue'
 import type { AxiosError } from 'axios'
 import axios from 'axios'
-import { message } from 'ant-design-vue'
+import { useUserStore } from '~/stores/modules/userStore'
 import { defaultRequestInterceptors, defaultResponseInterceptors } from './config'
 import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig, RequestConfig } from './types'
-import { REQUEST_TIMEOUT } from '@/constants'
-import { useUserStoreWithOut } from '~/stores/modules/userStore'
-import { responseCode } from '@/constants/responseCode'
 
-export const PATH_URL = import.meta.env.VITE_API_BASE_PATH
+export const PATH_URL = undefined //  import.meta.env.VITE_API_BASE_URL
+//  import.meta.env.VITE_API_BASE_PATH
 
 const abortControllerMap: Map<string, AbortController> = new Map()
 
@@ -38,7 +39,7 @@ axiosInstance.interceptors.response.use(
     console.log(error) // for debug
     if (error.response.data.code === responseCode.UNAUTHORIZED.value) {
       message.error('登录失效,请重新登录')
-      const userStore = useUserStoreWithOut()
+      const userStore = useUserStore()
       userStore.logout()
     }
     else {
@@ -61,9 +62,11 @@ const service = {
       axiosInstance
         .request(config)
         .then((res) => {
+          console.log(config?.url, 'params:', config?.params, 'data:', config?.data, 'res:', res)
           resolve(res)
         })
         .catch((err: any) => {
+          console.log(config?.url, 'params:', config?.params, 'data:', config?.data, 'res:', err)
           reject(err)
         })
     })

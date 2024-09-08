@@ -30,6 +30,7 @@
     "lodash": "^4.17.21",
     "nuxt": "^3.10.1",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^4.0.0",
     "qs": "^6.13.0",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"

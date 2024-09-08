@@ -35,7 +35,7 @@ export default {
       if (this.echartInstance)
         this.echartInstance.dispose()
 
-      const myChart = echarts.init(this.$refs.echartRef)
+      const myChart = echarts.init(this.$refs.echartRef, null, { height: 260 })
       // 使用 data 设置图表
       myChart.setOption(data)
       this.echartInstance = myChart

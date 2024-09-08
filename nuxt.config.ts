@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt',
   ],
-  css: ['@/assets/css/tailwind.css'],
+  css: ['@/assets/css/tailwind.css', '@/assets/css/global.css'],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -28,11 +28,14 @@ export default defineNuxtConfig({
     server: {
       proxy: {
         '/api': {
-          target: 'http://m5vtgg.natappfree.cc',
+          target: 'http://q6zq99.natappfree.cc',
           changeOrigin: true,
           rewrite: (path: string) => path.replace(/^\/api/, '/api'),
         },
       },
     },
   },
+  typescript: {
+    typeCheck: false,
+  }
 })

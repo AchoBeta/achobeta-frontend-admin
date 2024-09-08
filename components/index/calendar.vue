@@ -18,7 +18,7 @@ export default {
 </script>
 
 <template>
-  <FullCalendar day-headers="false" style="width: 100%; height: 100%;" :options="calendarOptions" />
+  <FullCalendar day-headers="false" style="width: 100%; height: 100%; padding: 15px;" :options="calendarOptions" />
 </template>
 
 <style scoped>
@@ -28,7 +28,6 @@ export default {
 
 .fc-daygrid-day-frame {
   background-color: aquamarine !important;
-
 }
 
 .fc-theme-standard {

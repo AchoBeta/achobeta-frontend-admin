@@ -1,77 +1,63 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 import type { UserLoginType, UserType } from '~/api/login/types'
-import pinia from '../index'
 
-interface UserState {
-    userInfo?: UserType
-    tokenKey: string
-    token: string
-    rememberMe: boolean
-    loginInfo?: UserLoginType
-}
+export const useUserStore = defineStore('user', () => {
+    const userInfo = ref<UserType | undefined>(undefined)
+    const tokenKey = ref('Authorization')
+    const token = ref('')
+    const rememberMe = ref(true)
+    const loginInfo = ref<UserLoginType | undefined>({ password: undefined, username: undefined })
 
-export const useUserStore = defineStore('user', {
-    state: (): UserState => {
-        return {
-            userInfo: undefined,
-            tokenKey: 'Authorization',
-            token: '',
-            // 记住我
-            rememberMe: true,
-            loginInfo: undefined
-        }
-    },
-    getters: {
-        getTokenKey(): string {
-            return this.tokenKey
-        },
-        getToken(): string {
-            return this.token
-        },
-        getUserInfo(): UserType | undefined {
-            return this.userInfo
-        },
-        getRememberMe(): boolean {
-            return this.rememberMe
-        },
-        getLoginInfo(): UserLoginType | undefined {
-            return this.loginInfo
-        }
-    },
-    actions: {
-        setTokenKey(tokenKey: string) {
-            this.tokenKey = tokenKey
-        },
-        setToken(token: string) {
-            this.token = token
-        },
-        setUserInfo(userInfo?: UserType) {
-            this.userInfo = userInfo
-        },
+    const setTokenKey = (newTokenKey: string) => {
+      tokenKey.value = newTokenKey
+    }
+    const setToken = (newToken: string) => {
+      console.log('token更新')
+      token.value = newToken
+    }
+    const setUserInfo = (newUserInfo?: UserType) => {
+      userInfo.value = newUserInfo
+    }
+    const logoutConfirm = () => {
+      console.log('登出')
+    }
+    const reset = () => {
+      setToken('')
+      setUserInfo(undefined)
+      // router.replace('/login') 
+    }
+    const logout = () => {
+        reset()
+    }
+    const setRememberMe = (newRememberMe: boolean) => {
+      rememberMe.value = newRememberMe
+    }
+    const setLoginInfo = (newLoginInfo?: UserLoginType) => {
+      loginInfo.value = newLoginInfo
+    }
 
-        logoutConfirm() {
-            console.log('登出')
+    return {
+        userInfo, 
+        tokenKey, 
+        token, 
+        rememberMe,
+        loginInfo,
 
-        },
-        reset() {
-
-            this.setToken('')
-            this.setUserInfo(undefined)
-            // router.replace('/login')
-        },
-        logout() {
-            this.reset()
-        },
-        setRememberMe(rememberMe: boolean) {
-            this.rememberMe = rememberMe
-        },
-        setLoginInfo(loginInfo: UserLoginType | undefined) {
-            this.loginInfo = loginInfo
-        }
-    },
-    persist: true
+        setTokenKey, 
+        setToken, 
+        setUserInfo, 
+        logoutConfirm, 
+        reset, 
+        logout, 
+        setRememberMe, 
+        setLoginInfo
+    }
+},
+{
+  persist: {
+    key: 'user',
+    storage: persistedState.localStorage,
+    paths: ['token', 'userInfo', 'rememberMe', 'loginInfo']
+  }
 })
-
-export const useUserStoreWithOut = () => {
-    return useUserStore(pinia)
-}

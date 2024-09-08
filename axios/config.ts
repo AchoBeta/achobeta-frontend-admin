@@ -46,7 +46,6 @@ function defaultResponseInterceptors(response: AxiosResponse) {
     message.error(response.data.message || responseCode.ERROR.name)
     // if (response?.code === 401) {
     //     console.log(222)
-    //     const userStore = useUserStoreWithOut()
     //     userStore.logout()
     // }
   }
