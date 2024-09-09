@@ -3,7 +3,7 @@ const chartData1 = {
   title: {
     text: '待初试',
     left: 'center',
-    bottom: '10%',
+    bottom: '10px',
     textStyle: {
       fontSize: 16,
     },
@@ -50,7 +50,7 @@ const chartData2 = {
   title: {
     text: '待面试',
     left: 'center',
-    bottom: '10%',
+    bottom: '10px',
     textStyle: {
       fontSize: 18,
     },
@@ -96,7 +96,7 @@ const chartData3 = {
   title: {
     text: '待复试',
     left: 'center',
-    bottom: '10%',
+    bottom: '10px',
     textStyle: {
       fontSize: 18,
     },

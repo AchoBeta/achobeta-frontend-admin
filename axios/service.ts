@@ -36,14 +36,12 @@ axiosInstance.interceptors.response.use(
     return res
   },
   (error: AxiosError) => {
-    console.log(333)
-    console.log(error) // for debug
+    console.error(error) // for debug
     if (error.response.data.code === responseCode.UNAUTHORIZED.value) {
       message.error('登录失效,请重新登录')
       const userStore = useUserStore()
       userStore.logout()
-    }
-    else {
+    } else {
       message.error(error)
     }
 

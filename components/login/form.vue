@@ -13,8 +13,8 @@ const userStore = useUserStore()
 const { rememberMe, loginInfo } = storeToRefs(userStore)
 
 const remember = ref(rememberMe.value)
-const inputUsername = ref()// 后面再删
-const inputPassword = ref()// 后面再删
+const inputUsername = ref()
+const inputPassword = ref()
 const adminLogin = debounce(login, 300, { leading: true, trailing: false })
 
 async function login() {
@@ -26,16 +26,14 @@ async function login() {
   loading.value = true
   const res = await loginApi({ username: inputUsername.value, password: inputPassword.value })
   if (res) {
-    message.success(`登录成功`)
+    message.success('登录成功')
     userStore.setToken(res.data.access_token)
     userStore.setRememberMe(unref(remember))
 
     setTimeout(() => {
       loading.value = false
-
       router.push('/')
-
-    }, 1000);
+    }, 500)
 
     if (unref(remember)) {
       userStore.setLoginInfo({
@@ -46,9 +44,9 @@ async function login() {
     else {
       userStore.setLoginInfo(undefined)
     }
-
-
   }
+
+  loading.value = false
 }
 
 // 获取存储的账号密码
@@ -80,11 +78,14 @@ onMounted(() => {
         <label>Username</label>
       </div>
       <div class="inputForm">
-        <svg t="1715312405389" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-          p-id="4269" width="20" height="20">
+        <svg
+          t="1715312405389" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+          p-id="4269" width="20" height="20"
+        >
           <path
             d="M691.2 608c-57.4 0-85 32-179.2 32-94.2 0-121.6-32-179.2-32C184.4 608 64 728.4 64 876.8V928c0 53 43 96 96 96h704c53 0 96-43 96-96v-51.2c0-148.4-120.4-268.8-268.8-268.8zM864 928H160v-51.2c0-95.2 77.6-172.8 172.8-172.8 29.2 0 76.6 32 179.2 32 103.4 0 149.8-32 179.2-32 95.2 0 172.8 77.6 172.8 172.8V928zM512 576c159 0 288-129 288-288S671 0 512 0 224 129 224 288s129 288 288 288z m0-480c105.8 0 192 86.2 192 192s-86.2 192-192 192-192-86.2-192-192 86.2-192 192-192z"
-            p-id="4270" />
+            p-id="4270"
+          />
         </svg>
         <input v-model="inputUsername" type="text" class="input" placeholder="Enter your Username">
       </div>
@@ -95,9 +96,11 @@ onMounted(() => {
       <div class="inputForm">
         <svg height="20" viewBox="-64 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
           <path
-            d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0" />
+            d="m336 512h-288c-26.453125 0-48-21.523438-48-48v-224c0-26.476562 21.546875-48 48-48h288c26.453125 0 48 21.523438 48 48v224c0 26.476562-21.546875 48-48 48zm-288-288c-8.8125 0-16 7.167969-16 16v224c0 8.832031 7.1875 16 16 16h288c8.8125 0 16-7.167969 16-16v-224c0-8.832031-7.1875-16-16-16zm0 0"
+          />
           <path
-            d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0" />
+            d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0"
+          />
         </svg>
         <input v-model="inputPassword" type="password" class="input" placeholder="Enter your Password">
         <!-- <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
