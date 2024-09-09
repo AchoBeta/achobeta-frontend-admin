@@ -1,6 +1,6 @@
-import service from './service'
 import { CONTENT_TYPE } from '@/constants'
 import { useUserStore } from '~/stores/modules/userStore'
+import service from './service'
 
 function request(option: AxiosConfig) {
   const { url, method, params, data, headers, responseType } = option
@@ -14,7 +14,7 @@ function request(option: AxiosConfig) {
     responseType,
     headers: {
       'Content-Type': CONTENT_TYPE,
-      [userStore.getTokenKey ?? 'Authorization']: userStore.getToken ?? '',
+      [userStore.getTokenKey ?? 'Authorization']: userStore.token ?? '',
       ...headers,
     },
   })

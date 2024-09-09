@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { debounce } from 'lodash'
-import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { ref, unref } from 'vue'
+import { debounce } from 'lodash'
 import { storeToRefs } from 'pinia'
+import { ref, unref } from 'vue'
+import { useRouter } from 'vue-router'
 import { loginApi } from '~/api/login'
-import { SUCCESS_CODE } from '~/constants'
 import { useUserStore } from '~/stores/modules/userStore'
 
 const router = useRouter()
@@ -26,10 +25,17 @@ async function login() {
 
   loading.value = true
   const res = await loginApi({ username: inputUsername.value, password: inputPassword.value })
-  if (res.code === SUCCESS_CODE) {
+  if (res) {
     message.success(`登录成功`)
-    router.push('/')
-    loading.value = false
+    userStore.setToken(res.data.access_token)
+    userStore.setRememberMe(unref(remember))
+
+    setTimeout(() => {
+      loading.value = false
+
+      router.push('/')
+
+    }, 1000);
 
     if (unref(remember)) {
       userStore.setLoginInfo({
@@ -41,8 +47,7 @@ async function login() {
       userStore.setLoginInfo(undefined)
     }
 
-    userStore.setToken(res.data.access_token)
-    userStore.setRememberMe(unref(remember))
+
   }
 }
 
