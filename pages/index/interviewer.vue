@@ -1,5 +1,5 @@
 <script setup>
-
+const data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 </script>
 
 <template>
@@ -26,7 +26,7 @@
           <option>Greedo</option>
         </select>
         <!-- 添加人员 -->
-        <button class="btn mr-5 btn-secondary ">
+        <button class="btn mr-5 btn-secondary">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path d="M4 11 L18 11 M11 4 L11 18" stroke-linecap="round" fill="none" stroke="#" stroke-width="4" />
           </svg>
@@ -34,12 +34,12 @@
         </button>
       </div>
     </header>
-    <main class="flex my-4">
-      <viewer-userCard />
-    </main>
-    <footer class="flex justify-between items-center px-6 mb-2">
-      <span>共计10个数据</span>
-      <viewer-pagination />
-    </footer>
+    <a-list :grid="{ gutter: 4, column: 5 }" :data-source="data" pagination>
+      <!-- <template #renderItem="{ item }">
+        <a-list-item style="padding: 12px 0;margin-bottom: 0;">
+          <viewer-userCard />
+        </a-list-item>
+      </template> -->
+    </a-list>
   </div>
 </template>
