@@ -1,10 +1,10 @@
 <script setup>
-import { ref } from 'vue'
-import { useMenuStore } from '~/stores'
-
+import { ref } from 'vue';
+import { useMenuStore } from '~/stores';
+import { useUserStore } from "~/stores/modules/userStore";
+const userStore = useUserStore()
 const menuStore = useMenuStore()
 const menuList = ref(menuStore.menuList)
-
 const othersList = ref(menuStore.otherMenuList)
 </script>
 
@@ -20,10 +20,10 @@ const othersList = ref(menuStore.otherMenuList)
         class="rounded-lg w-12 bg-blue-400 object-fill" alt="头像">
       <div class="px-3">
         <h2 class="font-bold text-sm text-slate-900 pb-1">
-          半糖小子
+          {{ userStore.userInfo.username ? userStore.userInfo.username : '未登录' }}
         </h2>
         <p class="text-xs">
-          超级管理员
+          {{ userStore.userInfo.userType == 2 ? '管理员' : '普通用户' }}
         </p>
       </div>
     </div>
