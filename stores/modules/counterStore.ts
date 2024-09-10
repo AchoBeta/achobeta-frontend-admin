@@ -4,10 +4,12 @@ import { defineStore } from 'pinia'
 export const useCounterStore = defineStore('count', () => {
   let count = ref(0)
   let count1 = ref(0)
+
   const increament = () => {
     count.value++
     count1.value++
   }
+
   return {
     count,
     count1,

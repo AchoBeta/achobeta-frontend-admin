@@ -26,7 +26,7 @@ async function getPaperBank() {
           添加
         </button>
       </div>
-      <a-card style="width: 300px">
+      <a-card style="width: 200px">
         题库1
       </a-card>
     </a-card>

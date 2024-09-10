@@ -28,6 +28,7 @@ async function login() {
     password: inputPassword.value,
   });
   if (res) {
+<<<<<<< HEAD
     message.success(`登录成功`);
     userStore.setToken(res.data.access_token);
     userStore.setRememberMe(unref(remember));
@@ -42,6 +43,16 @@ async function login() {
       router.push("/");
 
     }, 1000);
+=======
+    message.success('登录成功')
+    userStore.setToken(res.data.access_token)
+    userStore.setRememberMe(unref(remember))
+
+    setTimeout(() => {
+      loading.value = false
+      router.push('/')
+    }, 500)
+>>>>>>> 829c5d73158f447a3e9e31d4bd13408c69c20b50
 
     if (unref(remember)) {
       userStore.setLoginInfo({
@@ -51,9 +62,18 @@ async function login() {
     } else {
       userStore.setLoginInfo(undefined);
     }
+<<<<<<< HEAD
   }
   loading.value = false;
 
+=======
+    else {
+      userStore.setLoginInfo(undefined)
+    }
+  }
+
+  loading.value = false
+>>>>>>> 829c5d73158f447a3e9e31d4bd13408c69c20b50
 }
 
 // 获取存储的账号密码
