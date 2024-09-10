@@ -1,6 +1,6 @@
+import type { MenuItem } from '@/types/menuItem'
 import { defineStore } from 'pinia'
 import type { Ref } from 'vue'
-import type { MenuItem } from '@/types/menuItem'
 
 export const useMenuStore = defineStore('menuList', () => {
   // 主菜单
@@ -34,12 +34,18 @@ export const useMenuStore = defineStore('menuList', () => {
     routeName: '/evaluation',
     icon: 'fa-solid fa-book fa-lg',
     name: '面试评价',
-  },{
+  }, {
     id: 7,
     routeName: '/examPaperBank',
     icon: 'fa-solid fa-folder fa-lg',
     name: '试卷库',
-  }])
+  }, {
+    id: 8,
+    routeName: '/resume',
+    icon: 'fa-solid fa-clipboard-list fa-lg',
+    name: '简历管理',
+  }
+  ])
 
   // 其它菜单
   const otherMenuList: Ref<MenuItem[]> = ref([{

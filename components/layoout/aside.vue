@@ -20,10 +20,10 @@ const othersList = ref(menuStore.otherMenuList)
         class="rounded-lg w-12 bg-blue-400 object-fill" alt="头像">
       <div class="px-3">
         <h2 class="font-bold text-sm text-slate-900 pb-1">
-          {{ userStore.userInfo.username ? userStore.userInfo.username : '未登录' }}
+          {{ userStore.userInfo ? userStore.userInfo.username : '未登录' }}
         </h2>
         <p class="text-xs">
-          {{ userStore.userInfo.userType == 2 ? '管理员' : '普通用户' }}
+          {{ userStore.userInfo ? '管理员' : '未登录' }}
         </p>
       </div>
     </div>
