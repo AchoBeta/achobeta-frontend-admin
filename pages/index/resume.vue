@@ -1,23 +1,25 @@
 <template>
     <div class="p-4 ">
-        <a-segmented v-model:value="value" :options="data"></a-segmented>
+        <div class="mb-4 flex flex-row justify-between">
+
+            <a-segmented v-model:value="value" :options="batchlist"></a-segmented>
+            <a-button type="primary" @click="mangerbatch">管理招新批次</a-button>
+
+        </div>
         <br />
         <br />
-        <a-button type="primary" :disabled="isDisabled" @click="loadMore">Load More</a-button>
 
         <resume-table :data="tabledata"></resume-table>
     </div>
+    <resume-drawer ref="childRef" v-model:showDrawer="showDrawer"></resume-drawer>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { batchlistApi } from "../../api/resume/index";
-const data = reactive(['Daily', 'Weekly', 'Monthly']);
-const isDisabled = ref(false);
-const loadMore = () => {
-    data.push(...['Quarterly', 'Yearly']);
-    isDisabled.value = true;
-};
-const value = ref(data[0]);
+const childRef = ref<any | null>(null);
+const showDrawer = ref(false);
+const batchlist = ref(['26届招新', '25届招新', '24届招新']);
+const value = ref(batchlist.value[0]);
 const tabledata = [
     {
         key: '1',
@@ -42,10 +44,16 @@ const tabledata = [
     },
 ];
 
-
+const mangerbatch = () => {
+    //调用子组件的方法展开
+    childRef.value.showDrawer()
+    // isDisabled.value = true;
+};
 const getbatchlist = async () => {
     const res = await batchlistApi();
-    console.log(res);
+    console.log(res.data);
+
+    batchlist.value = res.data.map((item: any) => item.title);
 }
 onMounted(() => {
     getbatchlist();
