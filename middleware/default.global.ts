@@ -1,11 +1,11 @@
-import { useUserStore } from '../stores/modules/userStore'
+import { useUserStore } from '../stores/modules/userStore';
 
 // 路由守卫
 export default defineNuxtRouteMiddleware((to, from) => {
   const userStore = useUserStore()
   const { token } = userStore
 
-  if (token != '') {
+  if (token) {
     if (to.path === '/login') {
       setTimeout(() => {
         message.error('您已登录，请先退出账号')

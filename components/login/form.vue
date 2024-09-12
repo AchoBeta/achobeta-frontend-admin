@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import { debounce } from 'lodash'
-import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { ref, unref } from 'vue'
+import { debounce } from 'lodash'
 import { storeToRefs } from 'pinia'
-import { loginApi } from '~/api/login'
-import { SUCCESS_CODE } from '~/constants'
+import { ref, unref } from 'vue'
+import { useRouter } from 'vue-router'
+import { getuserinfo, loginApi } from '~/api/login'
 import { useUserStore } from '~/stores/modules/userStore'
 
 const router = useRouter()
 const loading = ref(false)
 const userStore = useUserStore()
 const { rememberMe, loginInfo } = storeToRefs(userStore)
-
 const remember = ref(rememberMe.value)
-const inputUsername = ref()// 后面再删
-const inputPassword = ref()// 后面再删
+const inputUsername = ref() // 后面再删
+const inputPassword = ref() // 后面再删
 const adminLogin = debounce(login, 300, { leading: true, trailing: false })
 
 async function login() {
@@ -25,11 +23,23 @@ async function login() {
   }
 
   loading.value = true
-  const res = await loginApi({ username: inputUsername.value, password: inputPassword.value })
-  if (res.code === SUCCESS_CODE) {
+  const res = await loginApi({
+    username: inputUsername.value,
+    password: inputPassword.value,
+  })
+  if (res) {
     message.success(`登录成功`)
-    router.push('/')
-    loading.value = false
+    userStore.setToken(res.data.access_token)
+    userStore.setRememberMe(unref(remember))
+    getuserinfo().then((res) => {
+      userStore.setUserInfo(res.data)
+    })
+    // userStore.setUserInfo
+    // 获取用户信息
+
+    setTimeout(() => {
+      router.push('/')
+    }, 1000)
 
     if (unref(remember)) {
       userStore.setLoginInfo({
@@ -40,13 +50,8 @@ async function login() {
     else {
       userStore.setLoginInfo(undefined)
     }
-
-    userStore.setToken(res.data.access_token)
-    userStore.setRememberMe(unref(remember))
   }
-  else {
-    message.error(res.msg)
-  }
+  loading.value = false
 }
 
 // 获取存储的账号密码
@@ -64,7 +69,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="login-box w-3/5 h-full flex  justify-center items-center" @keydown.enter="adminLogin">
+  <div class="login-box w-3/5 h-full flex justify-center items-center" @keydown.enter="adminLogin">
     <form class="form">
       <div class="check-box">
         <!-- <button class="btn btn-primary btn-sm w-20 rounded rounded-r-none rounded-l-lg">
@@ -117,7 +122,7 @@ onMounted(() => {
         </div>
         <!-- <span class="span">Forgot password?</span> -->
       </div>
-      <div class="btn btn-primary text-white  w-full" @click="adminLogin">
+      <div class="btn btn-primary text-white w-full" @click="adminLogin">
         Sign In <a-spin v-show="loading" />
       </div>
     </form>
@@ -128,8 +133,7 @@ onMounted(() => {
 .form {
   border-radius: 19px;
   background: #e0e0e0;
-  box-shadow: 33px 33px 83px #c3c3c3,
-    -33px -33px 83px #fdfdfd;
+  box-shadow: 33px 33px 83px #c3c3c3, -33px -33px 83px #fdfdfd;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -137,11 +141,13 @@ onMounted(() => {
   padding: 30px;
   width: 500px;
   border-radius: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 ::placeholder {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .form button {
