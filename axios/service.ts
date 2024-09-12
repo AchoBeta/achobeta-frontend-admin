@@ -36,13 +36,12 @@ axiosInstance.interceptors.response.use(
     return res
   },
   (error: AxiosError) => {
-    console.log(error) // for debug
+    console.error(error) // for debug
     if (error.response.data.code === responseCode.UNAUTHORIZED.value) {
       message.error('登录失效,请重新登录')
       const userStore = useUserStore()
       userStore.logout()
-    }
-    else {
+    } else {
       message.error(error)
     }
 
@@ -62,11 +61,9 @@ const service = {
       axiosInstance
         .request(config)
         .then((res) => {
-          console.log(config?.url, 'params:', config?.params, 'data:', config?.data, 'res:', res)
           resolve(res)
         })
         .catch((err: any) => {
-          console.log(config?.url, 'params:', config?.params, 'data:', config?.data, 'res:', err)
           reject(err)
         })
     })
