@@ -4,8 +4,7 @@
 <template>
   <main>
     <div
-      class="card py-4 relative flex flex-col items-center min-w-40 h-68 bg-white shadow-lg rounded-2xl m-2 hover:scale-105 transition-all duration-300 ease-in-out"
-    >
+      class="card py-4 relative flex flex-col items-center min-w-40 h-68 bg-white shadow-lg rounded-2xl m-2 hover:scale-105 transition-all duration-300 ease-in-out">
       <!-- 更多 -->
       <div class="absolute top-4 right-4 hover:bg-pink-200">
         <svg width="10" height="20" viewBox="0 0 10 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,10 +15,9 @@
       </div>
       <!-- 信息 -->
       <div class="flex flex-col info flex-wrap items-center ">
-        <img
-          class="w-16 rounded-xl mt-6 ring"
-          src="https://raw.githubusercontent.com/singleeeee/imgStorage/main/img/202405121150054.jpg" alt="头像"
-        >
+        <img class="w-16 rounded-xl mt-6 ring"
+          src="https://zhidao-prod.oss-cn-shenzhen.aliyuncs.com/UPTOCLOUD/16835112339414645/202409/微信图片_20240512114952_UYdTo1.jpg"
+          alt="头像">
         <h1 class="mb-1 mt-2 font-bold text-xlpo">
           半糖小子
         </h1>

@@ -14,7 +14,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt',
   ],
   css: ['@/assets/css/tailwind.css', '@/assets/css/global.css'],
@@ -34,8 +34,5 @@ export default defineNuxtConfig({
         },
       },
     },
-  },
-  typescript: {
-    typeCheck: false,
   }
 })

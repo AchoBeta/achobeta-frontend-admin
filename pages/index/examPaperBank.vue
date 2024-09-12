@@ -3,9 +3,9 @@ import { PlusOutlined } from '@ant-design/icons-vue'
 import { onMounted, ref } from 'vue'
 // import { getPaeperBankList } from '~/api/examPaperBank'
 
-onMounted(() => {
-  getPaperBank()
-})
+// onMounted(() => {
+//   getPaperBank()
+// })
 
 const paperBankList = ref([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 // const hideTooltipStr = ref('题库名称')
