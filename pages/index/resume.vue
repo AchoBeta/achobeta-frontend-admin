@@ -1,58 +1,64 @@
+<template>
+  <div class="p-4 ">
+    <div class="mb-4 flex flex-row justify-between">
+
+      <a-segmented v-model:value="value" :options="batchlist"></a-segmented>
+      <a-button type="primary" @click="mangerbatch">管理招新批次</a-button>
+
+    </div>
+    <br />
+    <br />
+
+    <resume-table :data="tabledata"></resume-table>
+  </div>
+  <resume-drawer ref="childRef" v-model:showDrawer="showDrawer"></resume-drawer>
+</template>
+
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
-import { batchlistApi } from '../../api/resume/index'
-
-const data = reactive(['Daily', 'Weekly', 'Monthly'])
-const isDisabled = ref(false)
-function loadMore() {
-  data.push(...['Quarterly', 'Yearly'])
-  isDisabled.value = true
-}
-const value = ref(data[0])
+import { onMounted, ref } from "vue";
+import { batchlistApi } from "../../api/resume/index";
+const childRef = ref<any | null>(null);
+const showDrawer = ref(false);
+const batchlist = ref(['26届招新', '25届招新', '24届招新']);
+const value = ref(batchlist.value[0]);
 const tabledata = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-]
+    {
+        key: '1',
+        name: 'John Brown',
+        age: 32,
+        address: 'New York No. 1 Lake Park',
+        tags: ['nice', 'developer'],
+    },
+    {
+        key: '2',
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No. 1 Lake Park',
+        tags: ['loser'],
+    },
+    {
+        key: '3',
+        name: 'Joe Black',
+        age: 32,
+        address: 'Sidney No. 1 Lake Park',
+        tags: ['cool', 'teacher'],
+    },
+];
 
-async function getbatchlist() {
-  const res = await batchlistApi()
-  console.log(res)
+const mangerbatch = () => {
+    //调用子组件的方法展开
+    childRef.value.showDrawer()
+    // isDisabled.value = true;
+};
+const getbatchlist = async () => {
+    const res = await batchlistApi();
+    console.log(res.data);
+
+    batchlist.value = res.data.map((item: any) => item.title);
 }
 onMounted(() => {
   getbatchlist()
 })
 </script>
-
-<template>
-  <div class="p-4 ">
-    <a-segmented v-model:value="value" :options="data" />
-    <br>
-    <br>
-    <a-button type="primary" :disabled="isDisabled" @click="loadMore">
-      Load More
-    </a-button>
-
-    <resume-table :data="tabledata" />
-  </div>
-</template>
 
 <style scoped></style>

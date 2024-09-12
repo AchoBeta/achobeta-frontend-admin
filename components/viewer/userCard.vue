@@ -4,7 +4,7 @@
 <template>
   <main>
     <div
-      class="card relative flex flex-col items-center min-w-40 h-68 bg-white shadow-lg rounded-2xl m-2 hover:scale-105 transition-all duration-300 ease-in-out"
+      class="card py-4 relative flex flex-col items-center min-w-40 h-68 bg-white shadow-lg rounded-2xl m-2 hover:scale-105 transition-all duration-300 ease-in-out"
     >
       <!-- 更多 -->
       <div class="absolute top-4 right-4 hover:bg-pink-200">
