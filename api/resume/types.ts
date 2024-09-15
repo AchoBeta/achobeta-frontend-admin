@@ -3,8 +3,6 @@ interface QueryResumeOfUserDTO {
     batchId: number;
 }
 
-
-
 interface StuAttachmentVO {
     filename: string;
     attachment: string;
@@ -29,36 +27,6 @@ interface StuSimpleResumeVO {
     remark: string;
     status: number;
 }
-export interface batchlistResponse {
-    code: number;
-    data: batchDatum[];
-    message: string;
-    [property: string]: any;
-}
-
-export interface batchDatum {
-    /**
-     * 招新届数
-     */
-    batch?: number;
-    /**
-     * 截止时间
-     */
-    deadline?: string;
-    /**
-     * 招新批次 id
-     */
-    id?: number;
-    /**
-     * 是否开始
-     */
-    isRun?: boolean;
-    /**
-     * 招新批次标题
-     */
-    title?: string;
-    [property: string]: any;
-}
 
 // 定义整个对象的结构
 export interface ResumeRequest {
@@ -67,7 +35,7 @@ export interface ResumeRequest {
 }
 
 // 定义整个简历响应对象的类型
-export interface ResumeResponst {
+export interface ResumeResponse {
     stuAttachmentVOList: StuAttachmentVO[];
     stuSimpleResumeVO: StuSimpleResumeVO;
 }

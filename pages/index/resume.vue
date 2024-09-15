@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { batchlistApi } from "../../api/resume/index";
+import { getBatchListAdminApi } from "~/api/recruitBatch";
 const childRef = ref<any | null>(null);
 const showDrawer = ref(false);
 const batchlist = ref(['26届招新', '25届招新', '24届招新']);
@@ -51,7 +51,7 @@ const mangerbatch = () => {
     // isDisabled.value = true;
 };
 const getbatchlist = async () => {
-    const res = await batchlistApi();
+    const res = await getBatchListAdminApi();
     console.log(res.data);
 
     batchlist.value = res.data.map((item: any) => item.title);

@@ -4,7 +4,7 @@ import { debounce } from 'lodash'
 import { storeToRefs } from 'pinia'
 import { ref, unref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getuserinfo, loginApi } from '~/api/login'
+import { loginWithPasswordApi, getUserInfoApi } from '~/api/user'
 import { useUserStore } from '~/stores/modules/userStore'
 
 const router = useRouter()
@@ -12,8 +12,8 @@ const loading = ref(false)
 const userStore = useUserStore()
 const { rememberMe, loginInfo } = storeToRefs(userStore)
 const remember = ref(rememberMe.value)
-const inputUsername = ref() // 后面再删
-const inputPassword = ref() // 后面再删
+const inputUsername = ref()
+const inputPassword = ref()
 const adminLogin = debounce(login, 300, { leading: true, trailing: false })
 
 async function login() {
@@ -23,29 +23,32 @@ async function login() {
   }
 
   loading.value = true
-  const res = await loginApi({
-    username: inputUsername.value,
-    password: inputPassword.value,
+  const res = await loginWithPasswordApi({
+    login_type: 'password',
+    password_params: {
+      username: inputUsername.value,
+      password: inputPassword.value
+    }
   })
-  if (res) {
+  if (res.code === 200) {
     message.success(`登录成功`)
     userStore.setToken(res.data.access_token)
     userStore.setRememberMe(unref(remember))
-    getuserinfo().then((res) => {
+    getUserInfoApi().then((res) => {
       userStore.setUserInfo(res.data)
     })
-
     if (unref(remember)) {
       userStore.setLoginInfo({
         username: inputUsername.value,
         password: inputPassword.value,
       })
-    }
-    else {
-      userStore.setLoginInfo(undefined)
+    } else {
+      userStore.setLoginInfo({password: '', username: ''})
     }
     
     router.push('/')
+  } else {
+    message.error(res.message)
   }
 
   loading.value = false

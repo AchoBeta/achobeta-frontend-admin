@@ -7,6 +7,7 @@ export interface QBankResData {
   createTime: string
 }
 
-export interface PaperListResData extends QBankResData {
-
+export interface renameBank {
+  libId: number
+  libType: string
 }

@@ -37,13 +37,17 @@ axiosInstance.interceptors.response.use(
   },
   (error: AxiosError) => {
     console.error(error) // for debug
-    if (error.response.data.code === responseCode.UNAUTHORIZED.value) {
-      message.error('登录失效,请重新登录')
-      const userStore = useUserStore()
-      userStore.logout()
-    } else {
-      message.error(error)
+    const errCode = error.response?.data.code
+    switch(errCode) {
+      case responseCode.UNAUTHORIZED.value:
+      case responseCode.UNVALID_TOKEN.value:
+      case responseCode.UNLOGIN:
+        message.error('登录失效,请重新登录')
+        const userStore = useUserStore()
+        userStore.logout()
+        break
     }
+
 
     return Promise.reject(error)
   },
