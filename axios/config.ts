@@ -38,17 +38,9 @@ function defaultResponseInterceptors(response: AxiosResponse) {
   if (response?.config?.responseType === 'blob') {
     // 如果是文件流，直接过
     return response
-  }
-  else if (response.data.code === responseCode.SUCCESS.value) {
-    return response.data
-  }
-  else {
-    message.error(response.data.message || responseCode.ERROR.name)
-    // if (response?.code === 401) {
-    //     console.log(222)
-    //     userStore.logout()
-    // }
-  }
+  } 
+
+  return response.data
 }
 
 export { defaultRequestInterceptors, defaultResponseInterceptors }

@@ -1,15 +1,16 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { UserLoginType, UserType } from '~/api/login/types'
+import { useRouter } from 'vue-router'
+import type { PasswordParams, UserInfo } from '~/api/user/types'
+
+const router = useRouter()
 
 export const useUserStore = defineStore('user', () => {
-    const userInfo = ref<UserType | undefined>(undefined)
+    const userInfo = ref<UserInfo | undefined>(undefined)
     const tokenKey = ref('Authorization')
     const token = ref<string | undefined>()
     const rememberMe = ref(true)
-    const loginInfo = ref<UserLoginType | undefined>({ password: undefined, username: undefined })
-
-
+    const loginInfo = ref<PasswordParams>({ password: '', username: '' })
 
     const setTokenKey = (newTokenKey: string) => {
         tokenKey.value = newTokenKey
@@ -17,7 +18,7 @@ export const useUserStore = defineStore('user', () => {
     const setToken = (newToken: string) => {
         token.value = newToken
     }
-    const setUserInfo = (newUserInfo?: UserType) => {
+    const setUserInfo = (newUserInfo?: UserInfo) => {
         userInfo.value = newUserInfo
     }
     const logoutConfirm = () => {
@@ -26,7 +27,7 @@ export const useUserStore = defineStore('user', () => {
     const reset = () => {
         setToken('')
         setUserInfo(undefined)
-        // router.replace('/login') 
+        router.replace('/login') 
     }
     const logout = () => {
         reset()
@@ -34,7 +35,7 @@ export const useUserStore = defineStore('user', () => {
     const setRememberMe = (newRememberMe: boolean) => {
         rememberMe.value = newRememberMe
     }
-    const setLoginInfo = (newLoginInfo?: UserLoginType) => {
+    const setLoginInfo = (newLoginInfo: PasswordParams) => {
         loginInfo.value = newLoginInfo
     }
 

@@ -1,72 +1,71 @@
 <script setup lang="ts">
-import { message } from "ant-design-vue";
-import { debounce } from "lodash";
-import { storeToRefs } from "pinia";
-import { ref, unref } from "vue";
-import { useRouter } from "vue-router";
-import { getuserinfo, loginApi } from "~/api/login";
-import { useUserStore } from "~/stores/modules/userStore";
+import { message } from 'ant-design-vue'
+import { debounce } from 'lodash'
+import { storeToRefs } from 'pinia'
+import { ref, unref } from 'vue'
+import { useRouter } from 'vue-router'
+import { loginWithPasswordApi, getUserInfoApi } from '~/api/user'
+import { useUserStore } from '~/stores/modules/userStore'
 
-const router = useRouter();
-const loading = ref(false);
-const userStore = useUserStore();
-const { rememberMe, loginInfo } = storeToRefs(userStore);
-const remember = ref(rememberMe.value);
-const inputUsername = ref(); // 后面再删
-const inputPassword = ref(); // 后面再删
-const adminLogin = debounce(login, 300, { leading: true, trailing: false });
+const router = useRouter()
+const loading = ref(false)
+const userStore = useUserStore()
+const { rememberMe, loginInfo } = storeToRefs(userStore)
+const remember = ref(rememberMe.value)
+const inputUsername = ref()
+const inputPassword = ref()
+const adminLogin = debounce(login, 300, { leading: true, trailing: false })
 
 async function login() {
-  if (inputUsername.value === "" || inputPassword.value === "") {
-    message.error("请输入用户名和密码");
-    return;
+  if (inputUsername.value === '' || inputPassword.value === '') {
+    message.error('请输入用户名和密码')
+    return
   }
 
-  loading.value = true;
-  const res = await loginApi({
-    username: inputUsername.value,
-    password: inputPassword.value,
-  });
-  if (res) {
-    message.success(`登录成功`);
-    userStore.setToken(res.data.access_token);
-    userStore.setRememberMe(unref(remember));
-    getuserinfo().then((res) => {
-      userStore.setUserInfo(res.data);
-    });
-    // userStore.setUserInfo
-    //获取用户信息
-
-    setTimeout(() => {
-      router.push("/");
-
-    }, 1000);
-
+  loading.value = true
+  const res = await loginWithPasswordApi({
+    login_type: 'password',
+    password_params: {
+      username: inputUsername.value,
+      password: inputPassword.value
+    }
+  })
+  if (res.code === 200) {
+    message.success(`登录成功`)
+    userStore.setToken(res.data.access_token)
+    userStore.setRememberMe(unref(remember))
+    getUserInfoApi().then((res) => {
+      userStore.setUserInfo(res.data)
+    })
     if (unref(remember)) {
       userStore.setLoginInfo({
         username: inputUsername.value,
         password: inputPassword.value,
-      });
+      })
     } else {
-      userStore.setLoginInfo(undefined);
+      userStore.setLoginInfo({password: '', username: ''})
     }
+    
+    router.push('/')
+  } else {
+    message.error(res.message)
   }
-  loading.value = false;
 
+  loading.value = false
 }
 
 // 获取存储的账号密码
 function initLoginInfo() {
   if (rememberMe.value) {
-    const { username, password } = loginInfo.value;
-    inputUsername.value = username;
-    inputPassword.value = password;
+    const { username, password } = loginInfo.value
+    inputUsername.value = username
+    inputPassword.value = password
   }
 }
 
 onMounted(() => {
-  initLoginInfo();
-});
+  initLoginInfo()
+})
 </script>
 
 <template>
@@ -90,7 +89,7 @@ onMounted(() => {
             d="M691.2 608c-57.4 0-85 32-179.2 32-94.2 0-121.6-32-179.2-32C184.4 608 64 728.4 64 876.8V928c0 53 43 96 96 96h704c53 0 96-43 96-96v-51.2c0-148.4-120.4-268.8-268.8-268.8zM864 928H160v-51.2c0-95.2 77.6-172.8 172.8-172.8 29.2 0 76.6 32 179.2 32 103.4 0 149.8-32 179.2-32 95.2 0 172.8 77.6 172.8 172.8V928zM512 576c159 0 288-129 288-288S671 0 512 0 224 129 224 288s129 288 288 288z m0-480c105.8 0 192 86.2 192 192s-86.2 192-192 192-192-86.2-192-192 86.2-192 192-192z"
             p-id="4270" />
         </svg>
-        <input v-model="inputUsername" type="text" class="input" placeholder="Enter your Username" />
+        <input v-model="inputUsername" type="text" class="input" placeholder="Enter your Username">
       </div>
 
       <div class="flex-column">
@@ -103,7 +102,7 @@ onMounted(() => {
           <path
             d="m304 224c-8.832031 0-16-7.167969-16-16v-80c0-52.929688-43.070312-96-96-96s-96 43.070312-96 96v80c0 8.832031-7.167969 16-16 16s-16-7.167969-16-16v-80c0-70.59375 57.40625-128 128-128s128 57.40625 128 128v80c0 8.832031-7.167969 16-16 16zm0 0" />
         </svg>
-        <input v-model="inputPassword" type="password" class="input" placeholder="Enter your Password" />
+        <input v-model="inputPassword" type="password" class="input" placeholder="Enter your Password">
         <!-- <svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z">
@@ -112,12 +111,14 @@ onMounted(() => {
       </div>
       <div class="flex-row">
         <div>
-          <a-checkbox v-model:checked="remember"> Remember me </a-checkbox>
+          <a-checkbox v-model:checked="remember">
+            Remember me
+          </a-checkbox>
         </div>
         <!-- <span class="span">Forgot password?</span> -->
       </div>
       <div class="btn btn-primary text-white w-full" @click="adminLogin">
-        Sign In <a-spin v-show="loading" />
+        Sign In <a-spin :spinning="loading" />
       </div>
     </form>
   </div>

@@ -6,6 +6,4 @@ export default antfu({
     'no-console': 'off',
     'func-style': ['off', 'declaration'],
   },
-  // TypeScript and Vue are auto-detected, you can also explicitly enable them:
-  typescript: false,
 })

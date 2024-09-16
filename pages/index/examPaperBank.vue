@@ -1,18 +1,19 @@
 <script setup>
 import { PlusOutlined } from '@ant-design/icons-vue'
 import { onMounted, ref } from 'vue'
-import { getPaeperBankList } from '~/api/examPaperBank'
+// import { getPaeperBankList } from '~/api/examPaperBank'
 
-onMounted(() => {
-  getPaperBank()
-})
+// onMounted(() => {
+//   getPaperBank()
+// })
 
-const paperBankList = ref([])
+const paperBankList = ref([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+// const hideTooltipStr = ref('题库名称')
 
 async function getPaperBank() {
   // TODO:
-  const res = await getPaeperBankList()
-  paperBankList.value = res.data
+  // const res = await getPaeperBankList()
+  // paperBankList.value = res.data
   console.log(paperBankList.value)
 }
 </script>
@@ -26,9 +27,15 @@ async function getPaperBank() {
           添加
         </button>
       </div>
-      <a-card style="width: 200px">
-        题库1
-      </a-card>
+      <!-- <a-list :grid="{ gutter: 4, column: 5 }" :data-source="paperBankList" pagination>
+        <template #renderItem="{ item }">
+          <a-list-item style="padding: 12px 0;margin-bottom: 0;">
+            <a-card class="bg-blue-200" hoverable>
+              <a-typography-paragraph v-model:content="hideTooltipStr" :editable="{ tooltip: false }" />
+            </a-card>
+          </a-list-item>
+        </template>
+</a-list> -->
     </a-card>
   </div>
 </template>
