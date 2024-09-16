@@ -11,50 +11,61 @@
 
     <resume-table :data="tabledata"></resume-table>
   </div>
-  <resume-drawer ref="childRef" v-model:showDrawer="showDrawer"></resume-drawer>
+  <resume-drawer :Data="drawData" ref="childRef" v-model:showDrawer="showDrawer"></resume-drawer>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { getBatchListAdminApi } from "~/api/recruitBatch";
+import type { DataItem } from '~/components/resume/types';
 const childRef = ref<any | null>(null);
 const showDrawer = ref(false);
 const batchlist = ref(['26届招新', '25届招新', '24届招新']);
 const value = ref(batchlist.value[0]);
 const tabledata = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
+  {
+    key: '1',
+    name: 'John Brown',
+    age: 32,
+    address: 'New York No. 1 Lake Park',
+    tags: ['nice', 'developer'],
+  },
+  {
+    key: '2',
+    name: 'Jim Green',
+    age: 42,
+    address: 'London No. 1 Lake Park',
+    tags: ['loser'],
+  },
+  {
+    key: '3',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+    tags: ['cool', 'teacher'],
+  },
 ];
 
+const drawData = ref<DataItem[]>();
 const mangerbatch = () => {
-    //调用子组件的方法展开
-    childRef.value.showDrawer()
-    // isDisabled.value = true;
+  //调用子组件的方法展开
+  childRef.value.showDrawer()
+  // isDisabled.value = true;
 };
 const getbatchlist = async () => {
-    const res = await getBatchListAdminApi();
-    console.log(res.data);
+  const res = await getBatchListAdminApi();
+  console.log(res.data);
 
-    batchlist.value = res.data.map((item: any) => item.title);
+  batchlist.value = res.data.map((item: any) => item.title);
+  drawData.value = res.data.map((item: any) => ({
+    batch: item.batch,
+    title: item.title,
+    status: item.status,
+    isRun: item.isRun,
+    deadline: item.deadline,
+
+  }));
+  console.log(drawData.value);
 }
 onMounted(() => {
   getbatchlist()
