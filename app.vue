@@ -3,6 +3,9 @@
 
 <template>
   <div>
-    <NuxtPage />
+    <no-ssr>
+      <NuxtPage />
+
+    </no-ssr>
   </div>
 </template>

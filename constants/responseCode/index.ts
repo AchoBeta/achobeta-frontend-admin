@@ -31,4 +31,9 @@ export const responseCode = {
     name: '无效的token',
     value: 2009,
   },
+  UNVALID_TIME: {
+    name: '招新已开始',
+    value: 5002
+  }
+
 }

@@ -4,7 +4,7 @@ import pkg from 'lodash'
 import { storeToRefs } from 'pinia'
 import { ref, unref } from 'vue'
 import { useRouter } from 'vue-router'
-import { loginWithPasswordApi, getUserInfoApi } from '~/api/user'
+import { getUserInfoApi, loginWithPasswordApi } from '~/api/user'
 import { useUserStore } from '~/stores/modules/userStore'
 const { debounce } = pkg
 
@@ -44,9 +44,9 @@ async function login() {
         password: inputPassword.value,
       })
     } else {
-      userStore.setLoginInfo({password: '', username: ''})
+      userStore.setLoginInfo({ password: '', username: '' })
     }
-    
+
     router.push('/')
   } else {
     message.error(res.message)

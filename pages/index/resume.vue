@@ -1,8 +1,8 @@
 <template>
   <div class="p-4 ">
-    <div class="mb-4 flex flex-row justify-between">
+    <div class="mb-4 flex  flex-wrap justify-between ">
 
-      <a-segmented v-model:value="value" :options="batchlist"></a-segmented>
+      <a-segmented block v-model:value="tabValue" :options="batchlist"></a-segmented>
       <a-button type="primary" @click="mangerbatch">管理招新批次</a-button>
 
     </div>
@@ -11,17 +11,19 @@
 
     <resume-table :data="tabledata"></resume-table>
   </div>
-  <resume-drawer :Data="drawData" ref="childRef" v-model:showDrawer="showDrawer"></resume-drawer>
+  <resume-drawer @getBatchlist="getbatchlist" :Data="drawData" ref="childRef"
+    v-model:showDrawer="showDrawer"></resume-drawer>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { getBatchListAdminApi } from "~/api/recruitBatch";
+
 import type { DataItem } from '~/components/resume/types';
 const childRef = ref<any | null>(null);
 const showDrawer = ref(false);
-const batchlist = ref(['26届招新', '25届招新', '24届招新']);
-const value = ref(batchlist.value[0]);
+const batchlist = ref(['26届招新']);
+const tabValue = ref(batchlist.value[0]);
 const tabledata = [
   {
     key: '1',
@@ -55,21 +57,23 @@ const mangerbatch = () => {
 const getbatchlist = async () => {
   const res = await getBatchListAdminApi();
   console.log(res.data);
-
   batchlist.value = res.data.map((item: any) => item.title);
   drawData.value = res.data.map((item: any) => ({
+    id: item.id,
     batch: item.batch,
     title: item.title,
-    status: item.status,
+    status: 'normal',
     isRun: item.isRun,
     deadline: item.deadline,
-
   }));
-  console.log(drawData.value);
+  tabValue.value = batchlist.value[0];
+
 }
 onMounted(() => {
   getbatchlist()
 })
+
+
 </script>
 
 <style scoped></style>

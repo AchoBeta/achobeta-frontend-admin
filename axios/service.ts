@@ -38,7 +38,7 @@ axiosInstance.interceptors.response.use(
   (error: AxiosError) => {
     console.error(error) // for debug
     const errCode = error.response?.data.code
-    switch(errCode) {
+    switch (errCode) {
       case responseCode.UNAUTHORIZED.value:
       case responseCode.UNVALID_TOKEN.value:
       case responseCode.UNLOGIN:
@@ -55,7 +55,6 @@ axiosInstance.interceptors.response.use(
 
 axiosInstance.interceptors.request.use(defaultRequestInterceptors)
 axiosInstance.interceptors.response.use(defaultResponseInterceptors)
-
 const service = {
   request: (config: RequestConfig) => {
     return new Promise((resolve, reject) => {

@@ -1,5 +1,6 @@
 export interface DataItem {
-    batch: string;
+    id: number;
+    batch: number;
     title: string;
     status: string;
     deadline: string;
