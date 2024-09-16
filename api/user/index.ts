@@ -27,8 +27,8 @@ export function getUserInfoApi(): Promise<IResponse<UserInfo>> {
 }
 
 /** 修改当前账户信息 */
-export function updateUserInfoApi(data: UserInfo): Promise<IResponse<undefined>> {
-  return request.post({ url: '/api/v1/user/update', data })
+export function updateUserInfoApi(avatar: string | null, nickname: string ): Promise<IResponse<undefined>> {
+  return request.post({ url: '/api/v1/user/update', data:{ avatar, nickname } })
 }
 
 /** 获取用户类型列表 */

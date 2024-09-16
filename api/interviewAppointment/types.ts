@@ -178,3 +178,35 @@ export interface QuestionAnswerVO {
   title: string;
   [property: string]: any;
 }
+
+export interface InterviewApm {
+  /**
+   * 结束时间
+   */
+  endTime: number;
+  /**
+   * “活动参与” id
+   */
+  participationId: number;
+  /**
+   * 开始时间
+   */
+  startTime: number;
+  [property: string]: any;
+}
+
+export interface UpdateInterviewApm {
+  /**
+   * 结束时间
+   */
+  endTime: number;
+  /**
+   * 面试预约 id
+   */
+  scheduleId: number;
+  /**
+   * 开始时间
+   */
+  startTime: number;
+  [property: string]: any;
+}
