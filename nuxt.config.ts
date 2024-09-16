@@ -14,7 +14,7 @@ export default defineNuxtConfig({
       ],
     },
   },
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt',
   ],
   css: ['@/assets/css/tailwind.css', '@/assets/css/global.css'],

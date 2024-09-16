@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { message } from 'ant-design-vue'
-import { debounce } from 'lodash'
+import pkg from 'lodash'
 import { storeToRefs } from 'pinia'
 import { ref, unref } from 'vue'
 import { useRouter } from 'vue-router'
 import { loginWithPasswordApi, getUserInfoApi } from '~/api/user'
 import { useUserStore } from '~/stores/modules/userStore'
+const { debounce } = pkg
 
 const router = useRouter()
 const loading = ref(false)

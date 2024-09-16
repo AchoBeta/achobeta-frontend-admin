@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="w-2/5 h-screen pr-20 flex justify-start  flex-wrap
-    "
-  >
+  <div class="w-2/5 h-screen pr-20 flex justify-start flex-wrap">
     <div class="title-container flex  w-full justify-center flex-wrap  content-end ">
       <h3 class="text-[#2F394E] text-center tracking-widest  text-2xl  w-full font-bold mb-4">
         AchoBeta 实验室招新系统管理端
