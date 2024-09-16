@@ -24,6 +24,7 @@
     "@fullcalendar/vue3": "^6.1.11",
     "ant-design-vue": "4.0.0-rc.6",
     "axios": "^1.7.7",
+    "dayjs": "^1.11.13",
     "echarts": "^5.5.0",
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
