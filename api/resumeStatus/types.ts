@@ -1,6 +1,11 @@
-export interface ResumeStatu {
+type ResumeStatus = {
   code: number,
   message: string,
+}
+export interface ResumeStatu {
+
+  code: number,
+  data: Array<ResumeStatus>,
 }
 
 export interface ResumeEvent {

@@ -1,9 +1,10 @@
-import { message } from 'ant-design-vue'
-import qs from 'qs'
-import type { AxiosResponse, InternalAxiosRequestConfig } from './types'
-import { objToFormData } from '@/utils'
 import { TRANSFORM_REQUEST_DATA } from '@/constants'
-import { responseCode } from '~/constants/responseCode'
+import { objToFormData } from '@/utils'
+import qs from 'qs'
+import { useRouter } from 'vue-router'
+import type { AxiosResponse, InternalAxiosRequestConfig } from './types'
+
+const router = useRouter()
 
 function defaultRequestInterceptors(config: InternalAxiosRequestConfig) {
   if (
@@ -38,9 +39,15 @@ function defaultResponseInterceptors(response: AxiosResponse) {
   if (response?.config?.responseType === 'blob') {
     // 如果是文件流，直接过
     return response
-  } 
-
+  }
+  console.log(response.data)
+  // if (response.data.code === responseCode.UNVALID_TOKEN.value) {
+  //   // token失效，跳转登录页面
+  //   message.error('登录过期，请重新登录')
+  //   router.push('/login')
+  // }
   return response.data
 }
 
 export { defaultRequestInterceptors, defaultResponseInterceptors }
+

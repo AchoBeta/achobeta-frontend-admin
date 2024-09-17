@@ -8,12 +8,12 @@ export function createRecruitBatchApi(data: CreateRecruitBatch): Promise<IRespon
 
 /** 开启招新批次 */
 export function startRecruitBatchApi(batchId: string): Promise<IResponse<undefined>> {
-  return request.get({ url: `/api/v1/recruit/batch/shift/${batchId}`, params: {isRun: true} })
+  return request.get({ url: `/api/v1/recruit/batch/shift/${batchId}`, params: { isRun: true } })
 }
 
 /** 关闭招新批次 */
 export function endRecruitBatchApi(batchId: string): Promise<IResponse<undefined>> {
-  return request.get({ url: `/api/v1/recruit/batch/shift/${batchId}`, params: {isRun: false} })
+  return request.get({ url: `/api/v1/recruit/batch/shift/${batchId}`, params: { isRun: false } })
 }
 
 /** 更新招新批次信息 */
@@ -37,6 +37,6 @@ export function getBatchListDetailApi(batchId: string): Promise<IResponse<Recrui
 }
 
 /** 获取参与本批次的学生简要简历列表（管理员) */
-export function getBatchStudentResumeApi(batchId: string): Promise<IResponse<ResumeData[]>> {
+export function getBatchStudentResumeApi(batchId: number): Promise<IResponse<ResumeData[]>> {
   return request.get({ url: `/api/v1/recruit/batch/participants/${batchId}` })
 }
