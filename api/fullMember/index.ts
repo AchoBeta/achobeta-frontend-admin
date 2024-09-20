@@ -13,5 +13,5 @@ export function getAdminMemInfoApi(managerId: string): Promise<IResponse<AdminMe
 
 /** 查看正式成员列表 */
 export function getMemInfoListApi(managerId: string): Promise<IResponse<AdminMemInfoData[]>> {
-  return request.post({ url: '/api/v1/member/list' })
+  return request.get({ url: '/api/v1/member/list' })
 }

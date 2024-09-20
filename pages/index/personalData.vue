@@ -16,7 +16,7 @@ const activeKey = ref('1');
             <a-tab-pane key="2" tab="账号设置">
               <personalData-setting />
             </a-tab-pane>
-            <a-tab-pane key="3" tab="我的收藏">我的收藏</a-tab-pane>
+            <a-tab-pane key="3" tab="正式成员">正式信息</a-tab-pane>
           </a-tabs>
         </a-spin>
       </a-card>

@@ -31,14 +31,8 @@ axiosInstance.interceptors.request.use((res: InternalAxiosRequestConfig) => {
 axiosInstance.interceptors.response.use(
   (res: AxiosResponse) => {
     const url = res.config.url || ''
-    abortControllerMap.delete(url)
-    // 这里不能做任何处理，否则后面的 interceptors 拿不到完整的上下文了
-    return res
-  },
-  (error: AxiosError) => {
-    console.error(error) // for debug
-    const errCode = error.response?.data.code
-    switch (errCode) {
+    const code = res.data?.code
+    switch (code) {
       case responseCode.UNAUTHORIZED.value:
       case responseCode.UNVALID_TOKEN.value:
       case responseCode.UNLOGIN:
@@ -47,8 +41,13 @@ axiosInstance.interceptors.response.use(
         userStore.logout()
         break
     }
-
-
+    
+    abortControllerMap.delete(url)
+    // 这里不能做任何处理，否则后面的 interceptors 拿不到完整的上下文了
+    return res
+  },
+  (error: AxiosError) => {
+    console.error(error) // for debug
     return Promise.reject(error)
   },
 )

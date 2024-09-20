@@ -9,38 +9,33 @@ export const useMenuStore = defineStore('menuList', () => {
     routeName: '/',
     icon: 'fa-solid fa-house-chimney-window fa-lg',
     name: '首页',
-  }, {
+  },{
     id: 2,
-    routeName: '/user',
-    icon: 'fa-solid fa-user fa-lg',
-    name: '用户',
-  }, {
-    id: 3,
     routeName: '/interviewer',
     icon: 'fa-solid fa-user-graduate fa-lg',
     name: '面试官',
   }, {
-    id: 4,
+    id: 3,
     routeName: '/email',
     icon: 'fa-solid fa-envelope fa-lg',
     name: '邮箱通知',
   }, {
-    id: 5,
+    id: 4,
     routeName: '/schedule',
     icon: 'fa-solid fa-calendar-days fa-lg',
     name: '招新日程',
   }, {
-    id: 6,
+    id: 5,
     routeName: '/evaluation',
     icon: 'fa-solid fa-book fa-lg',
     name: '面试评价',
   }, {
-    id: 7,
+    id: 6,
     routeName: '/examPaperBank',
     icon: 'fa-solid fa-folder fa-lg',
-    name: '试卷库',
+    name: '试题库',
   }, {
-    id: 8,
+    id: 7,
     routeName: '/resume',
     icon: 'fa-solid fa-clipboard-list fa-lg',
     name: '简历管理',

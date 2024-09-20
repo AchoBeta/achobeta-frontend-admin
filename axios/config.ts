@@ -40,7 +40,7 @@ function defaultResponseInterceptors(response: AxiosResponse) {
     // 如果是文件流，直接过
     return response
   }
-  console.log(response.data)
+  console.log(response.config.url, response, response.data)
   // if (response.data.code === responseCode.UNVALID_TOKEN.value) {
   //   // token失效，跳转登录页面
   //   message.error('登录过期，请重新登录')
