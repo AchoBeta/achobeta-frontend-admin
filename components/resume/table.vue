@@ -2,14 +2,20 @@
 // @ts-ignore
 import { SmileOutlined } from '@ant-design/icons-vue';
 import { getResumeStatusApi } from '~/api/resumeStatus';
+const childModal = ref<any | null>(null);// 子组件的引用
 const stateList = ref()
 const props = defineProps({
   Data: {
     type: Array,
     default: () => [],
   },
+  batchId: {
+    type: String,
+    default: '',
+  },
 
 })
+
 
 const columnData = ref(computed(() => props.Data))
 
@@ -64,6 +70,7 @@ const columns = [
     key: 'tags',
     dataIndex: 'status'
   },
+
   {
     title: '操作',
     key: 'action',
@@ -117,8 +124,9 @@ const getColor = (code: number) => {
   }
 };
 
-
-
+const getresumeDetail = (batchid: string, userid: string) => {
+  childModal.value.showModal(batchid, userid, props.batchId)
+}
 
 onMounted(() => {
   getresumeStatus()
@@ -149,20 +157,11 @@ onMounted(() => {
           <a-tag v-else color="blue">男</a-tag>
         </template>
         <template v-if="column.key === 'resume'">
-          <a-button type="link">查看简历</a-button>
+          <a-button @click="getresumeDetail(record.resumeId, record.userId)" type="link">查看简历</a-button>
         </template>
 
         <template v-else-if="column.key === 'tags'">
           <span>
-            <!-- <a-tag v-for="tag in record.tags" :key="tag"
-              :color="tag === 'loser' ? 'volcano' : tag > 5 ? 'geekblue' : 'green'">
-              {{ tag.toUpperCase() }}
-              <span>{{ tag }}</span>
-            </a-tag> -->
-
-
-
-
             <div v-for="item in stateList" :key="item.code">
               <div v-if="record.status === item.code">
                 <a-tag :color="getColor(item.code)">{{ item.message }}</a-tag>
@@ -173,7 +172,7 @@ onMounted(() => {
         </template>
         <template v-else-if="column.key === 'action'">
           <span>
-            <a-button type="primary">详情</a-button>
+            <a-button @click="getresumeDetail(record.resumeId, record.userId)" type="primary">详情</a-button>
 
             <a-divider type="vertical" />
             <a-button type="primary" danger>删除</a-button>
@@ -187,6 +186,9 @@ onMounted(() => {
       </template>
     </a-table>
   </div>
+  <resume-editModal ref="childModal">
+
+  </resume-editModal>
 </template>
 
 <style scoped></style>

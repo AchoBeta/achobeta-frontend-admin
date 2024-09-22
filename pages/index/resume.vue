@@ -17,7 +17,7 @@
 
     <a-spin v-show="loading" size="large" />
 
-    <resume-table v-show="!loading" :Data="tabledata"></resume-table>
+    <resume-table :batchId="tabValue" v-show="!loading" :Data="tabledata"></resume-table>
     <a-empty v-show="!loading && tabledata.length === 0" />
 
   </div>
