@@ -65,3 +65,41 @@ export interface QeustionType {
   libType: string;
   [property: string]: any;
 }
+
+export interface SelectQuestionCondition {
+  current: number,
+  pageSize: number,
+  libId?: number
+}
+
+export interface selectResponse {
+  /**
+   * 结果集
+   */
+  list: List[];
+  /**
+   * 总页数
+   */
+  pages: number;
+  /**
+   * 总条数
+   */
+  total: number;
+  [property: string]: any;
+}
+
+export interface List {
+  /**
+   * 问题 id
+   */
+  id: number;
+  /**
+   * 问题标答
+   */
+  standard: string;
+  /**
+   * 问题标题
+   */
+  title: string;
+  [property: string]: any;
+}

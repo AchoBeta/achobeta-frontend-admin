@@ -1,22 +1,6 @@
-<script setup>
-import { PlusOutlined } from '@ant-design/icons-vue'
-import { onMounted, ref } from 'vue'
-// import { getPaeperBankList } from '~/api/examPaperBank'
+<script lang="ts" setup>
 
-// onMounted(() => {
-//   getPaperBank()
-// })
-
-const paperBankList = ref([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-// const hideTooltipStr = ref('题库名称')
 const activeKey = ref('1')
-
-async function getPaperBank() {
-  // TODO:
-  // const res = await getPaeperBankList()
-  // paperBankList.value = res.data
-  console.log(paperBankList.value)
-}
 </script>
 
 <template>

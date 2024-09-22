@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getPaeperBankListApi, createPaeperBankApi } from '~/api/examPaperBank';
+import { getPaeperBankListApi, createPaeperBankApi, renamePaeperBankApi } from '~/api/examPaperBank';
 
 onMounted(()=> {
   init()
@@ -50,11 +50,26 @@ const createPaperBank = async () => {
   loading.value = false
 }
 
+const updatePaperBank= async (data:{ libId: number, libType: string}) => {
+  if(!data.libId) {
+    return
+  }
+
+  loading.value = true
+  const res = await renamePaeperBankApi(data)
+  if(res.code === 200) {
+    message.success('更新成功')
+  } else {
+    message.error(res.message)
+  }
+
+  loading.value = false
+}
 </script>
 
 <template>
   <div class="mb-8 px-6">
-    <a-button @click="openModal" class="flex items-center" type="primary">
+    <a-button :loading="loading" @click="openModal" class="flex items-center" type="primary">
       <PlusOutlined />创建
     </a-button>
     <a-modal :width="400" v-model:open="createModal" @cancel="onCancel" title="创建" :confirm-loading="loading"
@@ -62,16 +77,11 @@ const createPaperBank = async () => {
       <a-input v-model:value="createLibtype" class="my-4" placeholder="请输入试卷库名称" />
     </a-modal>
   </div>
-  <a-list :grid="{ gutter: 0, column: 4 }" :data-source="questionBank" :pagination="{hideOnSinglePage: true}"
-    class='flex-1'>
+  <a-list :loading="loading" :grid="{ gutter: 0, column: 4 }" :data-source="questionBank"
+    :pagination="{hideOnSinglePage: true}" class='flex-1'>
     <template #renderItem="{ item }">
       <a-list-item>
-        <a-card :headStyle="{padding: '0 12px' }" :body-style="{padding: 12}" bordered hoverable
-          class="w-full bg-slate-100">
-          <template #title>
-            {{ item.libType }}
-          </template>
-        </a-card>
+        <bank-card type="exam" :data="item" :updateData="updatePaperBank"></bank-card>
       </a-list-item>
     </template>
   </a-list>

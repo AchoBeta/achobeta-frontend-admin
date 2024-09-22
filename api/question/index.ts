@@ -1,5 +1,5 @@
 import request from '@/axios'
-import type { CreateQuestion, QuestionRes, QuestionDetail } from './types'
+import type { CreateQuestion, QuestionRes, QuestionDetail, SelectQuestionCondition, selectResponse } from './types'
 
 /** 创建一道题 */
 export function createQuestionApi(data: CreateQuestion): Promise<IResponse<number>> {
@@ -16,18 +16,14 @@ export function deleteQuestionApi(questionId: number): Promise<IResponse<{paperI
   return request.get({ url: `/api/v1/qpaper/remove/${questionId}` })
 }
 
-/** 获取一个题库的所有题目 */
-export function getBankQuestionsApi(libId: number): Promise<IResponse<QuestionRes[]>> {
-  return request.get({ url: `/api/v1/question/list/${libId}` })
-}
-
 /** 获取一道题的详细信息 */
 export function getQuestionDetailApi(questionId: number): Promise<IResponse<QuestionDetail>> {
   return request.get({ url: `/api/v1/question/detail/${questionId}` })
 }
 
-/** 获取所有题目 */
-export function getAllQuestionApi(): Promise<IResponse<QuestionRes[]>> {
-  return request.get({ url: '/api/v1/question/list/all' })
+/** 获取题目 */
+export function selectQuestionApi(data: SelectQuestionCondition): Promise<IResponse<selectResponse>> {
+  return request.post({ url: '/api/v1/question/query', data})
 }
+
   

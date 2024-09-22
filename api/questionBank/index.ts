@@ -8,10 +8,10 @@ export function createQuestionBankApi(libType: string): Promise<IResponse<number
 
 /** 题库重命名 */
 export function renameQuestionBankApi(data: renameBank): Promise<IResponse<undefined>> {
-  return request.post({ url: '/api/v1/library/paper/create', data })
+  return request.post({ url: '/api/v1/library/question/rename', data })
 }
 
 /** 查看所有试卷库 */
 export function getQuestionBankListApi(): Promise<IResponse<QBankResData[]>> {
-  return request.get({ url: '/api/v1/library/paper/list' })
+  return request.get({ url: '/api/v1/library/question/list' })
 }
