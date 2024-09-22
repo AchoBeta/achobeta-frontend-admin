@@ -39,5 +39,6 @@ export default defineNuxtConfig({
     typeCheck: false,
   },
   plugins: ['~/plugins/dayjs'],
-  ssr: false
+  ssr: false,
+
 })

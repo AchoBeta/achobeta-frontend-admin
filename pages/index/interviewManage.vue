@@ -3,10 +3,8 @@
 
 <template>
   <div>
-    评价
+    面试管理
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -2,7 +2,6 @@
   <div class="p-4 ">
     <div class="mb-4 flex  flex-wrap justify-between ">
 
-
       <a-segmented @change="changeTab" v-model:value="tabValue" :options="batchList">
         <template #label="{ payload }">
           <div style="padding: 4px 4px">
@@ -17,7 +16,7 @@
 
     <a-spin v-show="loading" size="large" />
 
-    <resume-table v-show="!loading" :Data="tabledata"></resume-table>
+    <resume-table :batchId="tabValue" v-show="!loading" :Data="tabledata"></resume-table>
     <a-empty v-show="!loading && tabledata.length === 0" />
 
   </div>
@@ -36,7 +35,6 @@ const batchList = ref([
     value: '26',
     payload: {
       title: 'Spring',
-
     },
   },
 
