@@ -14,10 +14,7 @@
 
     </div>
 
-    <a-spin v-show="loading" size="large" />
-
-    <resume-table :batchId="tabValue" v-show="!loading" :Data="tabledata"></resume-table>
-    <a-empty v-show="!loading && tabledata.length === 0" />
+    <resume-table :loading="loading" :batchId="tabValue" :Data="tabledata"></resume-table>
 
   </div>
   <resume-drawer @getBatchlist="getbatchlist" :Data="drawData" ref="childRef"
@@ -28,6 +25,7 @@
 import { onMounted, ref } from "vue";
 import { getBatchListAdminApi, getBatchStudentResumeApi } from "~/api/recruitBatch";
 import type { DataItem } from '~/components/resume/types';
+const loading = ref(false);//控制loading
 const childRef = ref<any | null>(null);//子组件实例
 const showDrawer = ref(false);//控制抽屉显示
 const batchList = ref([
@@ -86,11 +84,11 @@ const getbatchlist = async () => {
         name: item.name,
       }));
       console.log(tabledata.value);
-      loading.value = false;
     });
   }
+
+  loading.value = false;
 }//获取招新批次列表
-const loading = ref(false);//控制loading
 //切换批次
 const changeTab = (value: string) => {
   console.log(value);
@@ -110,12 +108,10 @@ const changeTab = (value: string) => {
       name: item.name,
     }));
     console.log(tabledata.value);
-    loading.value = false;
-  });
-
-
-
-
+  })
+  .finally (()=> {
+    loading.value = false
+  })
 }
 onMounted(() => {
   getbatchlist()
