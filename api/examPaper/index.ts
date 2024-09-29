@@ -17,12 +17,6 @@ export function deletePaperApi(paperId: string): Promise<IResponse<{paperId: str
 }
 
 /** 获取一个试卷库的所有试卷 */
-export function getBankExamPaperApi(libId: string): Promise<IResponse<EBankResData[]>> {
-  return request.get({ url: `/api/v1/qpaper/list/${libId}` })
+export function getBankExamPaperApi(data: {current: number, pageSize: number, libId?: number }): Promise<IResponse<EBankResData>> {
+  return request.post({ url: '/api/v1/qpaper/query', data })
 }
-
-/** 获取所有试卷 */
-export function getAllExamPaperApi(): Promise<IResponse<EBankResData[]>> {
-  return request.get({ url: '/api/v1/qpaper/list/all' })
-}
-  

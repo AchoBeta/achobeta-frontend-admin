@@ -13,7 +13,7 @@ export function updateQuestionApi(questionId: number, data: CreateQuestion): Pro
 
 /** 删除一道题 */
 export function deleteQuestionApi(questionId: number): Promise<IResponse<{paperId: number}>> {
-  return request.get({ url: `/api/v1/qpaper/remove/${questionId}` })
+  return request.get({ url: `/api/v1/question/remove/${questionId}` })
 }
 
 /** 获取一道题的详细信息 */

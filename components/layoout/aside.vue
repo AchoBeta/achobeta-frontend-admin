@@ -20,7 +20,7 @@ const { menuList, otherMenuList } = storeToRefs(menuStore)
     <div class="flex items-center ml-6 px-2 py-2 mb-4 border rounded-lg w-44 h-16 ">
       <img
         :src="userInfo.avatar || 'https://zhidao-prod.oss-cn-shenzhen.aliyuncs.com/UPTOCLOUD/16835112339414645/202409/微信图片_20240512114952_UYdTo1.jpg'"
-        class="rounded-lg w-12 bg-blue-400 object-fill" alt="头像">
+        class="rounded-lg w-12 h-12 object-fill" alt="头像">
       <div class="px-3">
         <h2 class="font-bold text-sm text-slate-900 pb-1">
           {{ userInfo.nickname }}

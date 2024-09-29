@@ -33,7 +33,6 @@ const onEdit = () => {
 }
 
 const navigateToDetail = () => {
-  console.log('点击卡片')
   return navigateTo({
     path: `${props.type}/${props.data?.id}`,
     query: {

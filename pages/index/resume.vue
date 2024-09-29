@@ -1,25 +1,16 @@
 <template>
-  <div class="p-4 ">
-    <div class="mb-4 flex  flex-wrap justify-between ">
-
-
-      <a-segmented block @change="changeTab" v-model:value="tabValue" :options="batchList">
+  <div class="p-4 bg-[#f5f5f5] ">
+    <div class="py-1 flex overflow-scroll">
+      <a-segmented @change="changeTab" v-model:value="tabValue" :options="batchList">
         <template #label="{ payload }">
           <div style="padding: 4px 4px">
             <div>{{ payload.title }}</div>
           </div>
         </template>
       </a-segmented>
-
-      <a-button type="primary" @click="mangerbatch">管理招新批次</a-button>
-
     </div>
-
-    <a-spin v-show="loading" size="large" />
-
-    <resume-table :batchId="tabValue" v-show="!loading" :Data="tabledata"></resume-table>
-    <a-empty v-show="!loading && tabledata.length === 0" />
-
+    <a-button class="my-3" type="primary" @click="mangerbatch">管理招新批次</a-button>
+    <resume-table :loading="loading" :batchId="tabValue" :Data="tabledata"></resume-table>
   </div>
   <resume-drawer @getBatchlist="getbatchlist" :Data="drawData" ref="childRef"
     v-model:showDrawer="showDrawer"></resume-drawer>
@@ -29,6 +20,7 @@
 import { onMounted, ref } from "vue";
 import { getBatchListAdminApi, getBatchStudentResumeApi } from "~/api/recruitBatch";
 import type { DataItem } from '~/components/resume/types';
+const loading = ref(false);//控制loading
 const childRef = ref<any | null>(null);//子组件实例
 const showDrawer = ref(false);//控制抽屉显示
 const batchList = ref([
@@ -36,7 +28,6 @@ const batchList = ref([
     value: '26',
     payload: {
       title: 'Spring',
-
     },
   },
 
@@ -88,11 +79,11 @@ const getbatchlist = async () => {
         name: item.name,
       }));
       console.log(tabledata.value);
-      loading.value = false;
     });
   }
+
+  loading.value = false;
 }//获取招新批次列表
-const loading = ref(false);//控制loading
 //切换批次
 const changeTab = (value: string) => {
   console.log(value);
@@ -111,13 +102,10 @@ const changeTab = (value: string) => {
       status: item.status,
       name: item.name,
     }));
-    console.log(tabledata.value);
-    loading.value = false;
-  });
-
-
-
-
+  })
+    .finally(() => {
+      loading.value = false
+    })
 }
 onMounted(() => {
   getbatchlist()

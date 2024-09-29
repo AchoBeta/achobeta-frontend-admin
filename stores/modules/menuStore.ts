@@ -11,9 +11,9 @@ export const useMenuStore = defineStore('menuList', () => {
     name: '首页',
   },{
     id: 2,
-    routeName: '/interviewer',
+    routeName: '/member',
     icon: 'fa-solid fa-user-graduate fa-lg',
-    name: '面试官',
+    name: '正式成员',
   }, {
     id: 3,
     routeName: '/email',
@@ -21,14 +21,14 @@ export const useMenuStore = defineStore('menuList', () => {
     name: '邮箱通知',
   }, {
     id: 4,
-    routeName: '/schedule',
-    icon: 'fa-solid fa-calendar-days fa-lg',
-    name: '招新日程',
+    routeName: '/activity',
+    icon: 'fa-solid fa-flag fa-lg',
+    name: '活动管理',
   }, {
     id: 5,
-    routeName: '/evaluation',
+    routeName: '/interviewManage',
     icon: 'fa-solid fa-book fa-lg',
-    name: '面试评价',
+    name: '面试管理',
   }, {
     id: 6,
     routeName: '/examPaperBank',

@@ -1,23 +1,25 @@
-<script setup>
-import { selectQuestionApi, updateQuestionApi, createQuestionApi, deleteQuestionApi } from '~/api/question'
+<script lang="ts" setup>
 import { Form } from 'ant-design-vue';
 import dayjs from 'dayjs';
+import { getBankExamPaperApi } from '~/api/examPaper';
+import type { List } from '~/api/examPaper/types'
 
 const route = useRoute()
-const questionId = route.params?.questionId
+const paperId = route.params?.paperId
 const parent = ref(JSON.parse(route.query?.parent || ''))
 const condition = {
-  libId: Number(questionId),
+  libId: Number(paperId),
   current: 1,
   pageSize: 20
 }
 const loading = ref(false)
-const questionList = ref([])
+const paperList = ref<List[]>([])
 const modalVisible = ref(false)
 const selectedQuestion = ref(null)
 const useForm = Form.useForm;
+const showType = ref('编辑')
 const formRef = reactive({
-  libId: questionId,
+  libId: paperId,
   title: '',
   standard: '',
 });
@@ -42,7 +44,7 @@ onMounted(() => {
 })
 
 const init = () => {
-  getQuestion()
+  getPaper()
 }
 
 const onPaginationChange = (current, size) => {
@@ -52,7 +54,7 @@ const onPaginationChange = (current, size) => {
     condition.current = current,
     condition.pageSize = size,
 
-    getQuestion()
+    getPaper()
 }
 
 const pagination = {
@@ -64,12 +66,12 @@ const pagination = {
   onChange: onPaginationChange
 }
 
-const getQuestion = async () => {
+const getPaper = async () => {
   loading.value = true
-  const res = await selectQuestionApi(condition)
+  const res = await getBankExamPaperApi(condition)
   if (res.code === 200) {
     pagination.total = res.data.total
-    questionList.value = res.data.list
+    paperList.value = res.data.list
   } else {
     message.error(res.message)
   }
@@ -92,14 +94,14 @@ const onCancel = () => { modalVisible.value = false }
 const updateOrAdd = async () => {
   loading.value = true
   const data = {
-    libIds: [Number(questionId)],
+    libIds: [Number(paperId)],
     title: formRef.title,
     standard: formRef.standard
   }
   if (selectedQuestion.value?.id) {
     const res = await updateQuestionApi(selectedQuestion.value.id, data)
     if (res.code === 200) {
-      getQuestion()
+      getPaper()
       modalVisible.value = false
       resetFields()
       message.success('更新成功')
@@ -109,7 +111,7 @@ const updateOrAdd = async () => {
   } else {
     const res = await createQuestionApi(data)
     if (res.code === 200) {
-      getQuestion()
+      getPaper()
       modalVisible.value = false
       resetFields()
       message.success('创建成功')
@@ -134,6 +136,7 @@ const onSave = () => {
         })
       })
     })
+
 }
 
 const handleDelete = async (id) => {
@@ -141,7 +144,7 @@ const handleDelete = async (id) => {
   const res = await deleteQuestionApi(id)
   if (res.code === 200) {
     message.success('删除成功')
-    getQuestion()
+    getPaper()
   } else {
     message.error(res.message)
   }
@@ -156,16 +159,17 @@ const handleDelete = async (id) => {
     <a-page-header style="border: 1px solid rgb(235, 237, 240)" :title="parent?.libType"
       :sub-title="'ID: ' + parent?.id + ' ' + '创建时间： ' + parent?.createTime" @back="() => navigateTo('/examPaperBank')">
       <template #extra>
+        <a-segmented v-model:value="showType" :options="['编辑', '预览']" />
         <a-button @click="openModal(null)" type="primary" key="3">创建</a-button>
       </template>
     </a-page-header>
 
-    <a-list :loading="loading" :grid="{ gutter: 4, column: 1 }" :data-source="questionList" :pagination="pagination"
-      class='flex-1 h-full'>
+    <a-list :loading="loaidng" :grid="{ gutter: 4, column: 1 }" :data-source="paperList" :pagination="pagination"
+      class='flex-1 h-full bg-white mt-6'>
       <template #renderItem="{ item, index }">
-        <a-list-item style="padding: 12px 0; margin-bottom: 0; ">
-          <div class="rounded-xl p-4 bg-slate-100 h-[150px]">
-            <div class="flex justify-between items-center">
+        <a-list-item style="padding: 0 0; margin-bottom: 0; ">
+          <div class="rounded-xl p-4 h-[150px]">
+            <div v-show="showType === '编辑'" class="flex justify-between items-center">
               <div class="flex">
                 <a-tag color="green" class="mr-12">ID: {{ item.id }}</a-tag>
               </div>
@@ -179,7 +183,8 @@ const handleDelete = async (id) => {
                 </a-space>
               </div>
             </div>
-            <div class="mt-2"> {{ index + 1 + '.' }} <span class="ml-1">{{ item.title || '--' }} </span></div>
+            <div class="mt-2 font-bold text-lg"> {{ index + 1 + '.' }} <span class="ml-1">{{ item.title || '--' }}
+              </span></div>
             <div class="mt-4 ml-4">
               <a-typography-paragraph :ellipsis="{rows: 2}" :content="'参考答案: ' + item.standard" />
             </div>

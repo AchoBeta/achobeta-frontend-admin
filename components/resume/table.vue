@@ -13,9 +13,12 @@ const props = defineProps({
     type: String,
     default: '',
   },
-
+  loading: {
+    type: Boolean,
+    default: false,
+    require: true
+  }
 })
-
 
 const columnData = ref(computed(() => props.Data))
 
@@ -24,31 +27,44 @@ const columns = [
     name: '姓名',
     dataIndex: 'name',
     key: 'name',
+    width: 100,
+    fixed: 'left' 
   },
   {
     title: '年级',
     dataIndex: 'grade',
     key: 'grade',
+    width: 100
   },
   {
     title: '专业',
     dataIndex: 'major',
     key: 'major',
+    width:150
   },
   {
     title: '班级',
     dataIndex: 'className',
     key: 'className',
+    width: 150
   },
   {
     title: '性别',
     key: 'gender',
     dataIndex: 'gender',
+    width:80
   },
   {
     title: '学号',
     dataIndex: 'studentId',
     key: 'studentId',
+    width: 150
+  },
+  {
+    title: '简历状态',
+    key: 'tags',
+    dataIndex: 'status',
+    width: 100,
   },
   {
     title: '用户名',
@@ -66,14 +82,10 @@ const columns = [
     dataIndex: 'resumeId'
   },
   {
-    title: '简历状态',
-    key: 'tags',
-    dataIndex: 'status'
-  },
-
-  {
     title: '操作',
     key: 'action',
+    width:200,
+    fixed: 'right'
   },
 ]
 
@@ -134,8 +146,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-4 ">
-    <a-table :columns="columns" :data-source="columnData">
+  <div class="p-2">
+    <a-table :loading="props.loading" :columns="columns" :data-source="columnData" :scroll="{x: 1700}">
       <template #headerCell="{ column }">
         <template v-if="column.key === 'name'">
           <span>
