@@ -1,4 +1,16 @@
-<script setup>
+<script lang="ts" setup>
+import type { PropType } from 'vue';
+import type { AdminMemInfoData } from '~/api/fullMember/types'
+const props = defineProps({
+  info: {
+    type: Object as PropType<AdminMemInfoData>,
+    default: () => ({}),
+    required: true
+  }
+})
+
+const userInfo = ref(props.info) 
+
 </script>
 
 <template>
@@ -15,25 +27,25 @@
       </div>
       <!-- 信息 -->
       <div class="flex flex-col info flex-wrap items-center ">
-        <img class="w-16 rounded-xl mt-6 ring"
-          src="https://zhidao-prod.oss-cn-shenzhen.aliyuncs.com/UPTOCLOUD/16835112339414645/202409/微信图片_20240512114952_UYdTo1.jpg"
+        <img class="w-16 rounded-xl mt-6 ring" width="4rem" height="4rem"
+          :src="userInfo.userVO?.avatar || 'https://zhidao-prod.oss-cn-shenzhen.aliyuncs.com/UPTOCLOUD/16835112339414645/202409/微信图片_20240512114952_UYdTo1.jpg'"
           alt="头像">
         <h1 class="mb-1 mt-2 font-bold text-xlpo">
-          半糖小子
+          {{ userInfo.simpleStudentVO?.name || '姓名' }}
         </h1>
-        <span class="text-slate-500 text-sm">抽象</span>
+        <span class="text-slate-500 text-sm">{{ userInfo.simpleStudentVO?.major || '专业' }}</span>
       </div>
       <!-- bottom -->
       <div class="px-3">
         <!-- 联系方式 -->
         <div class="my-2">
           <i class="fa-solid fa-phone bg-[#ffe7ea] p-2 rounded-full text-pink-500 mr-2" />
-          <span class="font-bold text-[13px]">+12 345 6789 0</span>
+          <span class="font-bold text-[13px]">{{ userInfo.userVO?.phoneNumber || '+12 345 6789 0'}}</span>
         </div>
         <!-- email -->
         <div class="my-2">
           <i class="fa-solid fa-envelope bg-[#ffe7ea] p-2 rounded-full text-pink-500 mr-2" />
-          <span class="font-bold text-[13px]">bantang123@mail.com</span>
+          <span class="font-bold text-[13px]">{{ userInfo.userVO?.email || 'bantang123@mail.com' }}</span>
         </div>
       </div>
     </div>

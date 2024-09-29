@@ -1,42 +1,18 @@
-<script setup>
-import { PlusOutlined } from '@ant-design/icons-vue'
-import { onMounted, ref } from 'vue'
-// import { getPaeperBankList } from '~/api/examPaperBank'
+<script lang="ts" setup>
 
-// onMounted(() => {
-//   getPaperBank()
-// })
-
-const paperBankList = ref([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-// const hideTooltipStr = ref('题库名称')
-
-async function getPaperBank() {
-  // TODO:
-  // const res = await getPaeperBankList()
-  // paperBankList.value = res.data
-  console.log(paperBankList.value)
-}
+const activeKey = ref('1')
 </script>
 
 <template>
-  <div class="p-4 ">
-    <a-card style="width: 100%;">
-      <div class="mb-4">
-        <button class="btn btn-primary btn-sm">
-          <PlusOutlined />
-          添加
-        </button>
-      </div>
-      <!-- <a-list :grid="{ gutter: 4, column: 5 }" :data-source="paperBankList" pagination>
-        <template #renderItem="{ item }">
-          <a-list-item style="padding: 12px 0;margin-bottom: 0;">
-            <a-card class="bg-blue-200" hoverable>
-              <a-typography-paragraph v-model:content="hideTooltipStr" :editable="{ tooltip: false }" />
-            </a-card>
-          </a-list-item>
-        </template>
-</a-list> -->
-    </a-card>
+  <div class="p-2">
+    <a-tabs class="rounded-2xl bg-white p-4" v-model:activeKey="activeKey">
+      <a-tab-pane key="1" tab="题库">
+        <bank-questionBank></bank-questionBank>
+      </a-tab-pane>
+      <a-tab-pane key="2" tab="试卷库" force-render>
+        <bank-paperBank></bank-paperBank>
+      </a-tab-pane>
+    </a-tabs>
   </div>
 </template>
 

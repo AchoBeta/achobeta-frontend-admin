@@ -13,7 +13,7 @@ export function loginWithEmailApi(data: LWEmail): Promise<IResponse<any>> {
 
 /** 发送验证码 */
 export function sendVerifyCodeApi(email: string): Promise<IResponse<undefined>> {
-  return request.post({ url: '/api/v1/resource/email/code', params: email })
+  return request.post({ url: '/api/v1/email/code', params: email })
 }
 
 /** 用户注册（发布版无法访问） */

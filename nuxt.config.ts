@@ -40,5 +40,4 @@ export default defineNuxtConfig({
   },
   plugins: ['~/plugins/dayjs'],
   ssr: false,
-
 })

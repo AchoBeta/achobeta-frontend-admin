@@ -3,7 +3,7 @@
     <div class="mb-4 flex  flex-wrap justify-between ">
 
 
-      <a-segmented @change="changeTab" v-model:value="tabValue" :options="batchList">
+      <a-segmented block @change="changeTab" v-model:value="tabValue" :options="batchList">
         <template #label="{ payload }">
           <div style="padding: 4px 4px">
             <div>{{ payload.title }}</div>
@@ -126,4 +126,17 @@ onMounted(() => {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.ant-segmented-group {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap !important;
+  overflow-x: auto !important;
+  /* 当内容超出宽度时，显示水平滚动条 */
+
+}
+
+.ant-segmented-item {
+  min-width: none !important;
+}
+</style>

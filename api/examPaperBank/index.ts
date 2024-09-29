@@ -8,7 +8,7 @@ export function createPaeperBankApi(libType: string): Promise<IResponse<number>>
 
 /** 试卷库重命名 */
 export function renamePaeperBankApi(data: renameBank): Promise<IResponse<undefined>> {
-  return request.post({ url: '/api/v1/library/paper/create', data })
+  return request.post({ url: '/api/v1/library/paper/rename', data })
 }
 
 /** 查看所有试卷库 */
