@@ -1,7 +1,6 @@
 <template>
-  <div class="p-4 ">
-    <div class="mb-4 flex  flex-wrap justify-between ">
-
+  <div class="p-4 bg-[#f5f5f5] ">
+    <div class="py-1 flex overflow-scroll">
       <a-segmented @change="changeTab" v-model:value="tabValue" :options="batchList">
         <template #label="{ payload }">
           <div style="padding: 4px 4px">
@@ -9,13 +8,9 @@
           </div>
         </template>
       </a-segmented>
-
-      <a-button type="primary" @click="mangerbatch">管理招新批次</a-button>
-
     </div>
-
+    <a-button class="my-3" type="primary" @click="mangerbatch">管理招新批次</a-button>
     <resume-table :loading="loading" :batchId="tabValue" :Data="tabledata"></resume-table>
-
   </div>
   <resume-drawer @getBatchlist="getbatchlist" :Data="drawData" ref="childRef"
     v-model:showDrawer="showDrawer"></resume-drawer>
@@ -107,7 +102,6 @@ const changeTab = (value: string) => {
       status: item.status,
       name: item.name,
     }));
-    console.log(tabledata.value);
   })
   .finally (()=> {
     loading.value = false

@@ -46,6 +46,7 @@ const columns = [
     title: '班级',
     dataIndex: 'className',
     key: 'className',
+    width: 150
   },
   {
     title: '性别',
@@ -57,6 +58,13 @@ const columns = [
     title: '学号',
     dataIndex: 'studentId',
     key: 'studentId',
+    width: 150
+  },
+  {
+    title: '简历状态',
+    key: 'tags',
+    dataIndex: 'status',
+    width: 100,
   },
   {
     title: '用户名',
@@ -73,12 +81,6 @@ const columns = [
     key: 'resume',
     dataIndex: 'resumeId'
   },
-  {
-    title: '简历状态',
-    key: 'tags',
-    dataIndex: 'status'
-  },
-
   {
     title: '操作',
     key: 'action',
