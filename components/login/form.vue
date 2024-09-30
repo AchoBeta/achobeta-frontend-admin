@@ -36,7 +36,13 @@ async function login() {
     userStore.setToken(res.data.access_token)
     userStore.setRememberMe(unref(remember))
     getUserInfoApi().then((res) => {
-      userStore.setUserInfo(res.data)
+      //增加密码存储
+      const updatedUserInfo = {
+        ...res.data, // 复制res.data中的所有属性
+        password: inputPassword.value // 添加密码属性
+      };
+      // 存储更新后的用户信息
+      userStore.setUserInfo(updatedUserInfo);
     })
     if (unref(remember)) {
       userStore.setLoginInfo({
