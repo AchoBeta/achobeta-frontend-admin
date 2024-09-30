@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Form } from 'ant-design-vue';
-import { getBankExamPaperApi, deletePaperApi } from '~/api/examPaper';
+import { getBankExamPaperApi, deletePaperApi, updatePaperApi, createPaperApi } from '~/api/examPaper';
 import type { List } from '~/api/examPaper/types'
 import { Modal } from 'ant-design-vue';
 
@@ -15,28 +15,28 @@ const condition = {
 const loading = ref(false)
 const paperList = ref<List[]>([])
 const modalVisible = ref(false)
-const editTitle = ref('')
 const useForm = Form.useForm;
+const selectedExamPaper = ref<List>()
 const formRef = reactive({
-  libId: examId,
+  libId: [examId],
   title: '',
-  standard: '',
+  description: '',
 });
 const rulesRef = reactive({
   title: [
     {
       required: true,
-      message: '请输入题目',
+      message: '请输入试卷名称',
     },
   ],
-  standard: [
+  description: [
     {
       required: true,
-      message: '输入标准答案',
+      message: '输入试卷描述',
     },
   ],
 });
-const { resetFields, validate, validateInfos } = useForm(formRef, rulesRef);
+const { resetFields, validate, } = useForm(formRef, rulesRef);
 
 onMounted(() => {
   init()
@@ -58,27 +58,31 @@ const getPaper = async () => {
   loading.value = false
 }
 
-const openModal = (data) => {
-  selectedQuestion.value = data
+const openModal = (data: any) => {
+  selectedExamPaper.value = data
   if (data) {
-    formRef.standard = data.standard
+    formRef.description = data.description
     formRef.title = data.title
   }
 
   modalVisible.value = true
 }
 
-const onCancel = () => { modalVisible.value = false }
+const onCancel = () => { 
+  resetFields()
+  modalVisible.value = false
+
+}
 
 const updateOrAdd = async () => {
   loading.value = true
   const data = {
     libIds: [Number(examId)],
     title: formRef.title,
-    standard: formRef.standard
+    description: formRef.description
   }
-  if (selectedQuestion.value?.id) {
-    const res = await updateQuestionApi(selectedQuestion.value.id, data)
+  if (selectedExamPaper.value?.id) {
+    const res = await updatePaperApi(selectedExamPaper.value.id, data)
     if (res.code === 200) {
       getPaper()
       modalVisible.value = false
@@ -88,7 +92,7 @@ const updateOrAdd = async () => {
       message.error(res.message)
     }
   } else {
-    const res = await createQuestionApi(data)
+    const res = await createPaperApi(data)
     if (res.code === 200) {
       getPaper()
       modalVisible.value = false
@@ -161,7 +165,7 @@ const navigateToDetail = () => {
       </template>
     </a-page-header>
 
-    <a-list :loading="loading" :grid="{ gutter: 4, column: 5 }" :data-source="paperList" class='flex-1 h-full mt-6'>
+    <a-list :loading="loading" :grid="{ gutter: 4, column: 4 }" :data-source="paperList" class='flex-1 h-full mt-6'>
       <template #renderItem="{ item, index }">
         <a-list-item>
           <a-card @click="navigateToDetail()" :headStyle="{padding: '0 12px' }" bordered hoverable
@@ -188,15 +192,15 @@ const navigateToDetail = () => {
       </template>
     </a-list>
 
-    <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="selectedQuestion ? '更新' : '创建'"
+    <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="selectedExamPaper ? '更新' : '创建'"
       :confirm-loading="loading" @ok="onSave" ok-text="确定" cancel-text="取消">
       <a-form class="mt-12" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }" autocomplete="on">
-        <a-form-item label="题目" name="title" required>
+        <a-form-item label="名称" name="title" required>
           <a-input v-model:value="formRef.title" />
         </a-form-item>
 
-        <a-form-item label="标准答案" name="standard" required>
-          <a-textarea style="max-height: 300px;" auto-size v-model:value="formRef.standard" />
+        <a-form-item label="描述" name="description" required>
+          <a-textarea style="max-height: 300px;" auto-size v-model:value="formRef.description" />
         </a-form-item>
       </a-form>
     </a-modal>
