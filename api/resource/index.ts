@@ -9,8 +9,13 @@ export function uploadListApi(file: File[]): Promise<IResponse<number[]>> {
   return request.post({ url: '/api/v1/resource/upload/list', data: file })
 }
 
-export function uploadImageApi(file: File): Promise<IResponse<number>> {
-  return request.post({ url: '/api/v1/resource/upload/image', data: file })
+export function uploadImageApi(fileList: File[]): Promise<IResponse<number>> {
+  const formData = new FormData()
+  fileList.forEach((file) => {
+    formData.append('files[]', file as any);
+  })
+
+  return request.post({ url: '/api/v1/resource/upload/image', data: fileList })
 }
 
 export function uploadVideoApi(file: File): Promise<IResponse<number>> {

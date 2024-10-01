@@ -1,11 +1,4 @@
 export interface batchlistResponse {
-  code: number;
-  data: batchDatum[];
-  message: string;
-  [property: string]: any;
-}
-
-export interface batchDatum {
   /**
    * 招新届数
    */

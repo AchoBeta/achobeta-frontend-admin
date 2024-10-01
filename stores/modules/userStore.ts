@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { UserInfo } from '~/types/userInfo'
+import { DEFAULT_AVATAR } from '~/constants/global'
 interface Logininfo {
   password: string
   username: string
@@ -10,7 +11,7 @@ interface Logininfo {
 const router = useRouter()
 const DEFAULT_USERINFO = {
   username: '未登录',
-  avatar: 'https://zhidao-prod.oss-cn-shenzhen.aliyuncs.com/UPTOCLOUD/16835112339414645/202409/微信图片_20240512114952_UYdTo1.jpg',
+  avatar: DEFAULT_AVATAR,
   email: '暂未设置',
   phoneNumber: '暂未设置',
   userType: 2,

@@ -22,7 +22,7 @@ export function updateRecruitBatchApi(data: UpdateRecruitBatch): Promise<IRespon
 }
 
 /** 查看招新批次列表（管理员） */
-export function getBatchListAdminApi(isRun?: boolean): Promise<IResponse<batchlistResponse>> {
+export function getBatchListAdminApi(isRun?: boolean): Promise<IResponse<batchlistResponse[]>> {
   return request.get({ url: '/api/v1/recruit/batch/list/manager', params: isRun })
 }
 

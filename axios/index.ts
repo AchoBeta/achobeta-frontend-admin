@@ -2,6 +2,7 @@ import { CONTENT_TYPE } from '@/constants'
 import { useUserStore } from '~/stores/modules/userStore'
 import service from './service'
 
+// 请求函数
 function request(option: AxiosConfig) {
   const { url, method, params, data, headers, responseType } = option
 
@@ -35,6 +36,7 @@ function request(option: AxiosConfig) {
   })
 }
 
+// 提供默认的请求方法
 export default {
   get: <T = any>(option: AxiosConfig) => {
     return request({ method: 'get', ...option }) as Promise<IResponse<T>>

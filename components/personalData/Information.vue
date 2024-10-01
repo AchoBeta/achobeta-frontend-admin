@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { useUserStore } from '~/stores'
+import { useAvatar } from '~/utils/user';
+
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 
@@ -7,8 +9,7 @@ const { userInfo } = storeToRefs(userStore)
 
 <template>
   <div class="flex flex-col justify-center w-[300px] bg-blue-100 rounded-lg items-center p-4">
-    <a-avatar :size="{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }"
-      :src="userInfo.avatar || 'https://zhidao-prod.oss-cn-shenzhen.aliyuncs.com/UPTOCLOUD/16835112339414645/202409/微信图片_20240512114952_UYdTo1.jpg'"
+    <a-avatar :size="{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }" :src="useAvatar(userInfo.avatar)"
       class="object-contain" />
     <div className="badge badge-accent text-white mt-2">
       {{ userInfo.userType === 2 ? '管理员' : '用户' }}

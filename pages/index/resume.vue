@@ -103,9 +103,9 @@ const changeTab = (value: string) => {
       name: item.name,
     }));
   })
-  .finally (()=> {
-    loading.value = false
-  })
+    .finally(() => {
+      loading.value = false
+    })
 }
 onMounted(() => {
   getbatchlist()
@@ -114,4 +114,17 @@ onMounted(() => {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.ant-segmented-group {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap !important;
+  overflow-x: auto !important;
+  /* 当内容超出宽度时，显示水平滚动条 */
+
+}
+
+.ant-segmented-item {
+  min-width: none !important;
+}
+</style>
