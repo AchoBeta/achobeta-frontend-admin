@@ -28,7 +28,7 @@ const columns = [
     dataIndex: 'name',
     key: 'name',
     width: 100,
-    fixed: 'left' 
+    fixed: 'left'
   },
   {
     title: '年级',
@@ -40,7 +40,7 @@ const columns = [
     title: '专业',
     dataIndex: 'major',
     key: 'major',
-    width:150
+    width: 150
   },
   {
     title: '班级',
@@ -52,7 +52,7 @@ const columns = [
     title: '性别',
     key: 'gender',
     dataIndex: 'gender',
-    width:80
+    width: 80
   },
   {
     title: '学号',
@@ -84,7 +84,7 @@ const columns = [
   {
     title: '操作',
     key: 'action',
-    width:200,
+    width: 200,
     fixed: 'right'
   },
 ]
@@ -92,7 +92,6 @@ const columns = [
 const getresumeStatus = async () => {
   const res = await getResumeStatusApi()
   stateList.value = res.data
-  console.log(stateList.value)
 }
 
 const getColor = (code: number) => {
@@ -147,7 +146,7 @@ onMounted(() => {
 
 <template>
   <div class="p-2">
-    <a-table :loading="props.loading" :columns="columns" :data-source="columnData" :scroll="{x: 1700}">
+    <a-table :loading="props.loading" :columns="columns" :data-source="columnData" :scroll="{ x: 1700 }">
       <template #headerCell="{ column }">
         <template v-if="column.key === 'name'">
           <span>
@@ -187,12 +186,6 @@ onMounted(() => {
             <a-button @click="getresumeDetail(record.resumeId, record.userId)" type="primary">详情</a-button>
 
             <a-divider type="vertical" />
-            <a-button type="primary" danger>删除</a-button>
-            <a-divider type="vertical" />
-            <!-- <a class="ant-dropdown-link">
-                            More actions
-                            <down-outlined />
-                        </a> -->
           </span>
         </template>
       </template>
