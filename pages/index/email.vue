@@ -82,7 +82,7 @@ const onFinish = (values: any) => {
   try {
     const condition = {
   "stuInfoSendList[0].email": values.email,
-  "stuInfoSendList[0].stuName": nameList.value[0].label,
+  "stuInfoSendList[0].stuName": nameList.value.filter( (i: any) => i.userId === values.name)[0].label,
   "stuInfoSendList[0].userId": values.name,
   tittle: formState.content,
   content: formState.content,
