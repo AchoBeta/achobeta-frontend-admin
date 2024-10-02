@@ -7,7 +7,7 @@ import { useUserStore } from '~/stores/modules/userStore'
 import { defaultRequestInterceptors, defaultResponseInterceptors } from './config'
 import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig, RequestConfig } from './types'
 
-export const PATH_URL = undefined //  import.meta.env.VITE_API_BASE_URL
+export const PATH_URL = 'http://175.178.51.133:9001' //  import.meta.env.VITE_API_BASE_URL
 // 'http://139.159.210.77:9001'
 //  import.meta.env.VITE_API_BASE_PATH
 
