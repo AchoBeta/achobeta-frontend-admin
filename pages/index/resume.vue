@@ -111,7 +111,6 @@ onMounted(() => {
   getbatchlist()
 })
 
-
 </script>
 
 <style scoped>

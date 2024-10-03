@@ -5,10 +5,10 @@ import type { List } from '~/api/examPaper/types'
 import { Modal } from 'ant-design-vue';
 
 const route = useRoute()
-const examId = route.params?.examId
+const examBankId = route.params?.examBankId
 const parent = ref(JSON.parse(route.query?.parent || ''))
 const condition = {
-  libId: Number(examId),
+  libId: Number(examBankId),
   current: 1,
   pageSize: 20
 }
@@ -18,7 +18,7 @@ const modalVisible = ref(false)
 const useForm = Form.useForm;
 const selectedExamPaper = ref<List>()
 const formRef = reactive({
-  libId: [examId],
+  libId: [examBankId],
   title: '',
   description: '',
 });
@@ -77,7 +77,7 @@ const onCancel = () => {
 const updateOrAdd = async () => {
   loading.value = true
   const data = {
-    libIds: [Number(examId)],
+    libIds: [Number(examBankId)],
     title: formRef.title,
     description: formRef.description
   }
@@ -148,9 +148,13 @@ const handleDelete = async (paperId: string) => {
   loading.value = false
 }
 
-const navigateToDetail = () => {
+const navigateToDetail = (item:any) => {
   return navigateTo({
-    path: `${1}`,
+    path: `detail/${item.id}`,
+    query: {
+      parent: JSON.stringify(item),
+      examBankId: examBankId,
+    }
   })
 }
 
@@ -163,7 +167,7 @@ const onEdit = (item:any) => {
 <template>
   <main class="flex-1 flex flex-col p-4 bg-bg-base min-h-full">
     <a-page-header style="border: 1px solid rgb(235, 237, 240)" :title="parent?.libType"
-      :sub-title="'ID: ' + parent?.id + ' ' + '创建时间： ' + parent?.createTime" @back="() => navigateTo('/examPaperBank')">
+      :sub-title="'ID: ' + parent?.id + ' ' + '创建时间： ' + parent?.createTime" @back="() => navigateTo('/exampaperBank')">
       <template #extra>
         <a-button @click="openModal(null)" type="primary" key="3">创建</a-button>
       </template>
@@ -172,7 +176,7 @@ const onEdit = (item:any) => {
     <a-list :loading="loading" :grid="{ gutter: 4, column: 4 }" :data-source="paperList" class='flex-1 h-full mt-6'>
       <template #renderItem="{ item, index }">
         <a-list-item>
-          <a-card @click="navigateToDetail()" :headStyle="{padding: '0 12px' }" bordered hoverable
+          <a-card @click="navigateToDetail( item )" :headStyle="{padding: '0 12px' }" bordered hoverable
             :body-style="{padding: '24px 12px'}" class="w-full bg-slate-100">
             <template #title>
               <div class="flex justify-between w-full mt-1">

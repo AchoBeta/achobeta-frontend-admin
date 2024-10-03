@@ -8,10 +8,10 @@ export function addQuesionApi(data: addQuestion): Promise<IResponse<addQuestion>
 
 /** 为试卷移除若干道题 */
 export function removeQuesionApi(data: addQuestion): Promise<IResponse<addQuestion>> {
-  return request.post({ url: '/api/v1/pqlink/add', data })
+  return request.post({ url: '/api/v1/pqlink/remove', data })
 }
 
 /** 获取一张试卷的详细信息 */
 export function getExamPaperDetailApi(paperId: string): Promise<IResponse<ExamPageDetail>> {
-  return request.post({ url: `/api/v1/pqlink/detail/${paperId}` })
+  return request.get({ url: `/api/v1/pqlink/detail/${paperId}` })
 }
