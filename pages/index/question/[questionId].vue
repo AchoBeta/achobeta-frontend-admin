@@ -171,7 +171,7 @@ const handleDelete = async (id) => {
               </div>
               <div>
                 <a-space>
-                  <div class="text-gray-400">上次修改时间：{{ dayjs(item.createTime).format('YYYY-MM-DD HH:MM') }}</div>
+                  <div class="text-gray-400 mr-8">上次修改时间：{{ dayjs(item.createTime).format('YYYY-MM-DD HH:MM') }}</div>
                   <a-button @click="openModal(item)">编辑</a-button>
                   <a-popconfirm title="你确定要删除这道题目吗？" @confirm="handleDelete(item.id)">
                     <a-button danger>删除</a-button>
@@ -179,7 +179,10 @@ const handleDelete = async (id) => {
                 </a-space>
               </div>
             </div>
-            <div class="mt-2"> {{ index + 1 + '.' }} <span class="ml-1">{{ item.title || '--' }} </span></div>
+            <div class="mt-2"> {{ index + 1 + condition.pageSize * (condition.current - 1) + '.' }} <span
+                class="ml-1">{{
+                item.title || '--' }}
+              </span></div>
             <div class="mt-4 ml-4">
               <a-typography-paragraph :ellipsis="{rows: 2}" :content="'参考答案: ' + item.standard" />
             </div>

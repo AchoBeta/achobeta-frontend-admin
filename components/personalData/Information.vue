@@ -4,13 +4,23 @@ import { useAvatar } from '~/utils/user';
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
+const avatarSrc = ref('')
+
+onMounted(async () => {
+  await init()
+})
+
+const init = async () => {
+  const avatar = await useAvatar(userInfo.value.avatar)
+  avatarSrc.value = avatar
+}
+
 
 </script>
 
 <template>
   <div class="flex flex-col justify-center w-[300px] bg-blue-100 rounded-lg items-center p-4">
-    <a-avatar :size="{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }" :src="useAvatar(userInfo.avatar)"
-      class="object-contain" />
+    <a-avatar :size="{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }" :src="avatarSrc" class="object-contain" />
     <div className="badge badge-accent text-white mt-2">
       {{ userInfo.userType === 2 ? '管理员' : '用户' }}
     </div>

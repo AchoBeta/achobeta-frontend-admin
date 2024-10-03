@@ -24,19 +24,21 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  // vite: {
-  //   server: {
-  //     proxy: {
-  //       '/api': {
-  //         target: 'http://175.178.51.133:9001',
-  //         changeOrigin: true,
-  //         rewrite: (path: string) => path.replace(/^\/api/, '/api'),
-  //       },
-  //     },
-  //   },
-  // },
+  vite: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://175.178.51.133:9001',
+          changeOrigin: true,
+          rewrite: (path: string) => path.replace(/^\/api/, '/api'),
+        },
+      },
+    },
+  },
   typescript: {
     typeCheck: false,
   },
-  plugins: ['~/plugins/dayjs']
+  plugins: ['~/plugins/dayjs'],
+  ssr: false,
+  target: 'server'
 })

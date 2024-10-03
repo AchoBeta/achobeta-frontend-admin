@@ -154,6 +154,10 @@ const navigateToDetail = () => {
   })
 }
 
+const onEdit = (item:any) => {
+  openModal(item)
+}
+
 </script>
 
 <template>
@@ -174,16 +178,16 @@ const navigateToDetail = () => {
               <div class="flex justify-between w-full mt-1">
                 <a-typography-paragraph class="font-bold" style="margin-bottom: 0;font-size: 18px;"
                   v-model:content="item.title" />
-                <div class=" flex items-center justify-between text-[16px]">
+                <!-- <div class=" flex items-center justify-between text-[16px]">
                   <FieldNumberOutlined style="font-size: 18px; margin-right: 2px; margin-top: 2px;" />
                   .{{ item.id }}
-                </div>
+                </div> -->
               </div>
             </template>
 
             <div>{{ item.description }}</div>
             <template #actions>
-              <edit-outlined key="edit" @click="onEdit" />
+              <edit-outlined key="edit" @click="onEdit(item)" />
               <DeleteOutlined style="color: red;" key="delete" @click="onDelete(item.id)" />
             </template>
           </a-card>
@@ -192,15 +196,16 @@ const navigateToDetail = () => {
       </template>
     </a-list>
 
-    <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="selectedExamPaper ? '更新' : '创建'"
+    <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="selectedExamPaper ? '更新试卷' : '创建试卷'"
       :confirm-loading="loading" @ok="onSave" ok-text="确定" cancel-text="取消">
-      <a-form class="mt-12" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }" autocomplete="on">
+      <a-form :model="formRef" class="mt-12" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }"
+        autocomplete="on">
         <a-form-item label="名称" name="title" required>
           <a-input v-model:value="formRef.title" />
         </a-form-item>
 
         <a-form-item label="描述" name="description" required>
-          <a-textarea style="max-height: 300px;" auto-size v-model:value="formRef.description" />
+          <a-textarea style="max-height: 300px;" v-model:value="formRef.description" />
         </a-form-item>
       </a-form>
     </a-modal>

@@ -142,6 +142,7 @@ const getresumeDetail = (batchid: string, userid: string) => {
 onMounted(() => {
   getresumeStatus()
 })
+
 </script>
 
 <template>

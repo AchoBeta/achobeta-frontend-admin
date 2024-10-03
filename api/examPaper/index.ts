@@ -3,7 +3,7 @@ import type { createPaper, EBankResData } from './types'
 
 /** 创建一个试卷 */
 export function createPaperApi(data: createPaper): Promise<IResponse<number>> {
-  return request.post({ url: '/api/v1/library/paper/create', data })
+  return request.post({ url: '/api/v1/qpaper/add', data })
 }
 
 /** 更新一张试卷 */
@@ -13,7 +13,7 @@ export function updatePaperApi(paperId:number, data: createPaper): Promise<IResp
 
 /** 删除一张试卷 */
 export function deletePaperApi(paperId: string): Promise<IResponse<{paperId: string}>> {
-  return request.get({ url: `/api/v1/qpaper/remove/${paperId}` })
+  return request.post({ url: `/api/v1/qpaper/remove/${paperId}` })
 }
 
 /** 获取一个试卷库的所有试卷 */

@@ -11,7 +11,17 @@ const { userInfo } = userStore
 
 const formState:UserInfo = ref(cloneDeep(userInfo))
 const loading = ref(false)
-const fileList = ref([])
+
+const avatarSrc = ref('')
+
+onMounted(async () => {
+  await init()
+})
+
+const init = async () => {
+  const avatar = await useAvatar(userInfo.avatar)
+  avatarSrc.value = avatar
+}
 
 const updateBaseinfo = async () => {
   loading.value = true
@@ -51,7 +61,7 @@ const updateBaseinfo = async () => {
       </a-form>
     </div>
     <div class="flex flex-col items-center justify-center w-36 h-48 ml-24 mt-4 ">
-      <personalData-avatar :imageUrl="useAvatar(userInfo.avatar)" />
+      <personalData-avatar :imageUrl="avatarSrc" />
     </div>
   </div>
 </template>

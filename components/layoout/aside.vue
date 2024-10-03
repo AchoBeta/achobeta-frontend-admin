@@ -3,11 +3,22 @@ import { ref } from 'vue'
 import { useMenuStore } from '~/stores'
 import { useUserStore } from '~/stores/modules/userStore'
 import { useAvatar } from '~/utils/user'
+import { DEFAULT_AVATAR } from '~/constants/global'
+
+onMounted(async () => {
+  await init()
+})
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const menuStore = useMenuStore()
 const { menuList, otherMenuList } = storeToRefs(menuStore)
+const avatarSrc = ref(DEFAULT_AVATAR)
+
+const init = async () => {
+  const avatar = await useAvatar(userInfo.value.avatar)
+  avatarSrc.value = avatar
+}
 
 </script>
 
@@ -19,7 +30,7 @@ const { menuList, otherMenuList } = storeToRefs(menuStore)
     </div>
     <!-- 头像 -->
     <div class="flex items-center ml-6 px-2 py-2 mb-4 border rounded-lg w-44 h-16 ">
-      <img :src="useAvatar(userInfo.avatar)" class="rounded-lg w-12 h-12 object-fill" alt="头像">
+      <img :src="avatarSrc" class="rounded-lg w-12 h-12 object-fill" alt="头像">
       <div class="px-3">
         <h2 class="font-bold text-sm text-slate-900 pb-1">
           {{ userInfo.nickname }}
