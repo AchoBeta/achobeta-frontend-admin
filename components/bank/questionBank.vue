@@ -21,7 +21,6 @@ const getQBankList = async () => {
   }
 
   loading.value = false
-
 }
 
 const createModal = ref(false)

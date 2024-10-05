@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs';
-import { getExamPaperDetailApi, removeQuesionApi } from '~/api/combineExamPaper';
+import { addQuesionApi, getExamPaperDetailApi, removeQuesionApi } from '~/api/combineExamPaper';
 import type { Question } from '~/api/combineExamPaper/types'
+import { selectQuestionApi } from '~/api/question';
+import type { List } from '~/api/question/types';
+import { getQuestionBankListApi } from '~/api/questionBank';
 
 const route = useRoute()
 const paperId = route.params?.paperId
@@ -11,6 +14,13 @@ const loading = ref(false)
 const paperList = ref<Question[]>([])
 const modalVisible = ref(false)
 const showType = ref('编辑')
+const okText = ref('下一步')
+const modalTitle = ref('请先选择题库')
+const modalLoading = ref(false)
+let selectedQBank = ref(undefined)
+let Qbank = ref<any>([])
+let questionList = ref<{title: string, questions: List[]}[]>([])
+let selectedQuestions = ref(undefined)
 
 onMounted(() => {
   init()
@@ -32,58 +42,64 @@ const getPaper = async () => {
   loading.value = false
 }
 
-const openModal = () => {
-  modalVisible.value = true
+const onCancel = () => { 
+  questionList.value = []
+  selectedQBank.value = undefined
+  selectedQuestions.value = undefined
+  okText.value = '下一步'
+  modalTitle.value = '请选择题库'
+  modalVisible.value = false
 }
 
-const onCancel = () => { modalVisible.value = false }
-
 const addQuestions = async () => {
+  if(!selectedQuestions.value || Array.isArray(selectedQuestions.value) && selectedQuestions.value.length <= 0 ) {
+    message.error('请先选择题目')
+    return
+  }
+
   loading.value = true
   const data = {
-    libIds: [Number(paperId)],
-    title: formRef.title,
-    standard: formRef.standard
-  }
-  if (selectedQuestion.value?.id) {
-    const res = await updateQuestionApi(selectedQuestion.value.id, data)
-    if (res.code === 200) {
-      getPaper()
-      modalVisible.value = false
-      resetFields()
-      message.success('更新成功')
-    } else {
-      message.error(res.message)
-    }
-  } else {
-    const res = await createQuestionApi(data)
-    if (res.code === 200) {
-      getPaper()
-      modalVisible.value = false
-      resetFields()
-      message.success('创建成功')
-    } else {
-      message.error(res.message)
-    }
+    paperId: Number(paperId),
+    questionIds: selectedQuestions.value || []
   }
 
+  const res = await addQuesionApi(data)
+  if(res.code === 200) {
+    getPaper()
+    message.success('添加成功')
+  } else {
+    message.error('添加失败')
+  }
+
+  onCancel() // 关闭弹窗
   loading.value = false
 }
 
 const onSave = () => {
-  validate()
-    .then(res => {
-      updateOrAdd()
-    })
-    .catch(e => {
-      console.error(e)
-      e.errorFields.forEach(i => {
-        i.errors.forEach(err => {
-          message.error(err)
-        })
+  if(okText.value === '下一步') {
+    if(Array.isArray(selectedQBank.value)) {
+      modalLoading.value = true
+      const request: Array<Promise<any>> = []
+      selectedQBank.value.forEach((item: {value: number, label: string}) => {
+        request.push(getQuestion(item.value, item.label)) 
+      });
+      Promise.all(request)
+      .then( () => {
+        okText.value = '添加'
+        modalTitle.value = '请选择要添加的题目'
       })
-    })
-
+      .catch(e => message.error('出错了！'))
+      .finally(() => { 
+        console.log(questionList.value, '所有题');
+        modalLoading.value = false
+      })
+    } else {
+      message.error('请先选择题库！')
+    }
+  } else {
+    console.log(selectedQuestions.value, '选中的题目')
+    addQuestions()
+  }
 }
 
 const handleDelete = async (id:number) => {
@@ -102,6 +118,56 @@ const handleDelete = async (id:number) => {
   }
 
   loading.value = false
+}
+
+const openModal = () => {
+  modalLoading.value = true
+  getQBank()
+  modalVisible.value = true
+}
+
+const getQBank = async () => {
+  modalLoading.value = true;
+  const res = await getQuestionBankListApi()
+  if(res.code === 200) {
+    Qbank.value = res.data.map( i => {
+      return {
+        label: i.libType,
+        value: i.id
+      }
+    })
+  } else {
+    message.error(res.message)
+  }
+
+  modalLoading.value = false
+}
+
+const getQuestion = async (id:number, title:string) => {
+  const condition = {
+    current: 1,
+    pageSize: 200,
+    libId: id
+  }
+
+  selectQuestionApi(condition).then ( res => {
+    if (res.code === 200) {
+      const q = {
+        title,
+        questions: res.data.list.map( item => {
+          return {
+            ...item,
+            label: item.title,
+            value: item.id
+          }
+        })
+      }
+
+      q.questions.length > 0 && questionList.value.push(q)
+    } else {
+      message.error(res.message)
+    }
+  })
 }
 
 </script>
@@ -145,9 +211,29 @@ const handleDelete = async (id:number) => {
       </template>
     </a-list>
 
-    <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" title="添加题目" :confirm-loading="loading"
-      @ok="onSave" ok-text="确定" cancel-text="取消">
-      暂未完成
+    <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="modalTitle" :confirm-loading="loading"
+      @ok="onSave" :ok-text="okText" cancel-text="取消">
+      <a-spin :spinning="modalLoading">
+        <a-checkbox-group v-if="okText === '下一步'" v-model:value="selectedQBank" style="width: 100%;"
+          name="questionBank">
+          <a-row>
+            <a-col v-for="(item, index) in Qbank" :span="8">
+              <a-checkbox :value="item">{{ item.label }}</a-checkbox>
+            </a-col>
+          </a-row>
+        </a-checkbox-group>
+        <div v-else>
+          <a-checkbox-group v-model:value="selectedQuestions" style="width: 100%; flex-direction: column;"
+            name="questions">
+            <a-row v-for="(qBank, index) in questionList" :key="index">
+              <a-divider>{{ qBank.title }}</a-divider>
+              <a-col v-for="(item, index1) in qBank.questions" :key="index1" :span="24">
+                <a-checkbox :value="item.id">{{ item.label }}</a-checkbox>
+              </a-col>
+            </a-row>
+          </a-checkbox-group>
+        </div>
+      </a-spin>
     </a-modal>
   </main>
 
