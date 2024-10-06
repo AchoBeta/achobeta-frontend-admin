@@ -5,7 +5,6 @@
   <div>
     <no-ssr>
       <NuxtPage />
-
     </no-ssr>
   </div>
 </template>

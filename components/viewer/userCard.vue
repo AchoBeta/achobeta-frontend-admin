@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { init } from 'echarts';
 import type { PropType } from 'vue';
 import type { AdminMemInfoData } from '~/api/fullMember/types'
 import { DEFAULT_AVATAR } from '~/constants/global'
+import { useAvatar } from '~/utils/user';
 
 const props = defineProps({
   info: {
@@ -10,18 +12,16 @@ const props = defineProps({
     required: true
   }
 })
+onMounted(() => {
+  init()
+})
 
 const userInfo = ref(props.info)
-const handleAvatar = () => {
-  const data = String(props.info.userVO?.avatar) || ''
-  if(data?.startsWith('http')){
-    return props.info.userVO?.avatar
-  }
+const avatarSrc = ref('')
 
-  return DEFAULT_AVATAR
+const init = async () => {
+  avatarSrc.value = await useAvatar(props.info.userVO?.avatar)
 }
-
-const avatar = ref(handleAvatar())
 
 </script>
 
@@ -39,9 +39,9 @@ const avatar = ref(handleAvatar())
       </div>
       <!-- 信息 -->
       <div class="flex flex-col info flex-wrap items-center ">
-        <img class="w-16 rounded-xl mt-6 ring" width="4rem" height="4rem" :src="avatar" alt="头像">
+        <img class="w-16 rounded-xl mt-6 ring" width="4rem" height="4rem" :src="avatarSrc" alt="头像">
         <h1 class="mb-1 mt-2 font-bold text-xlpo">
-          {{ userInfo.simpleStudentVO?.name || '姓名' }}
+          {{ userInfo.simpleStudentVO?.name || userInfo.userVO?.username || '姓名' }}
         </h1>
         <span class="text-slate-500 text-sm">{{ userInfo.simpleStudentVO?.major || '专业' }}</span>
       </div>

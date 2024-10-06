@@ -147,7 +147,7 @@ const getQuestion = async (id:number, title:string) => {
   const condition = {
     current: 1,
     pageSize: 200,
-    libId: id
+    libIds: [id]
   }
 
   selectQuestionApi(condition).then ( res => {

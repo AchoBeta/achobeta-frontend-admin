@@ -7,7 +7,7 @@ const route = useRoute()
 const questionId = route.params?.questionId
 const parent = ref(JSON.parse(route.query?.parent || ''))
 const condition = {
-  libId: Number(questionId),
+  libIds: [Number(questionId)],
   current: 1,
   pageSize: 20
 }

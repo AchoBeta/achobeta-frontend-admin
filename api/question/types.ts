@@ -69,7 +69,7 @@ export interface QeustionType {
 export interface SelectQuestionCondition {
   current: number,
   pageSize: number,
-  libId?: number
+  libIds?: number[]
 }
 
 export interface selectResponse {

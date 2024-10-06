@@ -10,7 +10,7 @@ export interface getUserCondition {
 
 export interface userResponse {
   pages: number;
-  records: Record[];
+  list: Record[];
   total: number;
   [property: string]: any;
 }

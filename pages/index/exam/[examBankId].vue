@@ -8,7 +8,7 @@ const route = useRoute()
 const examBankId = route.params?.examBankId
 const parent = ref(JSON.parse(route.query?.parent || ''))
 const condition = {
-  libId: Number(examBankId),
+  libId: [Number(examBankId)],
   current: 1,
   pageSize: 20
 }

@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const currentEnv = process.env.NODE_ENV
+
 export default defineNuxtConfig({
   app: {
     head: {
@@ -14,6 +16,12 @@ export default defineNuxtConfig({
       ],
     },
   },
+  runtimeConfig: {
+    public: {
+      env: currentEnv,
+      API_BASE_PATH: process.env[`API_BASE_PATH_${currentEnv?.toUpperCase()}`]
+    }
+  },
   devtools: { enabled: true },
   modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt',
   ],
@@ -28,17 +36,13 @@ export default defineNuxtConfig({
     server: {
       proxy: {
         '/api': {
-          target: 'http://175.178.51.133:9001',
+          target: process.env[`PROXY_TARTGET_PATH_${currentEnv?.toUpperCase()}`],
           changeOrigin: true,
           rewrite: (path: string) => path.replace(/^\/api/, '/api'),
         },
       },
     },
   },
-  typescript: {
-    typeCheck: false,
-  },
   plugins: ['~/plugins/dayjs'],
   ssr: false,
-  target: 'server'
 })

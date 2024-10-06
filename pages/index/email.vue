@@ -53,7 +53,7 @@ const selectUser = async () => {
   sendLoading.value = true 
   const res = await selectSentableUserApi(condition.value)
   if(res.code === 200){
-    nameList.value = res.data.records.map((item: any) => {
+    nameList.value = res.data.list.map((item: any) => {
       return {
         ...item, 
         label: item.name,
@@ -84,7 +84,7 @@ const onFinish = (values: any) => {
   "stuInfoSendList[0].email": values.email,
   "stuInfoSendList[0].stuName": nameList.value.filter( (i: any) => i.userId === values.name)[0].label,
   "stuInfoSendList[0].userId": values.name,
-  tittle: formState.content,
+  tittle: formState.title,
   content: formState.content,
   }
 
