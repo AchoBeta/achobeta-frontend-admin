@@ -1,6 +1,7 @@
 <template>
     <!-- <a-button type="primary" @click="showDrawer">Open</a-button> -->
-    <a-drawer :width="500" title="管理招新批次" :placement="placement" :open="open" @close="closeDrawer">
+    <a-drawer class="hidden md:block" :width="500" title="管理招新批次" :placement="placement" :open="open"
+        @close="closeDrawer">
         <template #extra>
         </template>
         <a-spin v-if="loading" />
