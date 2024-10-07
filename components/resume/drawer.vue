@@ -1,6 +1,7 @@
 <template>
     <!-- <a-button type="primary" @click="showDrawer">Open</a-button> -->
-    <a-drawer :width="500" title="管理招新批次" :placement="placement" :open="open" @close="closeDrawer">
+    <a-drawer class="hidden md:block" :width="500" title="管理招新批次" :placement="placement" :open="open"
+        @close="closeDrawer">
         <template #extra>
         </template>
         <a-spin v-if="loading" />
@@ -67,6 +68,7 @@
 </template>
 <script lang="ts" setup>
 import { responseCode } from '@/constants/responseCode';
+import { FormOutlined } from '@ant-design/icons-vue';
 import type { DrawerProps } from 'ant-design-vue';
 import { ref } from 'vue';
 import { createRecruitBatchApi, endRecruitBatchApi, startRecruitBatchApi, updateRecruitBatchApi } from "~/api/recruitBatch";

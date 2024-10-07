@@ -9,7 +9,7 @@
         </template>
       </a-segmented>
     </div>
-    <a-button class="my-3" type="primary" @click="mangerbatch">管理招新批次</a-button>
+    <a-button class="my-3 hidden md:block" type="primary" @click="mangerbatch">管理招新批次</a-button>
     <resume-table :loading="loading" :batchId="tabValue" :Data="tabledata"></resume-table>
   </div>
   <resume-drawer @getBatchlist="getbatchlist" :Data="drawData" ref="childRef"

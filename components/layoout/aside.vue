@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import { DEFAULT_AVATAR } from '~/constants/global'
 import { useMenuStore } from '~/stores'
 import { useUserStore } from '~/stores/modules/userStore'
 import { useAvatar } from '~/utils/user'
-import { DEFAULT_AVATAR } from '~/constants/global'
 
 onMounted(async () => {
   await init()
@@ -23,7 +23,8 @@ const init = async () => {
 </script>
 
 <template>
-  <aside data-theme="dark" class="flex flex-col h-full overflow-scroll w-56 bg-bg-base p-1 border-r-2 border-gray-100">
+  <aside data-theme="dark"
+    class=" hidden md:block flex-col h-full overflow-scroll w-56 bg-bg-base p-1 border-r-2 border-gray-100">
     <!-- LOGO -->
     <div class="text-3xl  font-bold text-center mt-8 mb-4">
       LOGO

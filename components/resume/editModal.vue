@@ -3,12 +3,12 @@ import { useUserStore } from '@/stores/modules/userStore';
 import { getResumeAdminApi } from '~/api/resume';
 import type { ResumeRequest } from '~/api/resume/types';
 import { getResumeEventsApi, getResumeStatusApi } from '~/api/resumeStatus';
-import { getColor } from './utils'
 import { useAvatar } from '~/utils/user';
+import { getColor } from './utils';
 
 type eventType = {
-    event: number,
-    description: string
+  event: number,
+  description: string
 }
 
 const userStore = useUserStore()
@@ -23,36 +23,36 @@ const loading = ref(false)
 const avatarSrc = ref('')
 
 const showModal = (resumeid: string, userid: string, batchid: string) => {
-    resumeId.value = resumeid
-    userId.value = userid
-    batchId.value = batchid
-    open.value = true;
-    getResumeDetail()
+  resumeId.value = resumeid
+  userId.value = userid
+  batchId.value = batchid
+  open.value = true;
+  getResumeDetail()
 };//弹窗显示函数
 
 //获取状态列表
 const getresumeStatus = async () => {
-    const res = await getResumeStatusApi()
-    stateList.value = res.data
+  const res = await getResumeStatusApi()
+  stateList.value = res.data
 }
 
 const handleOk = (e: MouseEvent) => {
-    open.value = false;
+  open.value = false;
 };//弹窗确认函数
 
 //获取事件列表
 const getresumeEvent = async () => {
-    const res = await getResumeEventsApi()
-    if( res.code === 200 ) {
-      eventList.value = res.data
-    } else {
-      message.error(res.message)
-    }
+  const res = await getResumeEventsApi()
+  if (res.code === 200) {
+    eventList.value = res.data
+  } else {
+    message.error(res.message)
+  }
 }
 
 
 const handleDownload = (url: string) => {
-    window.open(url)
+  window.open(url)
 }
 
 const getResumeDetail = async () => {
@@ -61,9 +61,9 @@ const getResumeDetail = async () => {
   let data: ResumeRequest = {
     resumeId: Number(resumeId.value),
     queryResumeOfUserDTO: {
-        userId: Number(userId.value),
-        batchId: Number(batchId.value)
-      }
+      userId: Number(userId.value),
+      batchId: Number(batchId.value)
+    }
   }
 
   const res = await getResumeAdminApi(data)
@@ -71,16 +71,28 @@ const getResumeDetail = async () => {
   avatarSrc.value = await useAvatar(res.data.stuSimpleResumeVO.image)
   loading.value = false
 }
+//获取当前屏幕宽度
+const modalWidth = () => {
+  // 使用 window.innerWidth 获取当前屏幕宽度
+  const screenWidth = window.innerWidth;
+
+  // 设置断点，例如：768px 通常被认为是平板和移动设备的分界线
+  const breakpoint = 768;
+
+  // 如果屏幕宽度小于断点，则返回100%，否则返回80%
+  return screenWidth < breakpoint ? '100%' : '80%';
+}
 
 
 onMounted(async () => {
-    getresumeStatus()
-    getresumeEvent()
+  getresumeStatus()
+  getresumeEvent()
+
 })
 
 defineExpose({
-    showModal,
-    handleOk,
+  showModal,
+  handleOk,
 });
 
 </script>
@@ -88,7 +100,7 @@ defineExpose({
 <template>
 
   <div>
-    <a-modal v-model:open="open" width="80%" title="简历" @ok="handleOk">
+    <a-modal class="custom-modal-width" :width="modalWidth()" footer="" v-model:open="open" title="简历" @ok="handleOk">
       <a-spin :spinning="loading">
         <a-descriptions bordered v-if='resumeData'>
 
