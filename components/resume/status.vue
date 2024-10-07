@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/stores/modules/userStore';
-import { getcolorCode, getColor } from './utils'
-import { getResumeEventsApi, getResumeStatusApi, executeResumeEventApi } from '~/api/resumeStatus';
+import { DownOutlined } from '@ant-design/icons-vue';
+import { executeResumeEventApi, getResumeEventsApi } from '~/api/resumeStatus';
+import { getColor, getcolorCode } from './utils';
 
 const props = defineProps({
   resumeId: {
@@ -18,7 +19,7 @@ const loading = ref(false)
 const eventList = ref<eventType[]>([]);//事件列表
 const userStore = useUserStore()
 
-onMounted(()=> {
+onMounted(() => {
   getresumeEvent()
 })
 
@@ -50,12 +51,12 @@ const handleEvent = (event: number, description: string) => {
 
 //获取事件列表
 const getresumeEvent = async () => {
-    const res = await getResumeEventsApi()
-    if( res.code === 200 ) {
-      eventList.value = res.data
-    } else {
-      message.error(res.message)
-    }
+  const res = await getResumeEventsApi()
+  if (res.code === 200) {
+    eventList.value = res.data
+  } else {
+    message.error(res.message)
+  }
 }
 
 </script>
@@ -83,17 +84,17 @@ const getresumeEvent = async () => {
         </div>
       </div>
       <div class="event-line">
-        <a-tag color="blue">通过</a-tag>
+        <a-tag color="blue" class="h-6">通过</a-tag>
         <span class="mr-2">:</span>
         <div class="event-line-content">
           <a-tag :color="getColor(getcolorCode('待初试'))">待初试</a-tag>
           →
           <a-tag :color="getColor(getcolorCode('初试通过'))">初试通过</a-tag>
-          →
+          <div class="w-full h-2"></div>
           <a-tag :color="getColor(getcolorCode('待复试'))">待复试</a-tag>
           →
           <a-tag :color="getColor(getcolorCode('复试通过'))">复试通过</a-tag>
-          →
+          <div class="w-full h-2"></div>
           <a-tag :color="getColor(getcolorCode('待终试'))">待终试</a-tag>
           →
           <a-tag :color="getColor(getcolorCode('终试通过'))">终试通过</a-tag>

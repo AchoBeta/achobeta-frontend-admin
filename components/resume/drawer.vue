@@ -67,6 +67,7 @@
 </template>
 <script lang="ts" setup>
 import { responseCode } from '@/constants/responseCode';
+import { FormOutlined } from '@ant-design/icons-vue';
 import type { DrawerProps } from 'ant-design-vue';
 import { ref } from 'vue';
 import { createRecruitBatchApi, endRecruitBatchApi, startRecruitBatchApi, updateRecruitBatchApi } from "~/api/recruitBatch";
