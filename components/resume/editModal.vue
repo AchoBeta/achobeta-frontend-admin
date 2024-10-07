@@ -88,7 +88,7 @@ defineExpose({
 <template>
 
   <div>
-    <a-modal class="" footer="" v-model:open="open" width="80%" title="简历" @ok="handleOk">
+    <a-modal v-model:open="open" width="80%" title="简历" @ok="handleOk">
       <a-spin :spinning="loading">
         <a-descriptions bordered v-if='resumeData'>
 
@@ -114,16 +114,16 @@ defineExpose({
             }}</a-descriptions-item>
           <a-descriptions-item label="电话号码">{{ resumeData.stuSimpleResumeVO.phoneNumber
             }}</a-descriptions-item>
-          <a-descriptions-item label="想加入的原因" :span="3">{{ resumeData.stuSimpleResumeVO.reason
+          <a-descriptions-item label="加入理由" :span="3">{{ resumeData.stuSimpleResumeVO.reason
             }}</a-descriptions-item>
-          <a-descriptions-item label="自我描述" :span="3">{{ resumeData.stuSimpleResumeVO.introduce
+          <a-descriptions-item label="简介" :span="3">{{ resumeData.stuSimpleResumeVO.introduce
             }}</a-descriptions-item>
           <a-descriptions-item label="经历" :span="3">{{ resumeData.stuSimpleResumeVO.experience
             }}</a-descriptions-item>
 
           <a-descriptions-item label="获奖情况" :span="3">{{ resumeData.stuSimpleResumeVO.awards
             }}</a-descriptions-item>
-          <a-descriptions-item label="自我评价" :span="3">{{ resumeData.stuSimpleResumeVO.remark
+          <a-descriptions-item label="备注" :span="3">{{ resumeData.stuSimpleResumeVO.remark
             }}</a-descriptions-item>
           <a-descriptions-item label="附件" :span="3">
             <div class="w-full flex flex-col items-start">
@@ -135,7 +135,6 @@ defineExpose({
 
           </a-descriptions-item>
           <a-descriptions-item label="状态">
-
             <div v-for="item in stateList" :key="item.code">
               <div v-if="resumeData.stuSimpleResumeVO.status === item.code">
                 <a-tag :color="getColor(item.code)">{{ item.message }}</a-tag>

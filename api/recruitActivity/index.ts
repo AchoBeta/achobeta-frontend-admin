@@ -3,7 +3,7 @@ import type { RecruitActivityRequest, SetActivityPaper, ActivityDetail, Activity
 
 /** 创建一个题库 */
 export function createActivityApi(data: RecruitActivityRequest): Promise<IResponse<number>> {
-  return request.post({ url: '/api/v1/library/question/create', data })
+  return request.post({ url: '/api/v1/recruit/activity/create', data })
 }
 
 /** 开启招新活动 */
