@@ -7,7 +7,7 @@ const menuList = [...menueStore.menuList.value, ...menueStore.otherMenuList.valu
 </script>
 
 <template>
-  <header class="navbar w-[calc(100vw-14rem)] bg-[#fbfbfb] fixed top-0 z-50 shadow-sm">
+  <header class="navbar md:w-[calc(100vw-14rem)] bg-[#fbfbfb] fixed top-0 z-50 shadow-sm">
     <!-- 更多 -->
     <div class="flex-none">
       <!-- 下拉菜单 todo 封装二次点击关闭 -->
@@ -32,7 +32,7 @@ const menuList = [...menueStore.menuList.value, ...menueStore.otherMenuList.valu
       首页
     </div>
     <!-- 消息栏 -->
-    <div class="flex-none">
+    <div class="flex-none hidden md:flex ">
       <!-- 搜索框 -->
       <label class="input input-bordered flex items-center gap-2 mr-8 ">
         <input type="text" class="grow" placeholder="Search">

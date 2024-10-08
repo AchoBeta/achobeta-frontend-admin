@@ -1,4 +1,17 @@
 <script lang="ts" setup>
+onMounted(() => {
+  init()
+})
+
+const init = () => {
+  const route = useRoute()
+  const type = route.query?.type
+
+  if(type === 'paper') {
+    activeKey.value = '2'
+  }
+}
+
 
 const activeKey = ref('1')
 

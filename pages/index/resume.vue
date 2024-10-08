@@ -44,7 +44,6 @@ const mangerbatch = () => {
 const getbatchlist = async () => {
   loading.value = true;
   const res = await getBatchListAdminApi();
-  console.log(res.data);
   batchList.value = res.data.map((item: any) => ({
     value: item.id,
     payload: {
@@ -78,7 +77,6 @@ const getbatchlist = async () => {
         status: item.status,
         name: item.name,
       }));
-      console.log(tabledata.value);
     });
   }
 
@@ -86,7 +84,6 @@ const getbatchlist = async () => {
 }//获取招新批次列表
 //切换批次
 const changeTab = (value: string) => {
-  console.log(value);
   loading.value = true;
   getBatchStudentResumeApi(Number(value)).then((res) => {
     tabledata.value = res.data.map((item: any) => ({

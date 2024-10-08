@@ -24,7 +24,7 @@ const init = async () => {
 
 <template>
   <aside data-theme="dark"
-    class=" hidden md:block flex-col h-full overflow-scroll w-56 bg-bg-base p-1 border-r-2 border-gray-100">
+    class="hidden md:block flex-col h-full overflow-scroll w-56 bg-bg-base p-1 border-r-2 border-gray-100">
     <!-- LOGO -->
     <div class="text-3xl  font-bold text-center mt-8 mb-4">
       LOGO

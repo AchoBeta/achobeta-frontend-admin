@@ -10,13 +10,13 @@ const init = () => {
   getPaperBankList()
 }
 
-const questionBank: any = ref([])
+const paperBank: any = ref([])
 
 const getPaperBankList = async () => {
   loading.value = true;
   const res = await getPaeperBankListApi()
   if(res.code === 200) {
-    questionBank.value = res.data
+    paperBank.value = res.data
   } else {
     message.error(res.message)
   }
@@ -77,7 +77,7 @@ const updatePaperBank= async (data:{ libId: number, libType: string}) => {
       <a-input v-model:value="createLibtype" class="my-4" placeholder="请输入试卷库名称" />
     </a-modal>
   </div>
-  <a-list :loading="loading" :grid="{ gutter: 0, column: 4 }" :data-source="questionBank"
+  <a-list :loading="loading" :grid="{ gutter: 0, column: 4 }" :data-source="paperBank"
     :pagination="{hideOnSinglePage: true}" class='flex-1'>
     <template #renderItem="{ item }">
       <a-list-item>

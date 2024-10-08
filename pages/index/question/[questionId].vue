@@ -127,7 +127,6 @@ const onSave = () => {
       updateOrAdd()
     })
     .catch(e => {
-      console.error(e)
       e.errorFields.forEach(i => {
         i.errors.forEach(err => {
           message.error(err)

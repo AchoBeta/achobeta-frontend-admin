@@ -76,7 +76,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="login-box w-3/5 h-full flex justify-center items-center" @keydown.enter="adminLogin">
+  <div class="login-box w-full px-6 mb-6 md:px-0 md:w-3/5 h-full flex justify-center items-center"
+    @keydown.enter="adminLogin">
     <form class="form">
       <div class="check-box">
         <!-- <button class="btn btn-primary btn-sm w-20 rounded rounded-r-none rounded-l-lg">

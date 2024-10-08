@@ -27,7 +27,6 @@ const updateBaseinfo = async () => {
   loading.value = true
   const res = await updateUserInfoApi(formState.value.avatar as string, formState.value.nickname as string)
   if (res.code === 200) {
-    console.log(res,'更新')
     userStore.setUserInfo(cloneDeep(formState.value))
     message.success('更新成功')
   } else {

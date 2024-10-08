@@ -90,14 +90,12 @@ const onSave = () => {
       })
       .catch(e => message.error('出错了！'))
       .finally(() => { 
-        console.log(questionList.value, '所有题');
         modalLoading.value = false
       })
     } else {
       message.error('请先选择题库！')
     }
   } else {
-    console.log(selectedQuestions.value, '选中的题目')
     addQuestions()
   }
 }

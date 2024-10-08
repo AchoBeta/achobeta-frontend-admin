@@ -52,7 +52,7 @@ defineExpose({
 </script>
 
 <template>
-  <a-list :loading="loading" :grid="{ gutter: 0, column: 3 }" :data-source="activities"
+  <a-list :loading="loading" :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 }" :data-source="activities"
     :pagination="{hideOnSinglePage: true}" class='mt-5 flex-1'>
     <template #renderItem="{ item }">
       <a-list-item style="padding: 0 12px;">

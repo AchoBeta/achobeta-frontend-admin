@@ -10,7 +10,7 @@ const activityRef = ref<any | {getActivity: Function}>(null)
 const loading = ref(false)
 const batchList = ref<batchlistResponse[]>([])
 const activeKey = ref('1')
-const editActivityId = ref()
+const editActivityId = ref('')
 
 const formRef = ref()
 let formState = reactive({
@@ -71,7 +71,6 @@ const createActivity = async(values:any) => {
 
   values.deadline = new Date(values.deadline.$d).getTime()
   values = batchTransform(values, null)
-  console.log('提交的values', values)
   loading.value = true
   if(editActivityId) {
     delete values.batchId
@@ -122,7 +121,6 @@ const openModal = async(values:any) => {
     delete values.paperId
     delete values.id
 
-    console.log('编辑回显后', values)
     formState = values
   }
 
@@ -204,7 +202,7 @@ const batchTransform = (values: any, value: null | []) => {
 </script>
 
 <template>
-  <div class="p-4">
+  <div class="p-4 bg-[#f5f5f5]">
     <a-page-header style="background-color: #fff; border: 1px solid rgb(235, 237, 240); padding-bottom: 12px;"
       title="活动管理" sub-title="管理某招新批次招新活动" :backIcon="false">
       <template #footer>

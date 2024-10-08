@@ -22,12 +22,12 @@ export function updateActivityApi(data: RecruitActivityRequest): Promise<IRespon
 
 /** 设置招新活动的试卷 */
 export function setActivityPapaerApi(data: SetActivityPaper): Promise<IResponse<undefined>> {
-  return request.get({ url: '/api/v1/recruit/activity/set/paper', data })
+  return request.post({ url: '/api/v1/recruit/activity/set/paper', data })
 }
 
 /** 添加招新活动的可选时间段 */
-export function setActivityPeriodApi(data: ActivityTime): Promise<IResponse<undefined>> {
-  return request.get({ url: '/api/v1/recruit/activity/period/add', data })
+export function addActivityPeriodApi(data: ActivityTime): Promise<IResponse<undefined>> {
+  return request.post({ url: '/api/v1/recruit/activity/period/add', data })
 }
 
 /** 删除招新活动的可选时间段 */
@@ -36,7 +36,7 @@ export function deleteActivityPeriodApi(periodId: string): Promise<IResponse<und
 }
 
 /** 获取招新活动信息收集模板 */
-export function getBatchStudentResumeApi(actId: string): Promise<IResponse<ActivityModal>> {
+export function getActivityDetailApi(actId: string): Promise<IResponse<ActivityModal>> {
   return request.get({ url: `/api/v1/recruit/activity/template/${actId}` })
 }
 

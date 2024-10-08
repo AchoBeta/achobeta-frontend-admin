@@ -167,7 +167,8 @@ const onEdit = (item:any) => {
 <template>
   <main class="flex-1 flex flex-col p-4 bg-bg-base min-h-full">
     <a-page-header style="border: 1px solid rgb(235, 237, 240)" :title="parent?.libType"
-      :sub-title="'ID: ' + parent?.id + ' ' + '创建时间： ' + parent?.createTime" @back="() => navigateTo('/exampaperBank')">
+      :sub-title="'ID: ' + parent?.id + ' ' + '创建时间： ' + parent?.createTime"
+      @back="() => navigateTo({path: '/exampaperBank', query: { type: 'paper' }})">
       <template #extra>
         <a-button @click="openModal(null)" type="primary" key="3">创建</a-button>
       </template>
@@ -182,10 +183,6 @@ const onEdit = (item:any) => {
               <div class="flex justify-between w-full mt-1">
                 <a-typography-paragraph class="font-bold" style="margin-bottom: 0;font-size: 18px;"
                   v-model:content="item.title" />
-                <!-- <div class=" flex items-center justify-between text-[16px]">
-                  <FieldNumberOutlined style="font-size: 18px; margin-right: 2px; margin-top: 2px;" />
-                  .{{ item.id }}
-                </div> -->
               </div>
             </template>
 
