@@ -4,6 +4,7 @@ import { createActivityApi, updateActivityApi } from '~/api/recruitActivity';
 import { getBatchListAdminApi } from '~/api/recruitBatch';
 import type { batchlistResponse } from '~/api/recruitBatch/types';
 import { RESUME_STATUES } from '~/constants/resume'
+import dayjs from 'dayjs'
 
 const activityRef = ref<any | {getActivity: Function}>(null)
 const loading = ref(false)
@@ -69,18 +70,20 @@ const createActivity = async(values:any) => {
   }
 
   values.deadline = new Date(values.deadline.$d).getTime()
+  values = batchTransform(values, null)
+  console.log('提交的values', values)
   loading.value = true
-
   if(editActivityId) {
     delete values.batchId
     values.actId = editActivityId.value
     const res = await updateActivityApi(values)
     if(res.code === 200) {
       message.success('更新成功')
+      resetFormstate()
       if(activityRef.value) {
         activityRef.value[0].getActivity()
       }
-      resetFormstate()
+
       editActivityId.value = undefined
       modalVisible.value = false
     } else {
@@ -96,6 +99,10 @@ const createActivity = async(values:any) => {
     message.success('创建成功')
     init()
     resetFormstate()
+    if(activityRef.value) {
+      activityRef.value[0].getActivity()
+    }
+
     modalVisible.value = false
   } else {
     message.error(res.message)
@@ -105,39 +112,17 @@ const createActivity = async(values:any) => {
 }
 
 const openModal = async(values:any) => {
+  resetFormstate()
   if(values) {
     editActivityId.value = values.id
-    values.deadline = undefined
-
-    if(values.target.allMatch === null) {
-      values.target.allMatch = {
-        status: []
-      }
-    } else {
-      if(values.target.allMatch.status === null) {
-        values.target.allMatch.status = []
-      }
-    }
-
-    if(values.target.anyMatch === null) {
-      values.target.anyMatch = {
-        grade: [],
-        userId: []
-      }
-    } else {
-      if(values.target.anyMatch.grade === null) {
-        values.target.anyMatch.grade = []
-      }
-
-      if(values.target.anyMatch.userId === null) {
-        values.target.anyMatch.userId = []
-      }
-    }
+    values.deadline = dayjs(values.deadline)
+    values = batchTransform(values, []) // 统一将null转换成[]，供下拉组件使用
     delete values.createTime
     delete values.isRun
     delete values.paperId
     delete values.id
 
+    console.log('编辑回显后', values)
     formState = values
   }
 
@@ -180,6 +165,41 @@ const getUserList = async() => {
   loading.value = false
 }
 
+const batchTransform = (values: any, value: null | []) => {
+  // 处理基本条件
+  if(values.target.allMatch === null) {
+      values.target.allMatch = {
+        status: value
+      }
+    } else {
+      if(values.target.allMatch.status === null || values.target.allMatch.status?.length === 0) {
+        values.target.allMatch.status = value
+      }
+    }
+
+  // 处理特殊条件
+  if(values.target.anyMatch === null) {
+    values.target.anyMatch = {
+      grade: value,
+      userId: value
+    }
+  } else {
+    if(values.target.anyMatch.grade === null || values.target.anyMatch.grade?.length === 0) {
+      values.target.anyMatch.grade = value
+    }
+
+    if(values.target.anyMatch.userId === null || values.target.anyMatch?.userId.length === 0) {
+      values.target.anyMatch.userId = value
+    }
+  }
+
+  // 数据已经处理完了，要么都是null，要么都是[]
+  if(values.target.anyMatch.grade === null && values.target.anyMatch.userId === null) {
+    values.target.anyMatch = null
+  }
+
+  return values
+}
 
 </script>
 
@@ -213,6 +233,7 @@ const getUserList = async() => {
 
   <a-modal :width="600" v-model:open="modalVisible" @cancel="() => modalVisible = false"
     :title="editActivityId ? '活动编辑' : '创建活动'" :confirm-loading="loading" :footer="false">
+    <a-alert message="活动开启时，不允许编辑活动" type="warning" />
     <a-form class="mt-6" :ref="formRef" :model="formState" name="activity" :label-col="{span: 4}"
       :wrapper-col="{ span: 20 }" @finish="createActivity">
 
@@ -230,7 +251,8 @@ const getUserList = async() => {
       </a-form-item>
 
       <a-form-item style="width: 100%;" label="截止时间" name="deadline" :rules="[{ required: true, message: '请选择活动截止时间'}]">
-        <a-date-picker v-model:value="formState.deadline" show-time type="date" placeholder="请选择活动截止时间" />
+        <a-date-picker format="YYYY-MM-DD HH:mm:ss" v-model:value="formState.deadline" show-time type="date"
+          placeholder="请选择活动截止时间" />
       </a-form-item>
 
       <a-divider style="margin: 32px 0;">面向人群</a-divider>

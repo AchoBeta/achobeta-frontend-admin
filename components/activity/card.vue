@@ -2,12 +2,10 @@
 import dayjs from 'dayjs'
 import type { ActivityDetail } from '~/api/recruitActivity/types'
 import { RESUME_STATUES } from '~/constants/resume'
-import { Modal } from 'ant-design-vue';
 import { startActivityApi, endActivityApi } from '~/api/recruitActivity';
 
 onMounted(() => {
-  handleAnyMatch()
-  handleAllMatch()
+  init()
 })
 
 const props = defineProps({
@@ -36,10 +34,11 @@ const props = defineProps({
 const anyMatch = ref<string[]>([]) // 特殊条件
 const allMatch = ref<any[]>([]) // 基本条件
 const isActivityRun = ref<boolean>(props.data?.isRun || false)
+const modalVisible = ref(false)
 
 const handleAnyMatch = () => {
   const anyCondition = props.data?.target.anyMatch
-
+  console.log(anyCondition, '任何条件')
   if( anyCondition === null) {
     anyMatch.value = ['无']
     return
@@ -47,17 +46,16 @@ const handleAnyMatch = () => {
 
   if( anyCondition?.grade === null && anyCondition?.userId === null ) {
     anyMatch.value = ['条件矛盾']
-  } else if (anyCondition?.grade?.length === 0 || anyCondition?.userId?.length === 0) {
+  } else if (anyCondition?.grade?.length === 0 && anyCondition?.userId?.length === 0) {
     anyMatch.value = ['无']
-  } 
-  
-  else {
+  } else {
     anyCondition?.grade && anyCondition?.grade.forEach( grade => {
       anyMatch.value?.push(String(grade) + '级')
     })
 
     anyCondition?.userId && anyCondition?.userId.forEach( userId => {
-      getUserName([userId])
+      const name = getUserName(userId)
+      name && anyMatch.value?.push(name)
     })
   }
 
@@ -65,15 +63,7 @@ const handleAnyMatch = () => {
 
 const handleAllMatch = () => {
   const allCondition = props.data?.target.allMatch
-  const anyCondition = props.data?.target.anyMatch
-
-  if( allCondition === null || allCondition?.status === null) {
-    if( anyCondition === null ) {
-      allMatch.value = ['所有人']
-      anyMatch.value = ['无'] 
-      return
-    }
-
+  if( allCondition === null || allCondition?.status === null || allCondition?.status?.length === 0) {
     allMatch.value = ['所有']
   } else {
     allCondition?.status && allCondition?.status.forEach( (status:number) => {
@@ -92,17 +82,26 @@ const navigateToDetail = () => {
   // })
 }
 
-const getUserName = (userIds: number[]) => {
-  console.log(userIds, props.batchId, '查询用户信息')
+const getUserName = (userId: number) => {
+  let name = null
+  if(Array.isArray(props.userList)) {
+    props.userList?.forEach((item: any) => { 
+      if(item.userId === userId){
+        name = item.name
+        return
+      }
+    })
+  }
+
+  return name
 }
 
-const onStatusChange = (newVal:any, e:Event) => {
-  Modal.warning({title: `你确定要${isActivityRun.value ? '开启' : '关闭'}该活动吗`,  content: '活动开启后不允许编辑', onCancel: () => {}, okText: '确定', cancelText: '取消', onOk: () => changeActicityStatu(newVal) })
-  return
+const onStatusChange = () => {
+  modalVisible.value = true
 }
 
-const changeActicityStatu = async (isRun: boolean) => {
-  if(isRun) {
+const changeActicityStatu = async () => {
+  if(!isActivityRun.value) {
     const res = await startActivityApi(String(props.data?.id))
     if(res.code === 200) {
       message.success('开启成功')
@@ -111,6 +110,8 @@ const changeActicityStatu = async (isRun: boolean) => {
       message.error(res.message)
       isActivityRun.value = false
     }
+
+    modalVisible.value = false
   } else {
     const res = await endActivityApi(String(props.data?.id))
     if(res.code === 200) {
@@ -121,7 +122,20 @@ const changeActicityStatu = async (isRun: boolean) => {
       isActivityRun.value = true
     }
   }
+
+  modalVisible.value = false
 }
+
+const init = () => {
+  anyMatch.value = []
+  allMatch.value = []
+  handleAnyMatch()
+  handleAllMatch()
+}
+
+defineExpose({
+  init
+})
 
 </script>
 
@@ -147,7 +161,8 @@ const changeActicityStatu = async (isRun: boolean) => {
             condition
             }}</a-tag>
         </div>
-        <div>创建时间: {{ dayjs(props.data?.createTime).format('YYYY-MM-DD') }}</div>
+        <div>创建时间：{{ dayjs(props.data?.createTime).format('YYYY-MM-DD HH:mm') }}</div>
+        <div>截止时间：{{ dayjs(props.data?.deadline).format('YYYY-MM-DD HH:mm:ss') }}</div>
       </a-space>
     </div>
     <template #actions>
@@ -162,11 +177,20 @@ const changeActicityStatu = async (isRun: boolean) => {
       </a-tooltip>
       <a-tooltip>
         <template #title>活动开启</template>
-        <a-switch :loading="props.loading" v-model:checked="isActivityRun" @change="onStatusChange"
-          size="small"></a-switch>
+        <a-switch :loading="props.loading" :checked="isActivityRun" @change="onStatusChange" size="small" />
       </a-tooltip>
     </template>
   </a-card>
+
+  <a-modal>
+
+  </a-modal>
+
+  <a-modal :width="400" v-model:open="modalVisible" @cancel="() => modalVisible = false"
+    :title="`你确定要${isActivityRun ? '关闭' : '开启'}该活动吗`" :confirm-loading="loading" @ok="changeActicityStatu" ok-text="确定"
+    cancel-text="取消">
+    活动开启后不再允许对活动进行编辑
+  </a-modal>
 </template>
 
 <style scoped></style>

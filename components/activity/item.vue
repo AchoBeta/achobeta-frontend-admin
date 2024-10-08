@@ -18,6 +18,7 @@ const props = defineProps({
 })
 const loading = ref(false)
 const activities: any = ref([])
+const cardRef = ref<any | {init: Function}>()
 
 onMounted(()=> {
   init()
@@ -34,6 +35,9 @@ const getActivity = async () => {
 
   if(res.code === 200) {
     activities.value = res.data
+    if(cardRef.value) {
+      cardRef.value.init()
+    }
   } else {
     message.error(res.message)
   }
@@ -52,7 +56,7 @@ defineExpose({
     :pagination="{hideOnSinglePage: true}" class='mt-5 flex-1'>
     <template #renderItem="{ item }">
       <a-list-item style="padding: 0 12px;">
-        <activity-card :loading="loading" :data="item" :batchId="props.batchId" :userList="props.userList"
+        <activity-card ref="cardRef" :loading="loading" :data="item" :batchId="props.batchId" :userList="props.userList"
           :openModal="props.openModal"></activity-card>
       </a-list-item>
     </template>

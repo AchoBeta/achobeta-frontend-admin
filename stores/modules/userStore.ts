@@ -8,7 +8,6 @@ interface Logininfo {
   username: string
 }
 
-const router = useRouter()
 const DEFAULT_USERINFO = {
   username: '未登录',
   avatar: DEFAULT_AVATAR,
@@ -34,13 +33,11 @@ export const useUserStore = defineStore('user', () => {
     const setUserInfo = (newUserInfo: UserInfo) => {
         userInfo.value = newUserInfo
     }
-    const logoutConfirm = () => {
-        console.log('登出')
-    }
     const reset = () => {
+        const router = useRouter()
         setToken('')
         setUserInfo(DEFAULT_USERINFO)
-        router.replace('/login') 
+        router?.replace('/login') 
     }
     const logout = () => {
         reset()
@@ -61,7 +58,6 @@ export const useUserStore = defineStore('user', () => {
         setTokenKey,
         setToken,
         setUserInfo,
-        logoutConfirm,
         reset,
         logout,
         setRememberMe,
