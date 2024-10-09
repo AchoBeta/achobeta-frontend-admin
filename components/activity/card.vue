@@ -7,6 +7,7 @@ import { getPaeperBankListApi } from '~/api/examPaperBank';
 import { getBankExamPaperApi } from '~/api/examPaper';
 import type { List } from '~/api/examPaper/types';
 import type { FormInstance } from 'ant-design-vue';
+import { getExamPaperDetailApi } from '~/api/combineExamPaper';
 
 interface Domain {
   value: any;
@@ -43,7 +44,7 @@ const props = defineProps({
 
 const loading = ref(false)
 const paperFormRef = ref<FormInstance>()
-let paperFormState = reactive({
+let paperFormState = reactive<any>({
   paperId: undefined,
   paperBankId: undefined
 })
@@ -159,7 +160,24 @@ const changeActicityStatu = async () => {
 }
 
 const openPaperModal = async () =>{
-  await getPaperBank()
+  getPaperBank()
+  const res = await getExamPaperDetailApi(String(props.data?.paperId))
+  if(res.code === 200) {
+    paperFormState.paperId = res.data.id
+    paperList.value.push({
+      createTime: '',
+      description: '',
+      id: res.data.id,
+      title: res.data.title,
+      updateTime: '',
+      label: res.data.title,
+      value: res.data.id,
+      key: res.data.id
+    })
+
+  } else {
+    message.error(res.message)
+  }
   paperVisible.value = true
 }
 
@@ -195,6 +213,7 @@ const getPaper = async (paperBankId:number) => {
 
 const onPaperBankChange = (value: any) => {
   if(!value) return 
+  paperFormState.paperId = undefined
   paperFormState.paperBankId = value
   getPaper(value)
 }
@@ -219,6 +238,8 @@ const handlePaperEdit = async (values:any) => {
 
 const onPaperEditCancel = () => {
   paperFormState = { paperBankId: undefined, paperId: undefined }
+  paperBank.value = []
+  paperList.value = []
   paperVisible.value = false; 
 }
 
@@ -250,7 +271,6 @@ const removeTimeRange = async (item: Domain) => {
 }
 
 const addTimeRange  = () => {
-  console.log('点击了新增')
   timeState.value.timeRanges.push({
     value: undefined,
     key: Date.now(),
@@ -329,15 +349,16 @@ defineExpose({
 <template>
   <a-card :headStyle="{padding: '0 12px' }" :body-style="{padding: '12px', width: '100%'}" bordered hoverable
     class="h-42 w-full bg-slate-100">
-    <div class="flex justify-between w-full mt-1">
+    <div @click="() => navigateTo(`/activity/detail/${props.data?.id}?title=${props.data?.title}`)"
+      class="flex justify-between w-full mt-1">
       <a-typography-paragraph class="font-bold" style="margin-bottom: 0;font-size: 18px;">{{ props.data?.title }}
       </a-typography-paragraph>
     </div>
-    <div class=" mt-4">
+    <div @click="() => navigateTo(`/activity/detail/${props.data?.id}?title=${props.data?.title}`)" class=" mt-4">
       <a-typography-paragraph :content="props.data?.description" :ellipsis="{rows: 2, tooltip: props.data?.description}"
         class="text-gray-500" />
     </div>
-    <div class="mt-3">
+    <div @click="() => navigateTo(`/activity/detail/${props.data?.id}?title=${props.data?.title}`)" class="mt-3">
       <a-space direction="vertical">
         <div>简历状态：
           <a-tag v-for="(condition, index) in allMatch" :key="index" :color="RESUME_STATUES[condition]?.color">{{
@@ -355,17 +376,17 @@ defineExpose({
     <template #actions>
       <a-tooltip>
         <template #title>试卷管理</template>
-        <ContainerOutlined @click="openPaperModal" style="font-size: 16px;" />
+        <ContainerOutlined @click.stop="openPaperModal" style="font-size: 16px;" />
       </a-tooltip>
       <a-tooltip>
         <template #title>活动编辑</template>
-        <edit-outlined @click="openModal?.({...props.data, batchId: props.batchId})" style="font-size: 16px;"
+        <edit-outlined @click.stop="openModal?.({...props.data, batchId: props.batchId})" style="font-size: 16px;"
           key="edit" />
       </a-tooltip>
       <a-tooltip>
         <template #title>时间段设置</template>
         <a-spin :spinning="loading">
-          <ClockCircleOutlined @click="openTimeModal" style="font-size: 16px;" key="edit" />
+          <ClockCircleOutlined @click.stop="openTimeModal" style="font-size: 16px;" key="edit" />
         </a-spin>
       </a-tooltip>
       <a-tooltip>

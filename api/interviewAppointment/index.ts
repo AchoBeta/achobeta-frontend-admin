@@ -3,12 +3,12 @@ import type { ActivityJoinSituation, UserParticipationVO, InterviewApm, UpdateIn
 
 /** 查看参与某活动的所有用户参与和预约情况 */
 export function getAllUserSituations(actId: string): Promise<IResponse<ActivityJoinSituation>> {
-  return request.post({ url: `/api/v1/schedule/situations/${actId}` })
+  return request.get({ url: `/api/v1/schedule/situations/${actId}` })
 }
 
 /** 查看具体一个用户的活动参与与预约详情 */
-export function getUserSituations(participationId: string): Promise<IResponse<UserParticipationVO>> {
-  return request.post({ url: `/api/v1/schedule/situation/detail/${participationId}` })
+export function getUserSituationsApi(participationId: string): Promise<IResponse<UserParticipationVO>> {
+  return request.get({ url: `/api/v1/schedule/situation/detail/${participationId}` })
 }
 
 /** 创建一次面试预约 */

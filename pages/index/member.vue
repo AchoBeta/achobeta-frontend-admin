@@ -25,8 +25,8 @@ const init = async () => {
 
 <template>
   <div class="flex-1 flex flex-col p-4 bg-bg-base min-h-full">
-    <a-list :grid="{ gutter: 4, column: 5 }" :data-source="memberList" :pagination="{hideOnSinglePage: true}"
-      class='flex-1 h-full'>
+    <a-list :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="memberList"
+      :pagination="{hideOnSinglePage: true}" class='flex-1 h-full'>
       <template #renderItem="{ item }">
         <a-list-item style="padding: 12px 0;margin-bottom: 0;">
           <viewer-userCard :info="item" />

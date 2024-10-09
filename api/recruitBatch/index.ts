@@ -37,6 +37,6 @@ export function getBatchListDetailApi(batchId: string): Promise<IResponse<Recrui
 }
 
 /** 获取参与本批次的学生简要简历列表（管理员) */
-export function getBatchStudentResumeApi(batchId: number): Promise<IResponse<ResumeData[]>> {
+export function getBatchStudentResumeApi(batchId: string): Promise<IResponse<ResumeData[]>> {
   return request.get({ url: `/api/v1/recruit/batch/participants/${batchId}` })
 }

@@ -7,13 +7,14 @@ const props = defineProps({
 
   subtext: {
     type: String,
-    default: '待审批',
+    default: '待筛选',
   },
 
   color: {
     type: String,
     default: '#ffffff',
   },
+  
   ringcolor: {
     type: String,
     default: '#2d83da',

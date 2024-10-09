@@ -76,8 +76,8 @@ const updateQBank = async (data:{ libId: number, libType: string}) => {
       <a-input v-model:value="createLibtype" class="my-4" placeholder="请输入试卷库名称" />
     </a-modal>
   </div>
-  <a-list :grid="{ gutter: 0, column: 4 }" :data-source="questionBank" :pagination="{hideOnSinglePage: true}"
-    class='flex-1'>
+  <a-list :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="questionBank"
+    :pagination="{hideOnSinglePage: true}" class='flex-1'>
     <template #renderItem="{ item }">
       <a-list-item>
         <bank-card type="question" :data="item" :updateData="updateQBank"></bank-card>

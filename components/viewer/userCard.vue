@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import { init } from 'echarts';
 import type { PropType } from 'vue';
 import type { AdminMemInfoData } from '~/api/fullMember/types'
-import { DEFAULT_AVATAR } from '~/constants/global'
 import { useAvatar } from '~/utils/user';
 
 const props = defineProps({

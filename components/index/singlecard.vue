@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const props = defineProps({
   title: {
-    type: String,
+    type: Number,
     default: '9825',
   },
   text: {

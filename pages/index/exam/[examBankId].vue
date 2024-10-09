@@ -174,7 +174,8 @@ const onEdit = (item:any) => {
       </template>
     </a-page-header>
 
-    <a-list :loading="loading" :grid="{ gutter: 4, column: 4 }" :data-source="paperList" class='flex-1 h-full mt-6'>
+    <a-list :loading="loading" :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }"
+      :data-source="paperList" class='flex-1 h-full mt-6'>
       <template #renderItem="{ item, index }">
         <a-list-item>
           <a-card @click="navigateToDetail( item )" :headStyle="{padding: '0 12px' }" bordered hoverable

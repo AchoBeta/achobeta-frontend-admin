@@ -127,7 +127,7 @@ onMounted(() => {
         </template>
 
         <template v-if="column.key === 'gender'">
-          <a-tag v-if="record.gender === '1'" color="pink">女</a-tag>
+          <a-tag v-if="record.gender === 1" color="pink">女</a-tag>
           <a-tag v-else color="blue">男</a-tag>
         </template>
         <template v-if="column.key === 'resume'">
