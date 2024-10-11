@@ -5,20 +5,12 @@ import { useMenuStore } from '~/stores'
 import { useUserStore } from '~/stores/modules/userStore'
 import { useAvatar } from '~/utils/user'
 
-onMounted(async () => {
-  await init()
-})
-
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const menuStore = useMenuStore()
 const { menuList, otherMenuList } = storeToRefs(menuStore)
-const avatarSrc = ref(DEFAULT_AVATAR)
+const { avatar: avatarSrc, loading: avatarLoading } = useAvatar(userInfo.value.avatar)
 
-const init = async () => {
-  const avatar = await useAvatar(userInfo.value.avatar)
-  avatarSrc.value = avatar
-}
 
 </script>
 
@@ -31,7 +23,9 @@ const init = async () => {
     </div>
     <!-- 头像 -->
     <div class="flex items-center ml-6 px-2 py-2 mb-4 border rounded-lg w-44 h-16 ">
-      <img :src="avatarSrc" class="rounded-lg w-12 h-12 object-fill" alt="头像">
+      <a-spin :spinning="avatarLoading">
+        <img :src="avatarSrc" class="rounded-lg w-12 h-12 object-fill" alt="头像">
+      </a-spin>
       <div class="px-3">
         <h2 class="font-bold text-sm text-slate-900 pb-1">
           {{ userInfo.nickname }}

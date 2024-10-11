@@ -2,30 +2,18 @@
 import { updateUserInfoApi } from '~/api/user';
 import type { UserInfo } from '~/api/user/types';
 import { useUserStore } from '~/stores';
-import { useAvatar } from '~/utils/user';
 import pkg from 'lodash'
 
 const { cloneDeep } = pkg
 const userStore = useUserStore()
 const { userInfo } = userStore
-
 const formState:UserInfo = ref(cloneDeep(userInfo))
 const loading = ref(false)
 
-const avatarSrc = ref('')
-
-onMounted(async () => {
-  await init()
-})
-
-const init = async () => {
-  const avatar = await useAvatar(userInfo.avatar)
-  avatarSrc.value = avatar
-}
-
 const updateBaseinfo = async () => {
   loading.value = true
-  const res = await updateUserInfoApi(formState.value.avatar as string, formState.value.nickname as string)
+  if(!formState.value.avatar) formState.value.avatar = 11478277801024
+  const res = await updateUserInfoApi(formState.value.avatar, formState.value.nickname as string)
   if (res.code === 200) {
     userStore.setUserInfo(cloneDeep(formState.value))
     message.success('更新成功')
@@ -34,6 +22,10 @@ const updateBaseinfo = async () => {
   }
 
   loading.value = false
+}
+
+const handleAvatarChange = (avatar:number) => {
+  formState.value.avatar = avatar
 }
 
 </script>
@@ -60,7 +52,7 @@ const updateBaseinfo = async () => {
       </a-form>
     </div>
     <div class="flex flex-col items-center justify-center w-36 h-48 ml-24 mt-4 ">
-      <personalData-avatar :imageUrl="avatarSrc" />
+      <personalData-avatar :avatar="userInfo.avatar" :imgChange="handleAvatarChange" />
     </div>
   </div>
 </template>

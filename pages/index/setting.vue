@@ -14,7 +14,7 @@ function logout() {
 <template>
   <div class="flex  justify-center mt-2">
     <NuxtLink to="/login">
-      <div class="btn" @click="logout">
+      <div class="btn btn-outline btn-warning" @click="logout">
         退出登录
       </div>
     </NuxtLink>

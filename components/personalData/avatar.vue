@@ -11,15 +11,21 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue';
+import type { PropType } from 'vue';
 import { message } from 'ant-design-vue';
-import type { UploadChangeParam, UploadProps } from 'ant-design-vue';
+import type { UploadChangeParam } from 'ant-design-vue';
 import { DEFAULT_AVATAR } from '~/constants/global';
+import { useAvatar } from '~/utils/user';
+import { uploadImageApi } from '~/api/resource';
 
 const props = defineProps({
-  imageUrl: {
-    type: String,
+  avatar: {
+    type: Object as PropType<string | number | null>,
     default: DEFAULT_AVATAR
+  },
+  imgChange: {
+    type: Function,
+    default: () => {}
   }
 })
 
@@ -31,7 +37,7 @@ function getBase64(img: Blob, callback: (base64Url: string) => void) {
 
 const fileList = ref([]);
 const loading = ref<boolean>(false);
-const imageUrl = ref<string>(props.imageUrl);
+const { avatar: imageUrl, loading: avatarLoading } = useAvatar(props.avatar)
 
 
 const handleChange = (info: UploadChangeParam) => {
@@ -41,10 +47,14 @@ const handleChange = (info: UploadChangeParam) => {
   }
   if (info.file.status === 'done') {
     // Get this url from response in real world.
-    getBase64(info.file.originFileObj, (base64Url: string) => {
+    getBase64(info.file.originFileObj as any, (base64Url: string) => {
       imageUrl.value = base64Url;
       loading.value = false;
     });
+
+    uploadImageApi(info.file.originFileObj as any).then( res => {
+      props.imgChange(res.data)
+    })
   }
   if (info.file.status === 'error') {
     loading.value = false;
@@ -52,9 +62,8 @@ const handleChange = (info: UploadChangeParam) => {
   }
 };
 
-const beforeUpload = (file: UploadProps['fileList'][number]) => {
-  message.error('功能尚未开放!')
-  return 
+const beforeUpload = (file:any) => {
+  return file
 };
 </script>
 <style scoped>

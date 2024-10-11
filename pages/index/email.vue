@@ -1,19 +1,17 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import { getBatchListAdminApi } from '~/api/recruitBatch';
-import { getResumeStatusApi } from '~/api/resumeStatus';
-import { selectSentableUserApi, sendEmailMessageApi } from '~/api/interviewMessage'
+import { selectSentableUserApi, sendEmailsMessageApi } from '~/api/interviewMessage'
+import type { messageFormat } from '~/api/interviewMessage/types'
+import { RESUME_STATUES } from '~/constants/resume';
 
 const loading = ref(false)
 const sendLoading = ref(false)
 const batchList = ref<any[]>([])
-const statusList = ref<any[]>([])
-const gradeList = ref<any[]>(new Array(15).fill(2015).map( (item, index) => item + index + 1))
+const gradeList = ref<any[]>(new Array(15).fill(2018).map( (item, index) => item + index))
 const nameList = ref<any>([])
 const formState = reactive({
-    userId: null,
-    name: undefined,
-    email: '',
+    userIds: undefined,
     title: '',
     content: '',
     file: undefined
@@ -22,9 +20,8 @@ const condition = ref({
   batchId: null,
   grade: null,
   status: null,
-  name:'',
   pageNo: 1,
-  pageSize: 10,
+  pageSize: 20,
 })
 
 onMounted(async ()=> {
@@ -38,12 +35,6 @@ const init = async () => {
     batchList.value = resBatch.data
   } else {
     message.error(resBatch.message)
-  }
-  const resStatus = await getResumeStatusApi()
-  if(resStatus.code === 200) {
-    statusList.value = resStatus.data
-  } else {
-    message.error(resStatus.message)
   }
 
   loading.value = false
@@ -71,66 +62,40 @@ const reset = () =>{
   condition.value.batchId = null
   condition.value.grade = null
   condition.value.status = null
-  condition.value.name = ''
-  formState.userId = null
-  formState.name = undefined
-  formState.email = ''
+  formState.userIds = undefined
+  formState.title = ''
+  formState.content = ''
+  formState.file = undefined
+  nameList.value = []
 }
 
-const onFinish = (values: any) => {
+const onFinish = () => {
   sendLoading.value = true
   try {
-    const condition = {
-  "stuInfoSendList[0].email": values.email,
-  "stuInfoSendList[0].stuName": nameList.value.filter( (i: any) => i.userId === values.name)[0].label,
-  "stuInfoSendList[0].userId": values.name,
-  tittle: formState.title,
-  content: formState.content,
-  }
-
-  const files = formState.file || []
-  const fileList = files.map((item: any) => item.originFileObj)
-  sendEmailMessageApi(condition, fileList).then((res) => {
-    if(res.code === 200) {
-      message.success('发送成功')
-      reset()
-    } else {
-      message.error(res.message)
+    const files = formState.file || []
+    const fileList = files.map((item: any) => item.originFileObj)
+    const data: messageFormat = {
+      userIds: formState.userIds as any,
+      attachments: fileList,
+      tittle: formState.title,
+      content: formState.content,
     }
 
-    sendLoading.value = false
-  })
+    sendEmailsMessageApi(data).then((res) => {
+      if(res.code === 200) {
+        message.success('发送成功')
+        reset()
+      } else {
+        message.error(res.message)
+      }
+
+      sendLoading.value = false
+    })
 
   } catch (error) {
     console.log(error)
   }
 };
-
-const onNameChange = (userId:any) => {
-  if(!userId) {
-    reset()
-    return
-  }
-  formState.userId = userId
-  // todo 后续支持多发
-  const selected = nameList.value.filter( (i:any) => i.value === userId)[0]
-  if(selected) {
-    condition.value.grade = selected?.grade
-    condition.value.status = selected?.status
-    formState.email = selected?.email
-  }
-
-}
-
-const handleSearch = async (input: string) => {
-  if(input === '') {
-    nameList.value = []
-    return
-  }
-
-  condition.value.name = input
-  selectUser()
-}
 
 </script>
 
@@ -140,11 +105,7 @@ const handleSearch = async (input: string) => {
       <a-form class="w-4/5 mx-auto" :model="formState" :label-col="{span: 4}" :wrapper-col="{span: 20 }"
         name="nest-messages" @finish="onFinish">
         <a-divider>
-          选择用户
-          <a-tooltip>
-            <template #title>可通过条件筛选查找用户，也可直接根据用户名筛选用户。必须选择用户名才能发送邮件</template>
-            <QuestionCircleOutlined />
-          </a-tooltip>
+          筛选用户
         </a-divider>
         <a-row :gutter="24">
           <a-col span="12">
@@ -171,30 +132,23 @@ const handleSearch = async (input: string) => {
             <a-form-item label="简历状态">
               <a-select allow-clear v-model:value="condition.status" style="width: 100%" placeholder="请选择用户简历状态"
                 @change="selectUser">
-                <a-select-option v-for="(item, index) in statusList" :key="item.code" :value="item.code">{{ item.message
+                <a-select-option v-for="(item, index) in Object.values(RESUME_STATUES)" :key="item.value"
+                  :value="item.value">{{
+                  item.name
                   }}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
 
           <a-col span="12">
-            <a-form-item name="name" label="姓名" :rules="[{ required: true }]">
-              <a-select allow-clear v-model:value="formState.name" :filter-option="false" show-search
-                style="width: 100%" @search="handleSearch" placeholder="请输入用户姓名" :options="nameList"
-                @change="onNameChange" />
+            <a-form-item name="userIds" label="用户" :rules="[{ required: true, message: '请选择用户' }]">
+              <a-select v-model:value="formState.userIds" allow-clear :filter-option="false" mode="multiple"
+                style="width: 100%" placeholder="请选择用户" :options="nameList" />
             </a-form-item>
           </a-col>
         </a-row>
 
         <a-divider>邮件信息</a-divider>
-
-        <a-row justify="center">
-          <a-col span="12">
-            <a-form-item name="email" label="邮箱" :rules="[{ required: true, type: 'email' }]">
-              <a-input v-model:value="formState.email" placeholder="请输入用户邮箱地址" />
-            </a-form-item>
-          </a-col>
-        </a-row>
 
         <a-row justify="center">
           <a-col span="12">

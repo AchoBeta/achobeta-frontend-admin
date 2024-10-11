@@ -42,7 +42,7 @@ async function login() {
         password: inputPassword.value // 添加密码属性
       };
       // 存储更新后的用户信息
-      userStore.setUserInfo(updatedUserInfo);
+      userStore.setUserInfo(updatedUserInfo as any);
     })
     if (unref(remember)) {
       userStore.setLoginInfo({
@@ -88,7 +88,7 @@ onMounted(() => {
         </button> -->
       </div>
       <div class="flex-column">
-        <label>Username</label>
+        <label>账号</label>
       </div>
       <div class="inputForm">
         <svg t="1715312405389" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +101,7 @@ onMounted(() => {
       </div>
 
       <div class="flex-column">
-        <label>Password</label>
+        <label>密码</label>
       </div>
       <div class="inputForm">
         <svg height="20" viewBox="-64 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg">
@@ -120,13 +120,13 @@ onMounted(() => {
       <div class="flex-row">
         <div>
           <a-checkbox v-model:checked="remember">
-            Remember me
+            记住我
           </a-checkbox>
         </div>
         <!-- <span class="span">Forgot password?</span> -->
       </div>
       <div class="btn btn-primary text-white w-full" @click="adminLogin">
-        Sign In <a-spin :spinning="loading" />
+        登录 <a-spin :spinning="loading" />
       </div>
     </form>
   </div>

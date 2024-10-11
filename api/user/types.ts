@@ -22,7 +22,7 @@ export interface UserInfo {
     /**
    * 头像
    */
-  avatar?: null | string;
+  avatar?: null | number;
   [property: string]: any;
 }
 

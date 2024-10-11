@@ -1,0 +1,71 @@
+<script setup lang="ts">
+import { getUserSituationsApi } from '~/api/interviewAppointment'
+
+const answerList = ref<{id: number, title: string, answer: string}[]>([]);
+const open = ref(false);//控制弹窗显示
+const pctId = ref()
+const loading = ref(false)
+
+const showModal = (id: string) => {
+  pctId.value = id
+  open.value = true
+  getQuestionDetail()
+}
+
+const handleOk = (e: MouseEvent) => {
+  answerList.value = []
+  open.value = false
+}
+
+const getQuestionDetail = async () => {
+  loading.value = true
+  const res = await getUserSituationsApi(pctId.value)
+  if(res.code === 200) {
+    console.log(res.data)
+    answerList.value = res.data.questionAnswerVOS;
+  } else {
+    message.error(res.message)
+  }
+
+  loading.value = false
+}
+
+const modalWidth = () => {
+  // 使用 window.innerWidth 获取当前屏幕宽度
+  const screenWidth = window.innerWidth;
+
+  // 设置断点，例如：768px 通常被认为是平板和移动设备的分界线
+  const breakpoint = 768;
+
+  // 如果屏幕宽度小于断点，则返回100%，否则返回80%
+  return screenWidth < breakpoint ? '80%' : '30%';
+}
+
+
+onMounted(async () => {
+})
+
+defineExpose({
+  showModal,
+  handleOk,
+});
+
+</script>
+
+<template>
+  <div>
+    <a-modal class="custom-modal-width" :width="modalWidth()" :footer="null" v-model:open="open" title="问卷填写情况"
+      @ok="handleOk">
+      <a-spin class="flex flex-col" :spinning="loading">
+        <a-space direction="vertical" v-for="(item, index) in answerList" :key="index">
+          <div class="w-full mb-2">
+            <div class="mb-2 font-bold">{{ index + 1 + '.' + item.title }}</div>
+            <div>答案：{{ item.answer }}</div>
+          </div>
+        </a-space>
+      </a-spin>
+    </a-modal>
+  </div>
+</template>
+
+<style scoped></style>

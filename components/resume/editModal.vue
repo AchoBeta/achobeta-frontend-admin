@@ -1,26 +1,24 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/modules/userStore';
 import { getResumeAdminApi } from '~/api/resume';
 import type { ResumeRequest } from '~/api/resume/types';
-import { getResumeEventsApi, getResumeStatusApi } from '~/api/resumeStatus';
+import { getResumeEventsApi } from '~/api/resumeStatus';
 import { useAvatar } from '~/utils/user';
-import { getColor } from './utils';
+import { RESUME_STATUES } from '~/constants/resume';
 
 type eventType = {
   event: number,
   description: string
 }
 
-const userStore = useUserStore()
 const resumeData = ref();
 const open = ref(false);//控制弹窗显示
-const stateList = ref<any[]>([]);//状态列表
 const eventList = ref<eventType[]>([]);//事件列表
 const resumeId = ref()
 const userId = ref()
 const batchId = ref()
 const loading = ref(false)
-const avatarSrc = ref('')
+let avatarSrc: string | Ref<string> = ''
+let avatarLoading: boolean | Ref<boolean>  = false
 
 const showModal = (resumeid: string, userid: string, batchid: string) => {
   resumeId.value = resumeid
@@ -29,12 +27,6 @@ const showModal = (resumeid: string, userid: string, batchid: string) => {
   open.value = true;
   getResumeDetail()
 };//弹窗显示函数
-
-//获取状态列表
-const getresumeStatus = async () => {
-  const res = await getResumeStatusApi()
-  stateList.value = res.data
-}
 
 const handleOk = (e: MouseEvent) => {
   open.value = false;
@@ -67,8 +59,15 @@ const getResumeDetail = async () => {
   }
 
   const res = await getResumeAdminApi(data)
-  resumeData.value = res.data;
-  avatarSrc.value = await useAvatar(res.data.stuSimpleResumeVO.image)
+  if(res.code === 200) {
+    resumeData.value = res.data;
+    const { avatar: imageUrl, loading: imgLoading } = useAvatar(res.data.stuSimpleResumeVO.image)
+    avatarSrc = imageUrl
+    avatarLoading = imgLoading
+  } else {
+    message.error(res.message)
+  }
+
   loading.value = false
 }
 //获取当前屏幕宽度
@@ -85,9 +84,7 @@ const modalWidth = () => {
 
 
 onMounted(async () => {
-  getresumeStatus()
   getresumeEvent()
-
 })
 
 defineExpose({
@@ -98,7 +95,6 @@ defineExpose({
 </script>
 
 <template>
-
   <div>
     <a-modal class="custom-modal-width" :width="modalWidth()" footer="" v-model:open="open" title="简历" @ok="handleOk">
       <a-spin :spinning="loading">
@@ -108,7 +104,9 @@ defineExpose({
             }}</a-descriptions-item>
 
           <a-descriptions-item label="照片">
-            <a-image :width="120" class="h-24" :src="avatarSrc" alt="avatar" />
+            <a-spin :spinning="avatarLoading">
+              <a-image :width="120" class="h-24" :src="avatarSrc" alt="avatar" />
+            </a-spin>
           </a-descriptions-item>
           <a-descriptions-item label="年级" :span="1">{{ resumeData.stuSimpleResumeVO.grade
             }}</a-descriptions-item>
@@ -147,9 +145,9 @@ defineExpose({
 
           </a-descriptions-item>
           <a-descriptions-item label="状态">
-            <div v-for="item in stateList" :key="item.code">
-              <div v-if="resumeData.stuSimpleResumeVO.status === item.code">
-                <a-tag :color="getColor(item.code)">{{ item.message }}</a-tag>
+            <div v-for="item in Object.values(RESUME_STATUES)" :key="item.value">
+              <div v-if="resumeData.stuSimpleResumeVO.status === item.value">
+                <a-tag :color="item.color">{{ item.name }}</a-tag>
               </div>
             </div>
           </a-descriptions-item>

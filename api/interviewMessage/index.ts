@@ -19,3 +19,18 @@ export function sendEmailMessageApi(condition: messageFormat, file?: File[]): Pr
 
   return request.post({ url: '/api/v1/message/email/send', headers: { "Content-Type": 'multipart/form-data'}, params: condition, data: formData })
 }
+
+export function sendEmailsMessageApi(condition: messageFormat): Promise<IResponse<userResponse>> {
+  const formData = new FormData()
+  formData.append('content', condition.content)
+  formData.append('tittle', condition.tittle)
+  formData.append('userIds', condition.userIds as any)
+  const file = condition.attachments
+  if (file) {
+    for (let i = 0; i < file.length; i++) {
+      formData.append('attachment', file[i])
+    }
+  }
+
+  return request.post({ url: '/api/v1/message/email/mass', headers: { "Content-Type": 'multipart/form-data'}, data: formData })
+}

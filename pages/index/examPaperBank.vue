@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const activeKey = ref('1')
+
 onMounted(() => {
   init()
 })
@@ -11,9 +13,6 @@ const init = () => {
     activeKey.value = '2'
   }
 }
-
-
-const activeKey = ref('1')
 
 </script>
 

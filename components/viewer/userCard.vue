@@ -10,16 +10,9 @@ const props = defineProps({
     required: true
   }
 })
-onMounted(() => {
-  init()
-})
 
 const userInfo = ref(props.info)
-const avatarSrc = ref('')
-
-const init = async () => {
-  avatarSrc.value = await useAvatar(props.info.userVO?.avatar)
-}
+const { avatar: avatarSrc, loading: avatarLoading } = useAvatar(props.info?.userVO?.avatar)
 
 </script>
 
@@ -37,7 +30,9 @@ const init = async () => {
       </div>
       <!-- 信息 -->
       <div class="flex flex-col info flex-wrap items-center ">
-        <img class="w-16 rounded-xl mt-6 ring" width="4rem" height="4rem" :src="avatarSrc" alt="头像">
+        <a-spin :spinning="avatarLoading">
+          <img class="w-16 rounded-xl mt-6 ring" width="4rem" height="4rem" :src="avatarSrc" alt="头像">
+        </a-spin>
         <h1 class="mb-1 mt-2 font-bold text-xlpo">
           {{ userInfo.simpleStudentVO?.name || userInfo.userVO?.username || '姓名' }}
         </h1>
