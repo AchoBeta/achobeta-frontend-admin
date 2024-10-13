@@ -1,5 +1,5 @@
 import request from '@/axios'
-import type { ActivityJoinSituation, UserParticipationVO, InterviewApm, UpdateInterviewApm } from './types'
+import type { ActivityJoinSituation, UserParticipationVO, InterviewApm, UpdateInterviewApm, InterviewRes, interviewDetail } from './types'
 
 /** 查看参与某活动的所有用户参与和预约情况 */
 export function getAllUserSituations(actId: string): Promise<IResponse<ActivityJoinSituation>> {
@@ -31,7 +31,7 @@ export function attendCreatedApmApi(scheduleId: string): Promise<IResponse<undef
   return request.get({ url: `/api/v1/schedule/attend/${scheduleId}` })
 }
 
-/** 取消一个面试预约 */
+/** 退出一场面试预约 */
 export function exitCreatedApmApi(scheduleId: string): Promise<IResponse<undefined>> {
   return request.get({ url: `/api/v1/schedule/exit/${scheduleId}` })
 }
@@ -42,6 +42,11 @@ export function getCurInterviewApmApi(actId: string): Promise<IResponse<undefine
 }
 
 /** 查看面试预约详情 */
-export function getInterviewApmDetailApi(scheduleId: string): Promise<IResponse<undefined>> {
+export function getInterviewApmDetailApi(scheduleId: string): Promise<IResponse<interviewDetail>> {
   return request.get({ url: `/api/v1/schedule/detail/${scheduleId}` })
+}
+
+/** 查看所有面试预约 */
+export function getAllAppointments(condition?: { batchId?: number, actId?: number}): Promise<IResponse<InterviewRes[]>> {
+  return request.post({ url: `/api/v1/schedule/list/all`, data: condition })
 }

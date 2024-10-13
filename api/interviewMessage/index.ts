@@ -23,6 +23,7 @@ export function sendEmailMessageApi(condition: messageFormat, file?: File[]): Pr
 export function sendEmailsMessageApi(condition: messageFormat): Promise<IResponse<userResponse>> {
   const formData = new FormData()
   formData.append('content', condition.content)
+  formData.append('batchId', condition.batchId)
   formData.append('tittle', condition.tittle)
   formData.append('userIds', condition.userIds as any)
   const file = condition.attachments

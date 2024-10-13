@@ -11,10 +11,10 @@ const actDetail = ref<ActivityJoinSituation>()
 const loading = ref(false)
 
 onMounted(() => {
-  getTimeRange()
+  getActDetail()
 })
 
-const getTimeRange = async () => {
+const getActDetail = async () => {
   loading.value = true;
   const res = await getAllUserSituations(actId.value)
   if (res.code === 200) {
@@ -34,17 +34,21 @@ const getTimeRange = async () => {
     <a-page-header style="border: 1px solid rgb(235, 237, 240)" :title="actTitle"
       @back="() => navigateTo({path: '/activity'})">
       <template #extra>
-        <!-- <a-button @click="openModal(null)" type="primary" key="3">创建</a-button> -->
+        <a-button @click="getActDetail" type="primary" key="3">刷新</a-button>
       </template>
     </a-page-header>
-    <a-list :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }"
-      :data-source="actDetail?.userParticipationVOS" :pagination="{hideOnSinglePage: true}" class='flex-1 h-full'>
-      <template #renderItem="{ item }">
-        <a-list-item style="padding: 12px 0;margin-bottom: 0;">
-          <activity-userCard :actId="actId" :title="actTitle" :info="item" />
-        </a-list-item>
-      </template>
-    </a-list>
+
+    <a-spin :spinning="loading">
+      <a-list :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }"
+        :data-source="actDetail?.userParticipationVOS" :pagination="{hideOnSinglePage: true, pageSize: 8}"
+        class='flex-1 h-full'>
+        <template #renderItem="{ item }">
+          <a-list-item :key="item.participationId" style="padding: 12px 0; margin-bottom: 0;">
+            <activity-userCard :actId="actId" :title="actTitle" :info="item" />
+          </a-list-item>
+        </template>
+      </a-list>
+    </a-spin>
   </div>
 
 </template>

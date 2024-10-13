@@ -35,14 +35,6 @@ const init = async () => {
     <div
       @click="navigateTo({path: `user/${props.info?.participationId}`, query: {title: props.title, actId: props.actId  }})"
       class="card py-4 relative flex flex-col items-center min-w-40 h-68 bg-white shadow-lg rounded-2xl m-2 hover:scale-105 transition-all duration-300 ease-in-out">
-      <!-- 更多 -->
-      <!-- <div class="absolute top-4 right-4">
-        <svg width="10" height="20" viewBox="0 0 10 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="5" cy="2" r="2" fill="#666" />
-          <circle cx="5" cy="9" r="2" fill="#666" />
-          <circle cx="5" cy="16" r="2" fill="#666" />
-        </svg>
-      </div> -->
       <!-- 信息 -->
       <div class="flex flex-col info flex-wrap items-center ">
         <div class="avatar placeholder">

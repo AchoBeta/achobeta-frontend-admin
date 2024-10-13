@@ -20,7 +20,7 @@ export const useAvatar = (avatar: string | null | undefined | number): Response 
           avatarUrl.value = avatar;
         } else if (typeof avatar === 'number') {
           const res = await getPreviewApi(String(avatar));
-            const src = `data:image/jpeg;base64,${btoa(new Uint8Array(res).reduce((data, byte) => data + String.fromCharCode(byte), ''))}`;
+            const src = `data:image/jpeg;base64,${btoa(new Uint8Array(res as any).reduce((data, byte) => data + String.fromCharCode(byte), ''))}`;
             avatarUrl.value = src;
         }
       } else {

@@ -444,7 +444,7 @@ defineExpose({
       <a-form class="mt-8" ref="timeFormRef" name="timeForm" :model="timeState" v-bind="formItemLayoutWithOutLabel">
         <a-form-item v-for="(domain, index) in timeState.timeRanges" :key="domain.key" v-bind="formItemLayout"
           :name="['timeRanges', index, 'value']" :label="`时间段${index + 1}`" :rules="{
-        required: false,
+        required: true,
         message: '请选择时间段',
       }">
           <a-range-picker :disabled="domain.disabled" v-model:value="domain.value" show-time

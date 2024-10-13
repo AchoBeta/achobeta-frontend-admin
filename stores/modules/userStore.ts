@@ -3,6 +3,9 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { UserInfo } from '~/types/userInfo'
 import { DEFAULT_AVATAR } from '~/constants/global'
+
+const router = useRouter()
+
 interface Logininfo {
   password: string
   username: string
@@ -33,14 +36,13 @@ export const useUserStore = defineStore('user', () => {
     const setUserInfo = (newUserInfo: UserInfo) => {
         userInfo.value = newUserInfo
     }
-    const reset = () => {
-        const router = useRouter()
+    const reset = (router:any) => {
         setToken('')
         setUserInfo(DEFAULT_USERINFO)
         router?.replace('/login') 
     }
     const logout = () => {
-        reset()
+        reset(router)
     }
     const setRememberMe = (newRememberMe: boolean) => {
         rememberMe.value = newRememberMe

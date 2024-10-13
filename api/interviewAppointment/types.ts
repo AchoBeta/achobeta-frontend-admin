@@ -210,3 +210,103 @@ export interface UpdateInterviewApm {
   startTime: number;
   [property: string]: any;
 }
+
+export interface InterviewRes {
+  /**
+   * 结束时间
+   */
+  endTime?: string;
+  /**
+   * 预约 id
+   */
+  id?: number;
+  /**
+   * 活动参与 id
+   */
+  participationId?: number;
+  /**
+   * 简单学生信息
+   */
+  simpleStudentVO?: SimpleStudentVO;
+  /**
+   * 开始时间
+   */
+  startTime?: string;
+  [property: string]: any;
+}
+
+export interface interviewDetail {
+  /**
+   * 结束时间
+   */
+  endTime: string;
+  /**
+   * 面试预约 id
+   */
+  id: number;
+  /**
+   * 面试官列表
+   */
+  interviewerVOList: InterviewerVOList[];
+  /**
+   * 面试列表
+   */
+  interviewVOList: InterviewVOList[];
+  /**
+   * “活动参与” id
+   */
+  participationId: number;
+  /**
+   * 学生简单简历信息
+   */
+  simpleStudentVO: SimpleStudentVO;
+  /**
+   * 开始时间
+   */
+  startTime: string;
+  [property: string]: any;
+}
+
+export interface InterviewVOList {
+  /**
+   * 面试 id
+   */
+  id: number;
+  /**
+   * 面试状态（0未开始、1进行中、2已结束）
+   */
+  status: number;
+  /**
+   * 面试标题
+   */
+  title: string;
+  [property: string]: any;
+}
+
+export interface InterviewerVOList {
+  /**
+   * 头像
+   */
+  avatar: number;
+  /**
+   * 邮箱
+   */
+  email: string;
+  /**
+   * 管理员 id
+   */
+  managerId: number;
+  /**
+   * 昵称
+   */
+  nickname: string;
+  /**
+   * 手机号
+   */
+  phoneNumber: string;
+  /**
+   * 用户名
+   */
+  username: string;
+  [property: string]: any;
+}

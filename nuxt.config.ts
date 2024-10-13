@@ -4,7 +4,7 @@ const currentEnv = process.env.NODE_ENV
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'achobeta招新管理系统',
+      title: 'AchoBeta招新管理系统',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },

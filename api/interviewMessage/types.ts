@@ -29,6 +29,7 @@ export interface messageFormat {
    * 消息内容
    */
   content: string;
+  batchId: string;
   userIds: number[];
   tittle: string;
   attachments?: File[];

@@ -27,7 +27,7 @@ export function setInterviewPaperApi(data: InterviewPaper): Promise<IResponse<nu
 }
 
 /** 获取所有的面试 */
-export function getAllInterviewApi(data: GetInterview): Promise<IResponse<InterviewResponse[]>> {
+export function getAllInterviewApi(data?: GetInterview): Promise<IResponse<InterviewResponse[]>> {
   return request.post({ url: '/api/v1/interview/list/manager/all', data })
 }
 

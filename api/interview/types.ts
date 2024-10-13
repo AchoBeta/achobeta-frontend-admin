@@ -60,11 +60,11 @@ export interface GetInterview {
   /**
    * 招新活动 id
    */
-  actId: number | null;
+  actId?: number | null;
   /**
    * 招新批次 id
    */
-  batchId: number | null;
+  batchId?: number | null;
   [property: string]: any;
 }
 

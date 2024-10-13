@@ -18,8 +18,8 @@ const { avatar: avatarSrc, loading: avatarLoading } = useAvatar(userInfo.value.a
   <aside data-theme="dark"
     class="hidden md:block flex-col h-full overflow-scroll w-56 bg-bg-base p-1 border-r-2 border-gray-100">
     <!-- LOGO -->
-    <div class="text-3xl  font-bold text-center mt-8 mb-4">
-      LOGO
+    <div class="w-full text-center mt-2 mb-2">
+      <img src="~/assets/img/achobeta.jpg" class="mx-auto rounded-lg w-24 h-24 object-fill" alt="头像">
     </div>
     <!-- 头像 -->
     <div class="flex items-center ml-6 px-2 py-2 mb-4 border rounded-lg w-44 h-16 ">

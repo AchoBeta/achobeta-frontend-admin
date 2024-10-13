@@ -52,8 +52,9 @@ const getUserSituation = async () => {
                 </a-space>
               </div>
             </div>
-            <div class="mt-2 font-bold text-lg"> {{ index + 1 + '.' }} <span class="ml-1">{{ item.title || '--' }}
-              </span></div>
+            <div class="mt-2 font-bold text-lg"> {{ index + 1 + '.' }} 
+              <span class="ml-1">{{ item.title || '--' }}</span>
+            </div>
             <div class="mt-4 ml-4">
               <a-typography-paragraph :ellipsis="{rows: 2}" :content="'答案: ' + item.answer" />
             </div>

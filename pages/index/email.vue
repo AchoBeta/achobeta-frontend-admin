@@ -21,7 +21,7 @@ const condition = ref({
   grade: null,
   status: null,
   pageNo: 1,
-  pageSize: 20,
+  pageSize: 100,
 })
 
 onMounted(async ()=> {
@@ -79,6 +79,7 @@ const onFinish = () => {
       attachments: fileList,
       tittle: formState.title,
       content: formState.content,
+      batchId: condition.value.batchId as any,
     }
 
     sendEmailsMessageApi(data).then((res) => {
@@ -109,8 +110,8 @@ const onFinish = () => {
         </a-divider>
         <a-row :gutter="24">
           <a-col span="12">
-            <a-form-item label="招新批次">
-              <a-select allow-clear v-model:value="condition.batchId" style="width: 100%" placeholder="请选择招新批次"
+            <a-form-item name="batchId" label="招新批次">
+              <a-select allow-clear v-model:value="condition.batchId as any" style="width: 100%" placeholder="请选择招新批次"
                 @change="selectUser">
                 <a-select-option v-for="(item, index) in batchList" :key="item.id" :value="item.id">{{ item.title
                   }}</a-select-option>
@@ -120,7 +121,7 @@ const onFinish = () => {
 
           <a-col span="12">
             <a-form-item label="年级">
-              <a-select allow-clear v-model:value="condition.grade" style="width: 100%" placeholder="请选择用户的年级"
+              <a-select allow-clear v-model:value="condition.grade as any" style="width: 100%" placeholder="请选择用户的年级"
                 @change="selectUser">
                 <a-select-option v-for="(item, index) in gradeList" :key="index" :value="item">{{
                   item}}</a-select-option>
@@ -130,7 +131,7 @@ const onFinish = () => {
 
           <a-col span="12">
             <a-form-item label="简历状态">
-              <a-select allow-clear v-model:value="condition.status" style="width: 100%" placeholder="请选择用户简历状态"
+              <a-select allow-clear v-model:value="condition.status as any" style="width: 100%" placeholder="请选择用户简历状态"
                 @change="selectUser">
                 <a-select-option v-for="(item, index) in Object.values(RESUME_STATUES)" :key="item.value"
                   :value="item.value">{{

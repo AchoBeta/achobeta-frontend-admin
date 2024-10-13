@@ -14,21 +14,21 @@ export const useMenuStore = defineStore('menuList', () => {
     routeName: '/member',
     icon: 'fa-solid fa-user-graduate fa-lg',
     name: '正式成员',
-  }, {
+  },{
     id: 3,
+    routeName: '/workbench',
+    icon: 'fa-solid fa-briefcase fa-lg',
+    name: '工作台',
+  },{
+    id: 4,
     routeName: '/email',
     icon: 'fa-solid fa-envelope fa-lg',
     name: '邮箱通知',
-  }, {
-    id: 4,
+  },{
+    id: 5,
     routeName: '/activity',
     icon: 'fa-solid fa-flag fa-lg',
     name: '活动管理',
-  }, {
-    id: 5,
-    routeName: '/interviewManage',
-    icon: 'fa-solid fa-book fa-lg',
-    name: '面试管理',
   }, {
     id: 6,
     routeName: '/examPaperBank',
@@ -38,7 +38,7 @@ export const useMenuStore = defineStore('menuList', () => {
     id: 7,
     routeName: '/resume',
     icon: 'fa-solid fa-clipboard-list fa-lg',
-    name: '简历管理',
+    name: '简历库',
   }
   ])
 
