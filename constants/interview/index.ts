@@ -3,16 +3,19 @@ export const INTERVIEW_STATUS = {
     key: '0',
     name: '未开始',
     value: 0,
+    color: 'orange'
   },
   1: {
     key: '1',
     name: '进行中',
     value: 1,
+    color: 'processing'
   },
   2: {
     key: '2',
     name: '已结束',
     value: 2,
+    color:'red'
   },
 }
 

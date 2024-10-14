@@ -32,8 +32,8 @@ export function getAllInterviewApi(data?: GetInterview): Promise<IResponse<Inter
 }
 
 /** 获取与自己相关的面试 */
-export function getMyInterviewApi(data: GetInterview): Promise<IResponse<InterviewResponse>> {
-  return request.post({ url: '/api/v1/interview/list/manager/all', data })
+export function getMyInterviewApi(data?: GetInterview): Promise<IResponse<InterviewResponse[]>> {
+  return request.post({ url: '/api/v1/interview/list/manager/own', data })
 }
 
 /** 获取面试详情 */

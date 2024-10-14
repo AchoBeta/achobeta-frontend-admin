@@ -18,7 +18,7 @@ const activeKey = ref('1')
       <a-tab-pane key="4" tab="面试评估" force-render>
         暂未开发
       </a-tab-pane>
-      <a-tab-pane key="4" tab="面试反馈" force-render>
+      <a-tab-pane key="5" tab="面试反馈" force-render>
         暂未开发
       </a-tab-pane>
     </a-tabs>

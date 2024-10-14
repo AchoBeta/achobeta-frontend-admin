@@ -50,3 +50,8 @@ export function getInterviewApmDetailApi(scheduleId: string): Promise<IResponse<
 export function getAllAppointments(condition?: { batchId?: number, actId?: number}): Promise<IResponse<InterviewRes[]>> {
   return request.post({ url: `/api/v1/schedule/list/all`, data: condition })
 }
+
+/** 为面试申请会议 */
+export function applyMeetingApi(scheduleId: string, data: { mobile?: string, title: string}): Promise<IResponse<{meetingNo: string, url: string, appLink: string }>> {
+  return request.get({ url: `/api/v1/schedule/reserve/${scheduleId}`, data })
+}

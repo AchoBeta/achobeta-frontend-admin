@@ -98,6 +98,10 @@ const onFinish = () => {
   }
 };
 
+const filterOption = (input: string, option: any) => {
+  return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+};
+
 </script>
 
 <template>
@@ -143,8 +147,9 @@ const onFinish = () => {
 
           <a-col span="12">
             <a-form-item name="userIds" label="用户" :rules="[{ required: true, message: '请选择用户' }]">
-              <a-select v-model:value="formState.userIds" allow-clear :filter-option="false" mode="multiple"
-                style="width: 100%" placeholder="请选择用户" :options="nameList" />
+              <a-select v-model:value="formState.userIds" allow-clear :filter-option="filterOption" mode="multiple"
+                style="width: 100%" placeholder="请选择用户" :options="nameList" >
+              </a-select>
             </a-form-item>
           </a-col>
         </a-row>

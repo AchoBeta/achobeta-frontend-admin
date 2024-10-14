@@ -132,7 +132,6 @@ const removeTimeRange = async (item: any) => {
 const updateTimeRange = async (record) => {
   // 说明是修改的是新增的，不做处理
   if(record.key > 100000000) return 
-  console.log(record, '更新')
   loading.value = true
   const data = {
     scheduleId: record.key,

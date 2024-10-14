@@ -26,15 +26,14 @@ const init = async () => {
 <template>
   <div class="flex-1 flex flex-col p-4 bg-bg-base min-h-full">
     <a-list :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="memberList"
-      :pagination="{hideOnSinglePage: true}" class='flex-1 h-full'>
+      :pagination="{hideOnSinglePage: true, pageSize: 8}" class='flex-1 h-full'>
       <template #renderItem="{ item }">
-        <a-list-item style="padding: 12px 0;margin-bottom: 0;">
+        <a-list-item :key="item?.userVO?.username" style="padding: 12px 0; margin-bottom: 0;">
           <viewer-userCard :info="item" />
         </a-list-item>
       </template>
-      <template #header>
+      <!-- <template #header>
         <header class="flex justify-between items-center">
-          <!-- 搜索框 -->
           <label class="input input-bordered flex items-center gap-2">
             <input type="text" class="grow" placeholder="Search">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
@@ -44,7 +43,6 @@ const init = async () => {
             </svg>
           </label>
           <div class="flex">
-            <!-- 选择器 -->
             <select class="select select-bordered w-full max-w-xs mr-8">
               <option disabled selected>
                 Who shot first?
@@ -52,7 +50,6 @@ const init = async () => {
               <option>Han Solo</option>
               <option>Greedo</option>
             </select>
-            <!-- 添加人员 -->
             <button class="btn mr-5 btn-secondary">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -62,7 +59,7 @@ const init = async () => {
             </button>
           </div>
         </header>
-      </template>
+      </template> -->
     </a-list>
   </div>
 </template>

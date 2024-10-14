@@ -79,7 +79,6 @@ const columns = [
 
 const getActAllInfo = async () => {
   loading.value = true
-  console.log(actId, '我会变成undefined吗')
   const res = await getAllUserSituations(actId as string)
   if (res.code === 200) {
     actInfo.value = res.data

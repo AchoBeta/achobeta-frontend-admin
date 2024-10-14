@@ -180,19 +180,23 @@ export interface QuestionAnswerVO {
 }
 
 export interface InterviewApm {
-  /**
-   * 结束时间
-   */
-  endTime: number;
-  /**
-   * “活动参与” id
-   */
-  participationId: number;
-  /**
-   * 开始时间
-   */
-  startTime: number;
-  [property: string]: any;
+    /**
+     * 面试地址
+     */
+    address: string;
+    /**
+     * 面试说明
+     */
+    description: string;
+    /**
+     * 面试预约 id
+     */
+    scheduleId: number;
+    /**
+     * 面试标题
+     */
+    title: string;
+    [property: string]: any;
 }
 
 export interface UpdateInterviewApm {
