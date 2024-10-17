@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router'
-import { getAllUserSituations } from '~/api/interviewAppointment'
+import { selectUserSituationsApi } from '~/api/interviewAppointment'
 import { RESUME_STATUES } from '~/constants/resume'
 import type { ActivityJoinSituation } from '~/api/interviewAppointment/types'
 import dayjs from 'dayjs'
@@ -76,10 +76,15 @@ const columns = [
     fixed: 'right'
   }
 ]
+const condition = ref<{actId: number, statusList: number[] | undefined}>({
+  actId: Number(actId),
+  statusList: []
+})
+const statuFilter = ref([])
 
 const getActAllInfo = async () => {
   loading.value = true
-  const res = await getAllUserSituations(actId as string)
+  const res = await selectUserSituationsApi(condition.value)
   if (res.code === 200) {
     actInfo.value = res.data
   } else {
@@ -108,6 +113,11 @@ const openAppointModal = (record:any) => {
   }
 }
 
+const handleStatuFilter = (value:any) => {
+  condition.value.statusList = value.map(Number)
+  getActAllInfo()
+}
+
 onMounted(() => {
   getActAllInfo()
 })
@@ -118,6 +128,11 @@ onMounted(() => {
     <a-page-header style="background-color: #fff;border: 1px solid rgb(235, 237, 240)" :title="actTitle"
       sub-title="管理员先创建面试预约，再根据面试预约创建面试(确定开启面试)" @back="navigateTo('/workbench')">
       <template #extra>
+        <a-select v-model:value="statuFilter" mode="multiple" style="width: 200px" placeholder="筛选简历状态"
+          @change="handleStatuFilter">
+          <a-select-option v-for="item in Object.values(RESUME_STATUES)" :value="item.value">{{ item.name
+            }}</a-select-option>
+        </a-select>
         <a-button @click="getActAllInfo" type="primary" key="3">刷新</a-button>
       </template>
 

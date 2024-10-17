@@ -5,14 +5,15 @@ type StatusList = {
 type Status = {
   name: string,
   value: number,
-  color: string
+  color: string,
+
 }
 
 export const RESUME_STATUES: StatusList = {
   0: {
     name: "草稿",
     value: 0,
-    color: 'blue'
+    color: 'blue',
   },
   1: {
     name: "待筛选",

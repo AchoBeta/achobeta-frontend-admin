@@ -8,7 +8,7 @@ const route = useRoute()
 const examBankId = route.params?.examBankId
 const parent = ref(JSON.parse(route.query?.parent || ''))
 const condition = {
-  libId: [Number(examBankId)],
+  libIds: [Number(examBankId)],
   current: 1,
   pageSize: 20
 }
@@ -177,7 +177,7 @@ const onEdit = (item:any) => {
     <a-list :loading="loading" :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }"
       :data-source="paperList" class='flex-1 h-full mt-6'>
       <template #renderItem="{ item, index }">
-        <a-list-item>
+        <a-list-item :key="item.id" style="padding: 10px 0">
           <a-card @click="navigateToDetail( item )" :headStyle="{padding: '0 12px' }" bordered hoverable
             :body-style="{padding: '24px 12px'}" class="w-full bg-slate-100">
             <template #title>
@@ -199,7 +199,7 @@ const onEdit = (item:any) => {
     </a-list>
 
     <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="selectedExamPaper ? '更新试卷' : '创建试卷'"
-      :confirm-loading="loading" @ok="onSave" ok-text="确定" cancel-text="取消">
+      :confirm-loading="loading" @ok="onSave">
       <a-form :model="formRef" class="mt-12" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }"
         autocomplete="on">
         <a-form-item label="名称" name="title" required>

@@ -6,6 +6,7 @@ import { selectQuestionApi } from '~/api/question';
 import type { List } from '~/api/question/types';
 import { getQuestionBankListApi } from '~/api/questionBank';
 
+const editRef = ref()
 const route = useRoute()
 const paperId = route.params?.paperId
 const parent = ref(JSON.parse(route.query?.parent || ''))
@@ -102,11 +103,11 @@ const onSave = () => {
 
 const handleDelete = async (id:number) => {
   loading.value = true
-
   const data = {
     paperId,
     questionIds: [id]
   }
+
   const res = await removeQuesionApi(data)
   if (res.code === 200) {
     message.success('删除成功')
@@ -116,6 +117,12 @@ const handleDelete = async (id:number) => {
   }
 
   loading.value = false
+}
+
+const handleEdit = async (item:any) => {
+  if(editRef.value) {
+    editRef.value.openModal(item)
+  }
 }
 
 const openModal = () => {
@@ -184,17 +191,18 @@ const getQuestion = async (id:number, title:string) => {
     <a-list :loading="loading" :grid="{ gutter: 4, column: 1 }" :data-source="paperList"
       class='flex-1 h-full bg-white mt-6'>
       <template #renderItem="{ item, index }">
-        <a-list-item style="padding: 0 0; margin-bottom: 0; ">
-          <div class="rounded-xl p-4 h-[150px]">
+        <a-list-item style="padding: 0 0; margin-bottom: 0" :key="item.id">
+          <div class="rounded-xl p-4 ">
             <div v-show="showType === '编辑'" class="flex justify-between items-center">
               <div class="flex">
                 <a-tag color="green" class="mr-12">ID: {{ item.id }}</a-tag>
               </div>
               <div>
                 <a-space>
-                  <div class="text-gray-400">上次修改时间：{{ dayjs(item.createTime).format('YYYY-MM-DD HH:MM') }}</div>
+                  <div class="text-gray-400">上次修改时间：{{ dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss') }}</div>
+                  <a-button class="ml-8" @click="handleEdit(item)">编辑</a-button>
                   <a-popconfirm title="你确定要删除这道题目吗？" @confirm="handleDelete(item.id)">
-                    <a-button class="ml-8" danger>删除</a-button>
+                    <a-button danger>删除</a-button>
                   </a-popconfirm>
                 </a-space>
               </div>
@@ -202,7 +210,7 @@ const getQuestion = async (id:number, title:string) => {
             <div class="mt-2 font-bold text-lg"> {{ index + 1 + '.' }} <span class="ml-1">{{ item.title || '--' }}
               </span></div>
             <div class="mt-4 ml-4">
-              <a-typography-paragraph :ellipsis="{rows: 2}" :content="'参考答案: ' + item.standard" />
+              <a-typography-paragraph :ellipsis="{rows: 4, expandable: true}" :content="'参考答案: ' + item.standard" />
             </div>
           </div>
         </a-list-item>
@@ -210,7 +218,7 @@ const getQuestion = async (id:number, title:string) => {
     </a-list>
 
     <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="modalTitle" :confirm-loading="loading"
-      @ok="onSave" :ok-text="okText" cancel-text="取消">
+      @ok="onSave" :ok-text="okText">
       <a-spin :spinning="modalLoading">
         <a-checkbox-group v-if="okText === '下一步'" v-model:value="selectedQBank" style="width: 100%;"
           name="questionBank">
@@ -223,16 +231,18 @@ const getQuestion = async (id:number, title:string) => {
         <div v-else>
           <a-checkbox-group v-model:value="selectedQuestions" style="width: 100%; flex-direction: column;"
             name="questions">
-            <a-row v-for="(qBank, index) in questionList" :key="index">
-              <a-divider>{{ qBank.title }}</a-divider>
-              <a-col v-for="(item, index1) in qBank.questions" :key="index1" :span="24">
-                <a-checkbox :value="item.id">{{ item.label }}</a-checkbox>
+            <a-row v-for="(qBank, index) in questionList" :key="index" :wrap="true" style="width: 100%;">
+              <a-divider style="width: 100%;">{{ qBank.title }}</a-divider>
+              <a-col v-for="(item, index1) in qBank.questions" :key="index1" :span="24" style="width: 100%;">
+                <a-checkbox :value="item.id" style="white-space: normal;">{{ item.label }}</a-checkbox>
               </a-col>
             </a-row>
           </a-checkbox-group>
         </div>
       </a-spin>
     </a-modal>
+
+    <bank-paper-editModal :refresh="getPaper" ref="editRef" />
   </main>
 
 </template>

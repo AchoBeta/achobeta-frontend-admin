@@ -12,7 +12,7 @@ let paperFormState = reactive<any>({
 })
 const paperBank = ref<any>([])
 const paperVisible = ref(false)
-const paperList = ref([])
+const paperList = ref<any>([])
 
 const openPaperModal = async (item:any) =>{
   interviewId.value = item.id
@@ -53,7 +53,7 @@ const getPaper = async (paperBankId:number) => {
   const condition = {
     current: 1,
     pageSize: 100,
-    libId: [paperBankId]
+    libIds: [paperBankId]
   }
 
   const res = await getBankExamPaperApi(condition)
@@ -102,40 +102,40 @@ defineExpose({
 <template>
 
   <a-modal :width="500" v-model:open="paperVisible" @cancel="onPaperEditCancel" title="设置活动问卷"
-      @ok="()=> paperVisible = false" ok-text="确定" cancel-text="取消" :footer="null">
+    @ok="()=> paperVisible = false" :footer="null">
 
-      <a-form class="mt-6" ref="paperFormRef" :model="paperFormState" name="paper" :label-col="{span: 4}"
-        :wrapper-col="{ span: 20 }" @finish="handlePaperEdit">
-        <a-alert class="mb-8" message="重新设置试卷会覆盖原有的试卷，导致试题的打分消失" type="warning" />
-        <a-form-item label="试卷库" name="paperBankId" :rules="[{ required: true, message: '请先选择试卷库'}]">
-          <a-select v-model:value="paperFormState.paperBankId" placeholder="请选择试卷库" @change="onPaperBankChange">
-            <a-select-option v-for="(item, index) in paperBank" :key="index" :value="item.id">
-              {{ item.libType }}
-            </a-select-option>
-          </a-select>
+    <a-form class="mt-6" ref="paperFormRef" :model="paperFormState" name="paper" :label-col="{span: 4}"
+      :wrapper-col="{ span: 20 }" @finish="handlePaperEdit">
+      <a-alert class="mb-8" message="重新设置试卷会覆盖原有的试卷，导致试题的打分消失" type="warning" />
+      <a-form-item label="试卷库" name="paperBankId" :rules="[{ required: true, message: '请先选择试卷库'}]">
+        <a-select v-model:value="paperFormState.paperBankId" placeholder="请选择试卷库" @change="onPaperBankChange">
+          <a-select-option v-for="(item, index) in paperBank" :key="index" :value="item.id">
+            {{ item.libType }}
+          </a-select-option>
+        </a-select>
+      </a-form-item>
+
+      <a-form-item label="试卷" name="paperId" :rules="[{ required: true, message: '请选择试卷'}]">
+        <a-select :disabled="paperList?.length <= 0" v-model:value="paperFormState.paperId" placeholder="请选择试卷">
+          <a-select-option v-for="(item, index) in paperList" :key="index" :value="item.id">
+            {{ item.title }}
+          </a-select-option>
+        </a-select>
+      </a-form-item>
+
+      <a-row justify="end">
+        <a-form-item>
+          <a-space>
+            <a-button @click="onPaperEditCancel">取消</a-button>
+            <a-button type="primary" html-type="submit">设置</a-button>
+          </a-space>
         </a-form-item>
+      </a-row>
 
-        <a-form-item label="试卷" name="paperId" :rules="[{ required: true, message: '请选择试卷'}]">
-          <a-select :disabled="paperList?.length <= 0" v-model:value="paperFormState.paperId" placeholder="请选择试卷">
-            <a-select-option v-for="(item, index) in paperList" :key="index" :value="item.id">
-              {{ item.title }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
+    </a-form>
 
-        <a-row justify="end">
-          <a-form-item>
-            <a-space>
-              <a-button @click="onPaperEditCancel">取消</a-button>
-              <a-button type="primary" html-type="submit">设置</a-button>
-            </a-space>
-          </a-form-item>
-        </a-row>
+  </a-modal>
 
-      </a-form>
+</template>
 
-    </a-modal>
-
-  </template>
-
-<style scoped> </style>
+<style scoped></style>

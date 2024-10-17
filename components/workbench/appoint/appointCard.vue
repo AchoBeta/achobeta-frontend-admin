@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { getAllAppointments, getInterviewApmDetailApi, attendCreatedApmApi, exitCreatedApmApi, updateInterviewApmApi, deleteInterviewApmApi } from '~/api/interviewAppointment'
-import { createInterviewApi } from '~/api/interview';
+import { getAllAppointments, attendCreatedApmApi, exitCreatedApmApi, updateInterviewApmApi, deleteInterviewApmApi, getCurInterviewApmApi } from '~/api/interviewAppointment'
+import { getBatchListAdminApi } from '~/api/recruitBatch'
+import { getActivityApi } from '~/api/recruitActivity';
 import { useUserStore } from '~/stores/modules/userStore'
 import { RESUME_STATUES } from '~/constants/resume'
 import dayjs from 'dayjs'
 
-const formRef = ref()
+const createRef = ref()
 const { userInfo } = useUserStore()
 const loading = ref(false)
 const interviewList = ref()
@@ -13,24 +14,65 @@ const editVisible = ref(false)
 const selectedRow = ref()
 const selectedTime = ref()
 const editLoading = ref(false)
-const createModalVisible = ref(false)
-const formState = ref({
-  title: '',
-  description: '',
-  address: ''
+const appointOptions = ref([{
+  id: 1,
+  title: '所有面试'
+}, {
+  id: 2,
+  title: '与我相关'
+}])
+const selectedAppointId = ref(1)
+const selectedType = ref<boolean[]>([true,false])
+const batchList = ref()
+const actList = ref()
+const condition = ref({
+  batchId: undefined,
+  actId: undefined,
 })
+
+watch(selectedAppointId, async (val, oldVal) => {
+  if (val === oldVal ) return
+
+  selectedType.value =  appointOptions.value.map((item: any) => item.id === val)
+  if(selectedAppointId.value === 2) {
+    await getMyAppoint()
+  } else {
+    await getAllAppoint()
+  }
+})
+
+const handleTypeChange = (tag: any, checked: boolean) => {
+  if(checked) {
+    selectedAppointId.value = tag.id
+  } else {
+    return
+  }
+};
 
 onMounted(() => {
   init()
 })
 
-const init = async () => {
-  await getInterview()
+const init = () => {
+  getAllAppoint()
+  getBatch()
 }
 
-const getInterview = async () => {
+const getMyAppoint = async () => {
   loading.value = true
-  const res = await getAllAppointments()
+  const res = await getCurInterviewApmApi(condition.value)
+  if (res.code === 200) {
+    interviewList.value = res.data
+  } else {
+    message.error(res.message)
+  }
+
+  loading.value = false
+}
+
+const getAllAppoint = async () => {
+  loading.value = true
+  const res = await getAllAppointments(condition.value)
   if (res.code === 200) {
     interviewList.value = res.data
   } else {
@@ -67,7 +109,7 @@ const exitInterview = async () => {
   const res = await exitCreatedApmApi(selectedRow.value.id)
   if(res.code === 200) {
     message.success('退出成功')
-    selectedRow.value.interviewerVOList = selectedRow.value.interviewerVOList.filter(i => i.username!== userInfo.username)
+    selectedRow.value.interviewerVOList = selectedRow.value.interviewerVOList.filter((i:any) => i.username!== userInfo.username)
   } else {
     message.error(res.message)
   }
@@ -80,7 +122,7 @@ const deleteInterview = async (row: any) => {
   const res = await deleteInterviewApmApi(row.id)
   if(res.code === 200) {
     message.success('删除成功')
-    interviewList.value = interviewList.value.filter(i => i.id!== row.id)
+    interviewList.value = interviewList.value.filter((i:any) => i.id!== row.id)
   } else {
     message.error(res.message)
   }
@@ -113,25 +155,17 @@ const closeEditModal = () => {
 }
 
 const openCreateModal = (row: any) => {
-  selectedRow.value = row
-  createModalVisible .value = true
+  if(createRef.value) {
+    createRef.value.openModal(row)
+  }
 }
 
-const createInterview = async (values:any) => {
-  const data = {
-    scheduleId: selectedRow.value.id,
-    title: values.title,
-    address: values.address,
-    description: values.description
-  }
 
+const getBatch = async () => {
   loading.value = true
-  const res = await createInterviewApi(data)
-  if(res.code === 200) {
-    message.success('创建成功')
-    reset()
-    createModalVisible .value = false
-    init()
+  const res = await getBatchListAdminApi()
+  if (res.code === 200) {
+    batchList.value = res.data
   } else {
     message.error(res.message)
   }
@@ -139,15 +173,59 @@ const createInterview = async (values:any) => {
   loading.value = false
 }
 
-const reset = () => {
-  formState.value.title = '',
-  formState.value.address = '',
-  formState.value.description = ''
+const onBatchChange = async (value:any) => {
+  if(!value) return
+  
+  handleFilter()
+  loading.value = true
+  const res = await getActivityApi(value)
+  if (res.code === 200) {
+    actList.value = res.data
+  } else {
+    message.error(res.message)
+  }
+
+  loading.value = false
+}
+
+const handleFilter = () => {
+  if(selectedAppointId.value === 1) {
+    getAllAppoint()
+  } else {
+    getMyAppoint()
+  }
 }
 
 </script>
 
 <template>
+
+  <header class="flex mt-4 mx-4">
+    <div class="flex min-w-[380px]">
+      <div class="mr-4 text-[16px]">预约筛选：</div>
+      <a-space>
+        <a-checkable-tag style="font-size: 14px; padding: 2px 6px" v-for="(item, index) in appointOptions"
+          :key="item.id" :checked="selectedType[index]" @change="checked => handleTypeChange(item, checked)">
+          {{ item.title }}</a-checkable-tag>
+      </a-space>
+    </div>
+
+    <div class="flex-1">
+      <a-select allow-clear v-model:value="condition.batchId" placeholder="请选择招新批次" style="width: 90%"
+        @change="onBatchChange">
+        <a-select-option v-for="item in batchList" :key="item.id" :value="item.id"> {{ item.title}}
+        </a-select-option>
+
+      </a-select>
+    </div>
+    <div class="flex-1">
+      <a-select allow-clear :disabled="batchList?.length <= 0" v-model:value="condition.actId" placeholder="请选择活动"
+        style="width: 90%" @change="handleFilter">
+        <a-select-option v-for="item in actList" :key="item.id" :value="item.id"> {{ item.title }}
+        </a-select-option>
+      </a-select>
+    </div>
+  </header>
 
   <div>
     <a-list :loading="loading" :grid="{ gutter: 36, xs: 1, sm: 2, md: 2, lg: 3, xl: 3, xxl: 3 }"
@@ -170,7 +248,7 @@ const reset = () => {
 
             <div class="flex mb-2">
               <div class="mr-2">面试官: </div>
-              <div>
+              <div class="overflow-scroll">
                 <a-space>
                   <a-tag color="blue" v-for="interviewer in item.interviewerVOList" :key="interviewer.id">{{
                     interviewer.username }}</a-tag>
@@ -239,7 +317,7 @@ const reset = () => {
             </div>
             <a-tag v-else>暂无</a-tag>
             <a-button @click.stop="joinInInterview"
-              v-show="selectedRow?.interviewerVOList.filter( i => i.username === userInfo.username)?.length === 0"
+              v-show="selectedRow?.interviewerVOList.filter( (i:any) => i.username === userInfo.username)?.length === 0"
               class="flex items-center justify-center" type="dashed" size="small">
               <span style="font-size: 12px;">加入</span>
               <PlusOutlined style="font-size: 12px;" />
@@ -256,33 +334,7 @@ const reset = () => {
       </a-spin>
     </a-modal>
 
-    <a-modal :width="600" v-model:open="createModalVisible " @cancel="() => {reset(); createModalVisible  = false}"
-      title="创建面试" @ok="() => createModalVisible  = false" :footer="null" destroyOnClose>
-      <a-form class="mt-6" ref="formRef" :model="formState" name="interview" :label-col="{span: 4}"
-        :wrapper-col="{ span: 20 }" @finish="createInterview">
-        <a-form-item label="标题" name="title" :rules="[{ required: true, message: '请填写面试标题'}]">
-          <a-input v-model:value="formState.title" placeholder="请填写面试标题"></a-input>
-        </a-form-item>
-
-        <a-form-item label="地点" name="address" :rules="[{ required: true, message: '请填写面试地点'}]">
-          <a-input v-model:value="formState.address" placeholder="请填写面试地点"></a-input>
-        </a-form-item>
-
-        <a-form-item label="描述" name="description" :rules="[{ required: true, message: '请填写面试描述'}]">
-          <a-textarea v-model:value="formState.description" :rows="3" placeholder="请填写面试描述" />
-        </a-form-item>
-
-        <a-row justify="end">
-          <a-form-item>
-            <a-space>
-              <a-button @click="() => {reset(); createModalVisible  = false}">取消</a-button>
-              <a-button :loading="loading" type="primary" html-type="submit">创建</a-button>
-            </a-space>
-          </a-form-item>
-        </a-row>
-
-      </a-form>
-    </a-modal>
+    <workbench-appoint-createModal ref="createRef" />
 
   </div>
 

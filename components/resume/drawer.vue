@@ -1,70 +1,68 @@
 <template>
-    <!-- <a-button type="primary" @click="showDrawer">Open</a-button> -->
-    <a-drawer class="hidden md:block" :width="500" title="管理招新批次" :placement="placement" :open="open"
-        @close="closeDrawer">
-        <template #extra>
-        </template>
-        <a-spin v-if="loading" />
+  <!-- <a-button type="primary" @click="showDrawer">Open</a-button> -->
+  <a-drawer class="hidden md:block" :width="500" title="管理招新批次" :placement="placement" :open="open"
+    @close="closeDrawer">
+    <template #extra>
+    </template>
+    <a-spin v-if="loading" />
 
-        <a-list v-else item-layout="horizontal" :data-source="data">
-            <template #renderItem="{ item, index }">
+    <a-list v-else item-layout="horizontal" :data-source="data">
+      <template #renderItem="{ item, index }">
 
-                <a-list-item class="flex flex-col">
-                    <a-list-item-meta class="w-full">
-                        <template #title>
-                            <div class="flex w-full justify-between items-center content-center">
-                                <a-input class="w-auto text-xl" show-count :maxlength="20" size="small"
-                                    v-if="item.status === 'editing'" v-model:value="edittitle" placeholder="请输入招新标题" />
-
-                                <a v-else class="mr-7 text-xl">{{ item.title }}</a>
-                                <div class="flex-row flex justify-center items-center ">
-                                    <FormOutlined v-if="!item.isRun" @click="exitBatch(index)"
-                                        style="font-size: large;margin-right: 15px;" />
-                                    <a-switch @click="shiftStatus(index)" v-model:checked="item.isRun" />
-                                </div>
-                            </div>
-                        </template>
-
-                    </a-list-item-meta>
-                    <br />
-                    <div class="flex w-full  justify-start items-center">
-                        <span class="text-lg mr-5">截止时间:</span>{{ item.deadline }}
-                    </div>
-                    <resume-Calendar ref="childRef" v-if="item.status === 'editing'"
-                        :time="item.deadline"></resume-Calendar>
-                    <template #extra class="flex justify-end items-center">
-                        <div v-if="item.status === 'editing'" class="w-full flex justify-end items-center">
-                            <a-button style="margin-right: 8px" value="small" @click="onClose(index)">取消</a-button>
-
-                            <a-button type="primary" value="small" @click="onSave(index)">保存</a-button>
-                        </div>
-                    </template>
-
-                </a-list-item>
+        <a-list-item :key="index" class="flex flex-col">
+          <a-list-item-meta class="w-full">
+            <template #title>
+              <div class="flex w-full justify-between items-center content-center">
+                <a-input class="w-auto text-xl" show-count :maxlength="20" size="small" v-if="item.status === 'editing'"
+                  v-model:value="edittitle" placeholder="请输入招新标题" />
+                <a v-else class="mr-7 text-xl">{{ item.title }}</a>
+                <div class="flex-row flex justify-center items-center ">
+                  <FormOutlined v-if="!item.isRun" @click="exitBatch(index)"
+                    style="font-size: large;margin-right: 15px;" />
+                  <a-switch @click="shiftStatus(index)" v-model:checked="item.isRun" />
+                </div>
+              </div>
             </template>
-        </a-list>
-        <div class="w-full mt-4">
-            <a-button class="w-full" @click="handleModal()" size="large" type="dashed">创建招新批次</a-button>
 
-        </div>
+          </a-list-item-meta>
+          <br />
+          <div class="flex w-full  justify-start items-center">
+            <span class="text-lg mr-5">截止时间:</span>{{ item.deadline }}
+          </div>
+          <resume-Calendar ref="childRef" v-if="item.status === 'editing'" :time="item.deadline"></resume-Calendar>
+          <template #extra class="flex justify-end items-center">
+            <div v-if="item.status === 'editing'" class="w-full flex justify-end items-center">
+              <a-button style="margin-right: 8px" value="small" @click="onClose(index)">取消</a-button>
 
-    </a-drawer>
-    <a-modal v-model:open="showModal" title="创建新的招新批次" @ok="handleOk">
-        <div class="modalInfo-item">
+              <a-button type="primary" value="small" @click="onSave(index)">保存</a-button>
+            </div>
+          </template>
 
-            <a-input class="w-auto text-xl" v-model:value="inputTitle" show-count :maxlength="20" size="small"
-                placeholder="请输入招新标题" />
-        </div>
-        <div class="modalInfo-item"> 招新批次：
-            <a-input-number size="small" type="number" v-model:value="inputBatch" />
-            <span class="text-xs text-gray-500">（请输入数字，如6）</span>
-        </div>
-        <div class="modalInfo-item">
-            <span class="">截止时间:</span>
-            <resume-Calendar ref="childRef"></resume-Calendar>
-        </div>
+        </a-list-item>
+      </template>
+    </a-list>
+    <div class="w-full mt-4">
+      <a-button class="w-full" @click="handleModal()" size="large" type="dashed">创建招新批次</a-button>
 
-    </a-modal>
+    </div>
+
+  </a-drawer>
+  <a-modal v-model:open="showModal" title="创建新的招新批次" @ok="handleOk">
+    <div class="modalInfo-item">
+
+      <a-input class="w-auto text-xl" v-model:value="inputTitle" show-count :maxlength="20" size="small"
+        placeholder="请输入招新标题" />
+    </div>
+    <div class="modalInfo-item"> 招新批次：
+      <a-input-number size="small" type="number" v-model:value="inputBatch" />
+      <span class="text-xs text-gray-500">（请输入数字，如6）</span>
+    </div>
+    <div class="modalInfo-item">
+      <span class="">截止时间:</span>
+      <resume-Calendar ref="childRef"></resume-Calendar>
+    </div>
+
+  </a-modal>
 </template>
 <script lang="ts" setup>
 import { responseCode } from '@/constants/responseCode';
@@ -290,6 +288,6 @@ defineExpose({
 </script>
 <style lang="less" scoped>
 .modalInfo-item {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 </style>

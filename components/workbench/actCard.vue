@@ -80,9 +80,9 @@ watch(selectedBatchId, async (val, oldVal) => {
 
   <div>
     <a-list :loading="loading" :grid="{ gutter: 36, xs: 1, sm: 2, md: 2, lg: 3, xl: 3, xxl: 3 }"
-      :data-source="activities" :pagination="{hideOnSinglePage: true}" class="mt-8 px-3">
-      <template #renderItem="{item }">
-        <a-list-item style="padding: 0">
+      :data-source="activities" :pagination="{hideOnSinglePage: true, pageSize: 6}" class="mt-8 px-3">
+      <template #renderItem="{item}">
+        <a-list-item :key="item.id" style="padding: 0">
           <a-card
             @click="navigateTo({path: `/workbench/appoint/${item.id}`,query:{ title: item.title, batchId: selectedBatchId}})"
             :headStyle="{padding: '0 12px' }" :body-style="{padding: '12px', width: '100%'}" bordered hoverable
@@ -99,8 +99,8 @@ watch(selectedBatchId, async (val, oldVal) => {
 
             <div>
               <a-space direction="vertical">
-                <div>创建时间: {{ dayjs(item.createTime).format('YYYY-MM-DD HH:MM') }}</div>
-                <div>截止时间: {{ dayjs(item.deadline).format('YYYY-MM-DD HH:MM') }}</div>
+                <div>创建时间: {{ dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss') }}</div>
+                <div>截止时间: {{ dayjs(item.deadline).format('YYYY-MM-DD HH:mm:ss') }}</div>
               </a-space>
             </div>
 

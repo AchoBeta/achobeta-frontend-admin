@@ -269,3 +269,55 @@ export interface SimpleStudentVO {
   username: string;
   [property: string]: any;
 }
+
+export interface CommentDetail {
+   /**
+     * 评论者
+     */
+   commentator: Commentator;
+   /**
+    * 面试评论内容
+    */
+   content: string;
+   /**
+    * 创建时间
+    */
+   createTime: string;
+   /**
+    * 面试评论 id
+    */
+   id: number;
+   /**
+    * 更新时间
+    */
+   updateTime: string;
+   [property: string]: any;
+}
+
+export interface Commentator {
+  /**
+   * 头像
+   */
+  avatar: number;
+  /**
+   * 邮箱
+   */
+  email: string;
+  /**
+   * 管理员 id
+   */
+  managerId: number;
+  /**
+   * 昵称
+   */
+  nickname: string;
+  /**
+   * 手机号
+   */
+  phoneNumber: string;
+  /**
+   * 用户名
+   */
+  username: string;
+  [property: string]: any;
+}

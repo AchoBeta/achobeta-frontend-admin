@@ -31,7 +31,7 @@ interface StuSimpleResumeVO {
 // 定义整个对象的结构
 export interface ResumeRequest {
     resumeId: number;
-    queryResumeOfUserDTO: QueryResumeOfUserDTO;
+    queryResumeOfUserDTO?: QueryResumeOfUserDTO;
 }
 
 // 定义整个简历响应对象的类型

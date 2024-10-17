@@ -1,10 +1,7 @@
 <script lang="ts" setup>
 import { updateInterviewApi } from '~/api/interview'
 
-const props = defineProps({
-  
-})
-
+const loading = ref(false)
 const formRef = ref()
 const interviewId = ref()
 const modalVisible = ref(false)

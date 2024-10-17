@@ -9,7 +9,7 @@ const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const menuStore = useMenuStore()
 const { menuList, otherMenuList } = storeToRefs(menuStore)
-const { avatar: avatarSrc, loading: avatarLoading } = useAvatar(userInfo.value.avatar)
+const { avatar: avatarSrc, loading: avatarLoading } = useAvatar(userInfo.value.avatar)// todo 改变引用不触发响应式
 
 
 </script>

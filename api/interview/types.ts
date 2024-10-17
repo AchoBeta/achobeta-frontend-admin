@@ -112,33 +112,48 @@ export interface ScheduleVO {
 }
 
 export interface InterviewDetail {
-  /**
-   * 面试地址
-   */
-  address: string;
-  /**
-   * 面试说明
-   */
-  description: string;
-  /**
-   * 面试 id
-   */
-  id: number;
-  /**
-   * 预约信息
-   */
-  scheduleVO: ScheduleVO;
-  /**
-   * 面试状态（0未开始、1进行中、2已结束）
-   */
+    /**
+     * 面试地址
+     */
+    address: string;
+    /**
+     * 面试说明
+     */
+    description: string;
+    /**
+     * 面试 id
+     */
+    id: number;
+    /**
+     * 预约信息
+     */
+    scheduleVO: ScheduleVO;
+    /**
+     * 简要学生信息
+     */
+    simpleStudentVO: SimpleStudentVO;
+    /**
+     * 面试状态（0未开始、1进行中、2已结束）
+     */
+    status: number;
+    /**
+     * 面试标题
+     */
+    title: string;
+    [property: string]: any;
+}
+
+export interface SimpleStudentVO {
+  className: string;
+  email: string;
+  gender: number;
+  grade: number;
+  major: string;
+  name: string;
+  resumeId: number;
   status: number;
-  /**
-   * 用户 id
-   */
-  stuId: number;
-  /**
-   * 面试标题
-   */
-  title: string;
+  studentId: string;
+  userId: number;
+  username: string;
   [property: string]: any;
 }

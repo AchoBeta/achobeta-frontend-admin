@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createInterviewApmApi, getUserSituationsApi, deleteInterviewApmApi, updateInterviewApmApi } from '~/api/interviewAppointment'
+import { getUserSituationsApi, deleteInterviewApmApi, updateInterviewApmApi, createInterviewApmApi } from '~/api/interviewAppointment'
 import dayjs from 'dayjs'
 
 onMounted(() => {
@@ -12,7 +12,7 @@ const scheduleVOS = ref()
 const pctData = ref()
 const timePeriodVOS = ref()
 const timeFormRef = ref()
-const appointVisible = ref(false)
+const modalVisible = ref(false)
 let timeState = ref < { timeRanges: any } > ({
   timeRanges: []
 })
@@ -33,15 +33,15 @@ const formItemLayout = {
   },
 };
 
-const openModal = (record) => {
+const openModal = (record:any) => {
   pctId.value = record.participationId
   scheduleVOS.value = record.scheduleVOS
   timePeriodVOS.value = record.timePeriodVOS
-  appointVisible.value = true
-  timeState.value = scheduleVOS.value.map( _ => {
+  modalVisible.value = true
+  timeState.value = scheduleVOS.value.map( (item:any) => {
     return {
-      value: [dayjs(_.startTime), dayjs(_.endTime)],
-      key: _.id,
+      value: [dayjs(item.startTime), dayjs(item.endTime)],
+      key: item.id,
     }
   })
 
@@ -50,7 +50,7 @@ const openModal = (record) => {
 
 const closeModal = () => {
   reset()
-  appointVisible.value = false
+  modalVisible.value = false
 }
 
 const reset = () => {
@@ -63,44 +63,12 @@ const reset = () => {
   }
 }
 
-const confirmAppointment = async () => {
-  timeFormRef.value
-    ?.validate()
-    .then(() => {
-      const request: any = []
-      timeState.value.timeRanges.forEach( item => {
-        if(item.key > 1000000) {
-          const condition = {
-            participationId: pctId.value,
-            startTime: new Date(item.value[0].$d).getTime() ,
-            endTime: new Date(item.value[1].$d).getTime(),
-          }
-          request.push(createInterviewApmApi(condition))
-
-          Promise.all(request)
-          .then((values) => {
-            values.forEach( item => {
-              if(item.code === 200) {
-                message.success('创建成功')
-              } else {
-                message.error(item.message)
-              }
-            })
-            getData()
-          })
-          .catch(() => message.error('创建失败'))
-          .finally(() => loading.value = false)
-        }
-      })
-    })
-    .catch(error => {
-      console.log('error', error);
-    });
-}
-
 const addTimeRange = () => {
   timeState.value.timeRanges.push({
-    value: undefined,
+    value: [
+      dayjs(timePeriodVOS.value[0].startTime),
+      dayjs(timePeriodVOS.value[0].endTime),
+    ],
     key: Date.now(),
   });
 }
@@ -129,7 +97,7 @@ const removeTimeRange = async (item: any) => {
   }
 }
 
-const updateTimeRange = async (record) => {
+const updateTimeRange = async (record:any) => {
   // 说明是修改的是新增的，不做处理
   if(record.key > 100000000) return 
   loading.value = true
@@ -170,6 +138,46 @@ const getData = async () => {
   loading.value = false
 }
 
+const confirmAppointment = async () => {
+  timeFormRef.value
+    ?.validate()
+    .then(() => {
+      const request: any = []
+      timeState.value.timeRanges.forEach( (item: any) => {
+        if(item.key > 1000000) {
+          const condition = {
+            participationId: pctId.value,
+            startTime: new Date(item.value[0].$d).getTime() ,
+            endTime: new Date(item.value[1].$d).getTime(),
+          }
+          request.push(createInterviewApmApi(condition))
+
+          Promise.all(request)
+          .then((values) => {
+            values.forEach( item => {
+              if(item.code === 200) {
+                message.success('创建成功')
+              } else {
+                message.error(item.message)
+              }
+            })
+            getData()
+          })
+          .catch(() => message.error('创建失败'))
+          .finally(() => loading.value = false)
+        }
+      })
+
+      if(request.length === 0) {
+        reset()
+        modalVisible.value = false
+      }
+    })
+    .catch((error:any )=> {
+      console.log('error', error);
+    });
+}
+
 defineExpose({
   openModal,
 })
@@ -178,8 +186,7 @@ defineExpose({
 
 <template>
 
-  <a-modal :width="800" :open="appointVisible" :footer="null" title="预约管理" @cancel="closeModal"
-    @ok="confirmAppointment">
+  <a-modal :width="800" :open="modalVisible" :footer="null" title="预约管理" @cancel="closeModal" @ok="confirmAppointment">
     <a-spin :spinning="loading">
       <div class="flex flex-col w-full mt-4">
         <div class="flex">
@@ -199,16 +206,15 @@ defineExpose({
         </div>
         <a-row justify="center">
           <a-col :span="24">
-            <a-form class="mt-8" ref="timeFormRef" name="timeForm" :model="timeState" v-bind="formItemLayoutWithOutLabel">
+            <a-form class="mt-8" ref="timeFormRef" name="timeForm" :model="timeState"
+              v-bind="formItemLayoutWithOutLabel">
               <a-form-item v-for="(domain, index) in timeState.timeRanges" :key="domain.key" v-bind="formItemLayout"
-                :name="['timeRanges', index, 'value']" :label="`面试时间${index + 1}`" 
-                help="不低于半小时，不超过两小时"
-                :rules="{
+                :name="['timeRanges', index, 'value']" :label="`面试时间${index + 1}`" help="不低于半小时，不超过两小时" :rules="{
                   required: true,
                   message: '请选择时间段',
-                  }"
-                >
-                <a-range-picker @change="updateTimeRange(domain)" v-model:value="domain.value" show-time style="margin-right: 8px;" />
+                  }">
+                <a-range-picker @change="updateTimeRange(domain)" v-model:value="domain.value" show-time
+                  style="margin-right: 8px;" />
                 <MinusCircleOutlined class="dynamic-delete-button" @click="removeTimeRange(domain)" />
               </a-form-item>
               <a-form-item :wrapper-col="{span: 24}">
@@ -219,8 +225,12 @@ defineExpose({
                   新增
                 </a-button>
               </a-form-item>
+
               <a-form-item v-bind="formItemLayoutWithOutLabel" :wrapper-col="{span:24, offset:20}">
-                <a-button type="primary" html-type="submit" @click="confirmAppointment">确认</a-button>
+                <div class="flex">
+                  <a-button class="mr-2" @click="() => {reset(); modalVisible = false}">取消</a-button>
+                  <a-button type="primary" html-type="submit" @click="confirmAppointment">确认</a-button>
+                </div>
               </a-form-item>
             </a-form>
           </a-col>

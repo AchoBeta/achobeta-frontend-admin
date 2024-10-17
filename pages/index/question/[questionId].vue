@@ -16,7 +16,7 @@ const questionList = ref([])
 const modalVisible = ref(false)
 const selectedQuestion = ref(null)
 const useForm = Form.useForm;
-const formRef = reactive({
+const formState = reactive({
   libId: questionId,
   title: '',
   standard: '',
@@ -35,7 +35,7 @@ const rulesRef = reactive({
     },
   ],
 });
-const { resetFields, validate, validateInfos } = useForm(formRef, rulesRef);
+const { resetFields, validate, validateInfos } = useForm(formState, rulesRef);
 
 onMounted(() => {
   init()
@@ -48,10 +48,8 @@ const init = () => {
 const onPaginationChange = (current, size) => {
   pagination.current = current,
     pagination.pageSize = size,
-
     condition.current = current,
     condition.pageSize = size,
-
     getQuestion()
 }
 
@@ -80,8 +78,8 @@ const getQuestion = async () => {
 const openModal = (data) => {
   selectedQuestion.value = data
   if (data) {
-    formRef.standard = data.standard
-    formRef.title = data.title
+    formState.standard = data.standard
+    formState.title = data.title
   }
 
   modalVisible.value = true
@@ -93,8 +91,8 @@ const updateOrAdd = async () => {
   loading.value = true
   const data = {
     libIds: [Number(questionId)],
-    title: formRef.title,
-    standard: formRef.standard
+    title: formState.title,
+    standard: formState.standard
   }
   if (selectedQuestion.value?.id) {
     const res = await updateQuestionApi(selectedQuestion.value.id, data)
@@ -162,7 +160,7 @@ const handleDelete = async (id) => {
     <a-list :loading="loading" :grid="{ gutter: 4, column: 1 }" :data-source="questionList" :pagination="pagination"
       class='flex-1 h-full'>
       <template #renderItem="{ item, index }">
-        <a-list-item style="padding: 12px 0; margin-bottom: 0; ">
+        <a-list-item :key="item.id" style="padding: 12px 0; margin-bottom: 0; ">
           <div class="rounded-xl p-4 bg-slate-100 h-[150px]">
             <div class="flex justify-between items-center">
               <div class="flex">
@@ -170,7 +168,8 @@ const handleDelete = async (id) => {
               </div>
               <div>
                 <a-space>
-                  <div class="text-gray-400 mr-8">上次修改时间：{{ dayjs(item.createTime).format('YYYY-MM-DD HH:MM') }}</div>
+                  <div class="text-gray-400 mr-8">上次修改时间：{{ dayjs(item.updateTime).format('YYYY-MM-DD HH:mm:ss') }}
+                  </div>
                   <a-button @click="openModal(item)">编辑</a-button>
                   <a-popconfirm title="你确定要删除这道题目吗？" @confirm="handleDelete(item.id)">
                     <a-button danger>删除</a-button>
@@ -191,14 +190,15 @@ const handleDelete = async (id) => {
     </a-list>
 
     <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="selectedQuestion ? '更新' : '创建'"
-      :confirm-loading="loading" @ok="onSave" ok-text="确定" cancel-text="取消">
-      <a-form class="mt-12" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }" autocomplete="on">
+      :confirm-loading="loading" @ok="onSave">
+      <a-form class="mt-12" name="basic" :model="formState" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }"
+        autocomplete="on">
         <a-form-item label="题目" name="title" required>
-          <a-input v-model:value="formRef.title" />
+          <a-input v-model:value="formState.title" />
         </a-form-item>
 
         <a-form-item label="标准答案" name="standard" required>
-          <a-textarea style="max-height: 300px;" auto-size v-model:value="formRef.standard" />
+          <a-textarea style="max-height: 300px;" auto-size v-model:value="formState.standard" />
         </a-form-item>
       </a-form>
     </a-modal>

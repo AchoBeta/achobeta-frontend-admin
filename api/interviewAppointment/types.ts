@@ -32,23 +32,27 @@ export interface TimePeriodCountVO {
 }
 
 export interface UserParticipationVO {
-  /**
-   * “活动参与” id
-   */
-  participationId: number;
-  /**
-   * 面试预约列表
-   */
-  scheduleVOS: ScheduleVO[];
-  /**
-   * 学生简单简历信息
-   */
-  simpleStudentVO: SimpleStudentVO;
-  /**
-   * 时间段列表
-   */
-  timePeriodVOS: TimePeriodVO[];
-  [property: string]: any;
+    /**
+     * “活动参与” id
+     */
+    id: number;
+    /**
+     * 问题回答列表
+     */
+    questionAnswerVOS: QuestionAnswerVO[];
+    /**
+     * 面试预约列表
+     */
+    scheduleVOS: ScheduleVO[];
+    /**
+     * 学生简单简历信息
+     */
+    simpleStudentVO: SimpleStudentVO;
+    /**
+     * 时间段列表
+     */
+    timePeriodVOS: TimePeriodVO[];
+    [property: string]: any;
 }
 
 export interface ScheduleVO {
@@ -181,21 +185,17 @@ export interface QuestionAnswerVO {
 
 export interface InterviewApm {
     /**
-     * 面试地址
+     * 结束时间
      */
-    address: string;
+    endTime: number;
     /**
-     * 面试说明
+     * “活动参与” id
      */
-    description: string;
+    participationId: number;
     /**
-     * 面试预约 id
+     * 开始时间
      */
-    scheduleId: number;
-    /**
-     * 面试标题
-     */
-    title: string;
+    startTime: number;
     [property: string]: any;
 }
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useRoute } from '#vue-router';
-import { getAllUserSituations } from '~/api/interviewAppointment'
+import { selectUserSituationsApi } from '~/api/interviewAppointment'
 import type { ActivityJoinSituation } from '~/api/interviewAppointment/types'
 
 const route = useRoute()
@@ -16,7 +16,7 @@ onMounted(() => {
 
 const getActDetail = async () => {
   loading.value = true;
-  const res = await getAllUserSituations(actId.value)
+  const res = await selectUserSituationsApi({actId: actId.value})
   if (res.code === 200) {
     actDetail.value = res.data
   } else {

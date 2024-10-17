@@ -1,7 +1,7 @@
 import request from '@/axios'
 import type { Interview, UpdataInterview, InterviewPaper, GetInterview, InterviewResponse, InterviewDetail } from './types'
 
-/** 查看参与某活动的所有用户参与和预约情况 */
+/** 创建一场面试 */
 export function createInterviewApi(data: Interview): Promise<IResponse<number>> {
   return request.post({ url: '/api/v1/interview/create', data })
 }

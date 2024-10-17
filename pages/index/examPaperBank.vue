@@ -17,7 +17,7 @@ const init = () => {
 </script>
 
 <template>
-  <div class="p-2">
+  <div class="bg-[#f5f5f5] p-2">
     <a-tabs class="rounded-2xl bg-white p-4" v-model:activeKey="activeKey">
       <a-tab-pane key="1" tab="题库">
         <bank-questionBank></bank-questionBank>

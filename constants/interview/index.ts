@@ -37,7 +37,17 @@ export const INTERVIEW_EVENT = {
   },
   4: {
     key: '4',
-    name: '面试总结',
+    name: '面试通知',
     value: 4,
+  },
+  5: {
+    key: '5',
+    name: '面试总结',
+    value: 5,
+  },
+  6: {
+    key: '6',
+    name: '面试经历',
+    value: 6,
   },
 }

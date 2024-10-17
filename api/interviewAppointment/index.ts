@@ -6,6 +6,11 @@ export function getAllUserSituations(actId: string): Promise<IResponse<ActivityJ
   return request.get({ url: `/api/v1/schedule/situations/${actId}` })
 }
 
+/** 条件查询参与某活动的所有用户参与和预约情况 */
+export function selectUserSituationsApi(data: {actId: number, statusList?: number[]}): Promise<IResponse<ActivityJoinSituation>> {
+  return request.post({ url: `/api/v1/schedule/situations`, data })
+}
+
 /** 查看具体一个用户的活动参与与预约详情 */
 export function getUserSituationsApi(participationId: string): Promise<IResponse<UserParticipationVO>> {
   return request.get({ url: `/api/v1/schedule/situation/detail/${participationId}` })
@@ -37,8 +42,8 @@ export function exitCreatedApmApi(scheduleId: string): Promise<IResponse<undefin
 }
 
 /** 获取当前管理员相关的面试预约 */
-export function getCurInterviewApmApi(actId: string): Promise<IResponse<undefined>> {
-  return request.get({ url: `/api/v1/schedule/list/${actId}` })
+export function getCurInterviewApmApi(data?:{actId?: string, batchId?: string}): Promise<IResponse<undefined>> {
+  return request.post({ url: '/api/v1/schedule/list/own', data })
 }
 
 /** 查看面试预约详情 */
@@ -53,5 +58,5 @@ export function getAllAppointments(condition?: { batchId?: number, actId?: numbe
 
 /** 为面试申请会议 */
 export function applyMeetingApi(scheduleId: string, data: { mobile?: string, title: string}): Promise<IResponse<{meetingNo: string, url: string, appLink: string }>> {
-  return request.get({ url: `/api/v1/schedule/reserve/${scheduleId}`, data })
+  return request.get({ url: `/api/v1/schedule/reserve/${scheduleId}`, params: data })
 }

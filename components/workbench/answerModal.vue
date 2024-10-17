@@ -22,7 +22,6 @@ const getQuestionDetail = async () => {
   loading.value = true
   const res = await getUserSituationsApi(pctId.value)
   if(res.code === 200) {
-    console.log(res.data)
     answerList.value = res.data.questionAnswerVOS;
     userName.value = res.data.simpleStudentVO.name
   } else {

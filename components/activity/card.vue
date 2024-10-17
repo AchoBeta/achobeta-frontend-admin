@@ -197,7 +197,7 @@ const getPaper = async (paperBankId:number) => {
   const condition = {
     current: 1,
     pageSize: 100,
-    libId: [paperBankId]
+    libIds: [paperBankId]
   }
 
   loading.value = true;
@@ -369,7 +369,7 @@ defineExpose({
             condition
             }}</a-tag>
         </div>
-        <div>创建时间：{{ dayjs(props.data?.createTime).format('YYYY-MM-DD HH:mm') }}</div>
+        <div>创建时间：{{ dayjs(props.data?.createTime).format('YYYY-MM-DD HH:mm:ss') }}</div>
         <div>截止时间：{{ dayjs(props.data?.deadline).format('YYYY-MM-DD HH:mm:ss') }}</div>
       </a-space>
     </div>
@@ -397,7 +397,7 @@ defineExpose({
   </a-card>
 
   <a-modal :width="500" v-model:open="paperVisible" @cancel="onPaperEditCancel" title="设置活动问卷"
-    :confirm-loading="loading" @ok="()=> paperVisible = false" ok-text="确定" cancel-text="取消" :footer="null">
+    :confirm-loading="loading" @ok="()=> paperVisible = false" :footer="null">
 
     <a-form class="mt-6" ref="paperFormRef" :model="paperFormState" name="paper" :label-col="{span: 4}"
       :wrapper-col="{ span: 20 }" @finish="handlePaperEdit">
@@ -432,13 +432,12 @@ defineExpose({
   </a-modal>
 
   <a-modal :width="400" v-model:open="modalVisible" @cancel="() => modalVisible = false"
-    :title="`你确定要${isActivityRun ? '关闭' : '开启'}该活动吗`" :confirm-loading="loading" @ok="changeActicityStatu" ok-text="确定"
-    cancel-text="取消">
+    :title="`你确定要${isActivityRun ? '关闭' : '开启'}该活动吗`" :confirm-loading="loading" @ok="changeActicityStatu">
     活动开启后不再允许对活动进行编辑
   </a-modal>
 
   <a-modal :width="600" v-model:open="timeVisible" @cancel="onTimeEditCancel" title="设置可选时间段" :confirm-loading="loading"
-    @ok="()=> timeVisible = false" ok-text="确定" cancel-text="取消" :footer="null">
+    @ok="()=> timeVisible = false" :footer="null">
     <a-spin :spinning="loading">
       <a-alert class="mt-6" type="warning" message="时间段至少要设置一小时，最长不超过两小时。活动开启后不允许再修改。"></a-alert>
       <a-form class="mt-8" ref="timeFormRef" name="timeForm" :model="timeState" v-bind="formItemLayoutWithOutLabel">
