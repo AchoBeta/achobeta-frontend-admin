@@ -1,4 +1,15 @@
-export const INTERVIEW_STATUS = {
+type StatusList = {
+  [property: number]: Status;
+}
+
+type Status = {
+  key: string,
+  name: string,
+  value: number,
+  color: string,
+}
+
+export const INTERVIEW_STATUS: StatusList = {
   0: {
     key: '0',
     name: '未开始',
@@ -19,7 +30,17 @@ export const INTERVIEW_STATUS = {
   },
 }
 
-export const INTERVIEW_EVENT = {
+type EventList = {
+  [property: number]: Event;
+}
+
+type Event = {
+  key: string,
+  name: string,
+  value: number,
+}
+
+export const INTERVIEW_EVENT: EventList = {
   1: {
     key: '1',
     name: '面试开始',

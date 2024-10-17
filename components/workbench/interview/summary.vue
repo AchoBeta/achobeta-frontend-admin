@@ -69,25 +69,25 @@ const getSummary = async () => {
 
   <a-form :model="formState" name="summary" v-bind="formItemLayout" @finishFailed="onFinishFailed" @finish="onFinish">
     <a-form-item name="basis" label="基础能力" required>
-      <a-rate :count="5" v-model:value="formState.basis" allow-half />
+      <a-rate v-model:value="formState.basis" />
     </a-form-item>
 
     <a-form-item name="coding" label="代码能力" required>
-      <a-rate :count="5" v-model:value="formState.coding" allow-half />
+      <a-rate v-model:value="formState.coding" />
     </a-form-item>
     <a-form-item name="thinking" label="思维能力" required>
-      <a-rate :count="5" v-model:value="formState.thinking" allow-half />
+      <a-rate v-model:value="formState.thinking" />
     </a-form-item>
 
     <a-form-item name="express" label="表达能力" required>
-      <a-rate :count="5" v-model:value="formState.express" allow-half />
+      <a-rate v-model:value="formState.express" />
     </a-form-item>
 
-    <a-form-item name="playback" label="面试回放" required>
+    <a-form-item name="playback" label="面试回放">
       <a-input placeholder="请填写面试回放链接" v-model:value="formState.playback" />
     </a-form-item>
 
-    <a-form-item name="suggest" label="建议" required>
+    <a-form-item name="suggest" label="建议">
       <a-textarea placeholder="请填写给面试者的建议" :rows="3" v-model:value="formState.suggest" />
     </a-form-item>
 

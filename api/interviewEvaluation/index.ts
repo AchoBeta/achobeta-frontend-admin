@@ -46,6 +46,6 @@ export function getInterviewSummaryApi(interviewId: string): Promise<IResponse<I
 }
 
 /** 查看总的面试情况 */
-export function getInterviewSituationApi(data: InterviewSituationRequest): Promise<IResponse<InterviewSituationResponse>> {
+export function getInterviewSituationApi(data?: InterviewSituationRequest): Promise<IResponse<InterviewSituationResponse>> {
   return request.post({ url: '/api/v1/evaluate/summary/rank', data})
 }

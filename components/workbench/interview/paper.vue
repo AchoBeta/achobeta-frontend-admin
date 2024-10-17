@@ -51,7 +51,7 @@ const onRateChange = async (item: any) => {
   const data = {
     interviewId: Number(props.interviewId),
     questionId: item.id,
-    score: item.score === 11 ? -1 : item.score,
+    score: item.score,
   }
 
   const res = await scoreQuestionApi(data)
@@ -121,11 +121,19 @@ const handleCreate = () => {
           </div>
           <!-- 底部打分区 -->
           <div class="flex justify-between px-4">
-            <div>
-              历史评分：<a-rate :disabled="true" :count="11" v-model:value="item.average"></a-rate>
+            <div class="flex items-center">
+              历史评分：<span class="py-.5 rounded-sm cursor-default px-3 border border-red-700 text-red-700 font-bold"
+                v-if="item.score === -1">超纲</span> <a-rate v-else class="mb-1" :disabled="true" :count="10"
+                v-model:value="item.average" />
             </div>
-            <div>
-              用户回答：<a-rate :count="11" v-model:value="item.score" @change="onRateChange(item)"></a-rate>
+            <div class="flex items-center">
+              <div class="flex items-center min-w-[350px]">
+                用户回答：<span class="py-.5 rounded-sm cursor-default px-3 border border-red-700 text-red-700 font-bold"
+                  v-if="item.score === -1">超纲</span>
+                <a-rate v-else class="mr-4 mb-1" :count="10" v-model:value="item.score" @change="onRateChange(item)" />
+              </div>
+              <a-button v-show="item.score !== -1" @click="() => { item.score = -1; onRateChange(item)}"
+                size="small">超纲</a-button>
             </div>
           </div>
         </div>
