@@ -1,8 +1,10 @@
 <script setup>
 import { selectQuestionApi, updateQuestionApi, createQuestionApi, deleteQuestionApi } from '~/api/question'
+import { getQuestionBankListApi } from '~/api/questionBank';
 import { Form } from 'ant-design-vue';
 import dayjs from 'dayjs';
 
+const createModal = ref()
 const route = useRoute()
 const questionId = route.params?.questionId
 const parent = ref(JSON.parse(route.query?.parent || ''))
@@ -36,6 +38,7 @@ const rulesRef = reactive({
   ],
 });
 const { resetFields, validate, validateInfos } = useForm(formState, rulesRef);
+const bankList = ref([])
 
 onMounted(() => {
   init()
@@ -43,6 +46,7 @@ onMounted(() => {
 
 const init = () => {
   getQuestion()
+  getLibIds()
 }
 
 const onPaginationChange = (current, size) => {
@@ -90,7 +94,7 @@ const onCancel = () => { modalVisible.value = false }
 const updateOrAdd = async () => {
   loading.value = true
   const data = {
-    libIds: [Number(questionId)],
+    libIds: formState.libIds,
     title: formState.title,
     standard: formState.standard
   }
@@ -146,13 +150,34 @@ const handleDelete = async (id) => {
   loading.value = false
 }
 
+// 获取所有题库
+const getLibIds = async () => {
+  loading.value = true
+  const res = await getQuestionBankListApi()
+  if (res.code === 200) {
+    bankList.value = res.data
+    formState.libIds = [Number(questionId)]
+  } else {
+    message.error(res.message)
+  }
+
+  loading.value = false
+}
+
+const openInsertModal = () => {
+  if (createModal.value) {
+    createModal.value.openModal()
+  }
+}
+
 </script>
 
 <template>
-  <main class="flex-1 flex flex-col p-4 bg-bg-base min-h-full">
-    <a-page-header style="border: 1px solid rgb(235, 237, 240)" :title="parent?.libType"
+  <main class="flex-1 flex flex-col p-4 bg-[#f5f5f5] min-h-full">
+    <a-page-header style="background-color: #fff; border: 1px solid rgb(235, 237, 240)" :title="parent?.libType"
       :sub-title="'ID: ' + parent?.id + ' ' + '创建时间： ' + parent?.createTime" @back="() => navigateTo('/examPaperBank')">
       <template #extra>
+        <a-button @click="openInsertModal(null)" key="2">插入</a-button>
         <a-button @click="openModal(null)" type="primary" key="3">创建</a-button>
       </template>
     </a-page-header>
@@ -161,7 +186,7 @@ const handleDelete = async (id) => {
       class='flex-1 h-full'>
       <template #renderItem="{ item, index }">
         <a-list-item :key="item.id" style="padding: 12px 0; margin-bottom: 0; ">
-          <div class="rounded-xl p-4 bg-slate-100 h-[150px]">
+          <div class="rounded-xl p-4">
             <div class="flex justify-between items-center">
               <div class="flex">
                 <a-tag color="green" class="mr-12">ID: {{ item.id }}</a-tag>
@@ -182,28 +207,36 @@ const handleDelete = async (id) => {
                 item.title || '--' }}
               </span></div>
             <div class="mt-4 ml-4">
-              <a-typography-paragraph :ellipsis="{rows: 2}" :content="'参考答案: ' + item.standard" />
+              <common-markdownEditor :toolbarsFlag="false" defaultOpen="preview" v-model="item.standard" />
             </div>
           </div>
         </a-list-item>
       </template>
     </a-list>
 
-    <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="selectedQuestion ? '更新' : '创建'"
+    <a-modal :width="820" v-model:open="modalVisible" @cancel="onCancel" :title="selectedQuestion ? '更新' : '创建'"
       :confirm-loading="loading" @ok="onSave">
-      <a-form class="mt-12" name="basic" :model="formState" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }"
-        autocomplete="on">
+      <a-form class="mt-12" name="basic" :model="formState" autocomplete="on" layout="vertical">
+
+        <a-form-item label="题库" name="libIds" required>
+          <a-select v-model:value="formState.libIds" placeholder="请选择创建到的题库" mode="tags">
+            <a-select-option v-for="item in bankList" :key="item.id" :value="item.id">{{ item.libType
+              }}</a-select-option>
+          </a-select>
+        </a-form-item>
+
         <a-form-item label="题目" name="title" required>
           <a-input v-model:value="formState.title" />
         </a-form-item>
 
         <a-form-item label="标准答案" name="standard" required>
-          <a-textarea style="max-height: 300px;" auto-size v-model:value="formState.standard" />
+          <common-markdownEditor v-model="formState.standard" />
         </a-form-item>
       </a-form>
     </a-modal>
   </main>
 
+  <bank-paper-insertModal ref="createModal" :refresh="getQuestion" />
 </template>
 
 <style scoped></style>

@@ -31,6 +31,8 @@ const onFinish = async (values: any) => {
 
   loading.value = true
   values.interviewId = props.interviewId
+  values.suggest = formState.suggest === '' ? null : formState.suggest
+  values.playback = formState.playback === '' ? null : formState.playback
   const res = await summarizeInterviewApi(values)
   if (res.code === 200) {
     message.success('提交成功')

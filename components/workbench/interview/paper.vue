@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getInterviewQuestionApi, scoreQuestionApi } from '~/api/interviewEvaluation'
-import { deleteQuestionApi } from '~/api/question';
 import dayjs from 'dayjs'
+import { removeQuesionApi } from '~/api/combineExamPaper';
 
 const editRef = ref()
 const createRef = ref()
@@ -35,9 +35,13 @@ const getPaper = () => {
 
 const handleDelete = async (questionId: number) => {
   loading.value = true
-  const res = await deleteQuestionApi(questionId)
+  const data = {
+    paperId: paperDetail.value.id,
+    questionIds: [questionId]
+  }
+  const res = await removeQuesionApi(data)
   if (res.code === 200) {
-    message.success('删除成功')
+    message.success('移除成功')
     getPaper()
   } else {
     message.error(res.message)
@@ -108,7 +112,7 @@ const handleCreate = () => {
                 <div class="text-gray-400">上次修改时间：{{ dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss') }}</div>
                 <a-button @click="handleEdit(item)" size="small" class="ml-8">编辑</a-button>
                 <a-popconfirm title="你确定要删除这道题目吗？" @confirm="handleDelete(item.id)">
-                  <a-button size="small" class="ml-4" danger>删除</a-button>
+                  <a-button size="small" class="ml-2" danger>删除</a-button>
                 </a-popconfirm>
               </a-space>
             </div>
@@ -117,23 +121,24 @@ const handleCreate = () => {
           <div class="mt-2 font-bold text-lg"> {{ index + 1 + '.' }} <span class="ml-1">{{ item.title || '--' }}
             </span></div>
           <div class="mt-4 ml-4">
-            <a-typography-paragraph :ellipsis="{rows: 4, expandable: true}" :content="'参考答案: ' + item.standard" />
+            <CommonMarkdownEditor :boxShadow="false" defaultOpen="preview" :toolbarsFlag="false"
+              v-model="item.standard" />
           </div>
           <!-- 底部打分区 -->
-          <div class="flex justify-between px-4">
+          <div class="flex justify-between px-4 mt-2">
             <div class="flex items-center">
-              历史评分：<span class="py-.5 rounded-sm cursor-default px-3 border border-red-700 text-red-700 font-bold"
-                v-if="item.score === -1">超纲</span> <a-rate v-else class="mb-1" :disabled="true" :count="10"
-                v-model:value="item.average" />
+              历史评分：<a-rate class="mb-1" :disabled="true" :count="10" v-model:value="item.average" />
             </div>
             <div class="flex items-center">
               <div class="flex items-center min-w-[350px]">
-                用户回答：<span class="py-.5 rounded-sm cursor-default px-3 border border-red-700 text-red-700 font-bold"
-                  v-if="item.score === -1">超纲</span>
-                <a-rate v-else class="mr-4 mb-1" :count="10" v-model:value="item.score" @change="onRateChange(item)" />
+                用户回答：
+                <a-rate class="mr-4 mb-1" :count="10" v-model:value="item.score" @change="onRateChange(item)" />
               </div>
-              <a-button v-show="item.score !== -1" @click="() => { item.score = -1; onRateChange(item)}"
-                size="small">超纲</a-button>
+              <span v-if="item.score === -1"
+                class="py-.5 rounded-sm cursor-default px-3 border border-red-700 text-red-700 font-bold">超纲</span>
+              <a-button v-else @click="() => { item.score = -1; onRateChange(item)}" size="small">超纲</a-button>
+
+
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { getBatchListAdminApi } from '~/api/recruitBatch';
 import { selectSentableUserApi, sendEmailsMessageApi } from '~/api/interviewMessage'
 import type { messageFormat } from '~/api/interviewMessage/types'
 import { RESUME_STATUES } from '~/constants/resume';
+import { CONTENT_TEMPLATES } from '~/constants/email'
 
 const loading = ref(false)
 const sendLoading = ref(false)
@@ -102,6 +103,12 @@ const filterOption = (input: string, option: any) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 
+const onTemlateChange = (value: string, option: any[]) => {
+  if(value) {
+      formState.content = value
+  }
+}
+
 </script>
 
 <template>
@@ -148,7 +155,15 @@ const filterOption = (input: string, option: any) => {
           <a-col span="12">
             <a-form-item name="userIds" label="用户" :rules="[{ required: true, message: '请选择用户' }]">
               <a-select v-model:value="formState.userIds" allow-clear :filter-option="filterOption" mode="multiple"
-                style="width: 100%" placeholder="请选择用户" :options="nameList" >
+                style="width: 100%" placeholder="请选择用户" :options="nameList">
+              </a-select>
+            </a-form-item>
+          </a-col>
+
+          <a-col span="12">
+            <a-form-item label="内容模版">
+              <a-select allow-clear :filter-option="filterOption" style="width: 100%" placeholder="请挑选内容模板"
+                :options="CONTENT_TEMPLATES" @change="onTemlateChange">
               </a-select>
             </a-form-item>
           </a-col>
@@ -157,15 +172,15 @@ const filterOption = (input: string, option: any) => {
         <a-divider>邮件信息</a-divider>
 
         <a-row justify="center">
-          <a-col span="12">
+          <a-col span="24">
             <a-form-item name="title" :rules="[{ required: true }]" label="标题">
-              <a-input v-model:value="formState.title" placeholder="请输入邮件标题" />
+              <a-input v-model:value="formState.title" placeholder="请输入邮件标题" style="width: 50%" />
             </a-form-item>
           </a-col>
         </a-row>
 
         <a-row justify="center">
-          <a-col span="12">
+          <a-col span="24">
             <a-form-item name="file" :rules="[{ required: false }]" label="附件">
               <a-upload v-model:fileList="formState.file">
                 <a-button class="flex items-center">
@@ -178,9 +193,9 @@ const filterOption = (input: string, option: any) => {
         </a-row>
 
         <a-row justify="center">
-          <a-col span="12">
+          <a-col span="24">
             <a-form-item name="content" :rules="[{ required: true }]" label="内容">
-              <a-textarea style="max-height: 400;" :rows="4" v-model:value="formState.content" placeholder="请输入邮件内容" />
+              <CommonMarkdownEditor placeholder="请输入邮件内容" v-model="formState.content" />
             </a-form-item>
           </a-col>
         </a-row>

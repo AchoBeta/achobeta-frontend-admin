@@ -11,7 +11,12 @@ export function renameQuestionBankApi(data: renameBank): Promise<IResponse<undef
   return request.post({ url: '/api/v1/library/question/rename', data })
 }
 
-/** 查看所有试卷库 */
+/** 查看所有题库 */
 export function getQuestionBankListApi(): Promise<IResponse<QBankResData[]>> {
   return request.get({ url: '/api/v1/library/question/list' })
+}
+
+/** 批量插入题目 */
+export function insertQuestionsApi(data: { libId: number, questionIds: number[]}): Promise<IResponse<undefined>> {
+  return request.post({ url: '/api/v1/library/question/reference', data })
 }

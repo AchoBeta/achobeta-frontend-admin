@@ -186,7 +186,7 @@ defineExpose({
 
 <template>
 
-  <a-modal :width="800" :open="modalVisible" :footer="null" title="预约管理" @cancel="closeModal" @ok="confirmAppointment">
+  <a-modal :width="820" :open="modalVisible" :footer="null" title="预约管理" @cancel="closeModal" @ok="confirmAppointment">
     <a-spin :spinning="loading">
       <div class="flex flex-col w-full mt-4">
         <div class="flex">

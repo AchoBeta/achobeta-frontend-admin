@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt',
   ],
-  css: ['@/assets/css/tailwind.css', '@/assets/css/global.css'],
+  css: ['@/assets/css/tailwind.css', '@/assets/css/global.css', 'mavon-editor/dist/css/index.css'],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -43,6 +43,10 @@ export default defineNuxtConfig({
       },
     },
   },
-  plugins: ['~/plugins/dayjs'],
+  plugins: [
+    '~/plugins/dayjs',
+    { src: '@/plugins/vue-mavon-editor', mode: 'client' }
+    ],
   ssr: false,
+  compatibilityDate: '2024-10-17',
 })

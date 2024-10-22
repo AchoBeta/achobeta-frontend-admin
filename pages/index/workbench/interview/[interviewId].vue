@@ -101,6 +101,15 @@ const info = () => {
   });
 }
 
+const extractLinks = (text:string | undefined) => {
+  if(!text) return []
+  // 正则表达式匹配 http 或 https 链接
+  const regex = /(https?:\/\/[^\s]+)/g;
+  // 使用 match 方法返回匹配的数组
+  const links = text?.match(regex);
+  return links || [];
+}
+
 </script>
 
 <template>
@@ -138,8 +147,9 @@ const info = () => {
               <div class="text-sm mb-1">面试人：{{ interviewDetail?.simpleStudentVO.name }}</div>
               <div class="text-sm mb-1">专业：{{ interviewDetail?.simpleStudentVO.major }}</div>
               <div class="text-sm mb-1">班级：{{ interviewDetail?.simpleStudentVO.className }}</div>
-              <div class="text-sm mb-1">地址：<a :href="interviewDetail?.address" target="_blank">{{
-                  interviewDetail?.address }}</a>
+              <div class="text-sm mb-1">地址：
+                <a :href="extractLinks(interviewDetail?.address)[0] || '#'" target="_blank">{{ interviewDetail?.address
+                  }}</a>
               </div>
               <div class="text-sm mb-1">描述：{{ interviewDetail?.description }}</div>
             </div>

@@ -13,10 +13,10 @@ export default {
   },
   theme: {
     extend: {
-      colors:{
-        'bg-base':'#fbfbfb',
-        'active-base':'#ff6175',
-        'gray-base':'#717579'
+      colors: {
+        'bg-base': '#fbfbfb',
+        'active-base': '#ff6175',
+        'gray-base': '#717579'
       }
     },
   },

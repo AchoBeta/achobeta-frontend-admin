@@ -166,7 +166,7 @@ const onEdit = (item:any) => {
 
 <template>
   <main class="flex-1 flex flex-col p-4 bg-bg-base min-h-full">
-    <a-page-header style="border: 1px solid rgb(235, 237, 240)" :title="parent?.libType"
+    <a-page-header style="background-color: #fff; border: 1px solid rgb(235, 237, 240)" :title="parent?.libType"
       :sub-title="'ID: ' + parent?.id + ' ' + '创建时间： ' + parent?.createTime"
       @back="() => navigateTo({path: '/exampaperBank', query: { type: 'paper' }})">
       <template #extra>

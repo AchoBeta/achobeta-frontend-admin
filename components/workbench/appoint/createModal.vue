@@ -5,7 +5,7 @@ import { applyMeetingApi } from '~/api/interviewAppointment'
 const FORMSTATE_DEFAULT_VALUE = {
   title: '',
   description: '本场面试采取飞书会议进行，如有不便请及时联系我们，在面试开始之前，提前熟悉会议环境，保证摄像头，麦克风以及屏幕共享没有问题，期待与你交流！',
-  address: '线上面试'
+  address: ['线上面试']
 }
 
 const loading = ref(false)
@@ -36,7 +36,7 @@ const createInterview = async (values:any) => {
   const data = {
     scheduleId: scheduleId.value,
     title: values.title,
-    address: values.address.join(),
+    address: values.address?.join(),
     description: values.description
   }
 

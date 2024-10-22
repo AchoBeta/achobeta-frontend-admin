@@ -92,10 +92,9 @@ defineExpose({
 </script>
 
 <template>
-  <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" title="创建" :confirm-loading="loading"
+  <a-modal :width="820" v-model:open="modalVisible" @cancel="onCancel" title="创建" :confirm-loading="loading"
     :footer="null">
-    <a-form ref="formRef" class="mt-12" name="basic" :model="formState" :label-col="{ span: 4 }"
-      :wrapper-col="{ span: 20 }" @finish="onCreate">
+    <a-form ref="formRef" class="mt-12" name="basic" :model="formState" @finish="onCreate" layout="vertical">
 
       <a-form-item label="题库" name="libIds" required>
         <a-select v-model:value="formState.libIds" placeholder="请选择创建到的题库" mode="tags">
@@ -108,7 +107,7 @@ defineExpose({
       </a-form-item>
 
       <a-form-item label="标准答案" name="standard" required>
-        <a-textarea style="max-height: 300px;" :rows="3" v-model:value="formState.standard" />
+        <CommonMarkdownEditor v-model="formState.standard" />
       </a-form-item>
 
       <a-row justify="end">

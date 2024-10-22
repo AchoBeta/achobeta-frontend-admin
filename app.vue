@@ -3,8 +3,8 @@
 
 <template>
   <div>
-    <no-ssr>
+    <ClientOnly>
       <NuxtPage keepalive />
-    </no-ssr>
+    </ClientOnly>
   </div>
 </template>

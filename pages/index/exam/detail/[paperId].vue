@@ -18,10 +18,11 @@ const showType = ref('编辑')
 const okText = ref('下一步')
 const modalTitle = ref('请先选择题库')
 const modalLoading = ref(false)
-let selectedQBank = ref(undefined)
-let Qbank = ref<any>([])
-let questionList = ref<{title: string, questions: List[]}[]>([])
-let selectedQuestions = ref(undefined)
+const selectedQBank = ref(undefined)
+const Qbank = ref<any>([])
+const questionList = ref<{title: string, questions: List[]}[]>([])
+const selectedQuestions = ref(undefined)
+const libIds = ref<any>([])
 
 onMounted(() => {
   init()
@@ -29,6 +30,7 @@ onMounted(() => {
 
 const init = () => {
   getPaper()
+  getLibIds()
 }
 
 const getPaper = async () => {
@@ -175,11 +177,12 @@ const getQuestion = async (id:number, title:string) => {
   })
 }
 
+
 </script>
 
 <template>
   <main class="flex-1 flex flex-col p-4 bg-bg-base min-h-full">
-    <a-page-header style="border: 1px solid rgb(235, 237, 240)" :title="parent?.title"
+    <a-page-header style="background-color: #fff; border: 1px solid rgb(235, 237, 240)" :title="parent?.title"
       :sub-title=" parent.description + ' ' + '创建时间： ' + parent?.createTime"
       @back="() => navigateTo({ path: `/exam/${examBankId}`, query: { parent: route.query?.parent}})">
       <template #extra>
@@ -199,7 +202,7 @@ const getQuestion = async (id:number, title:string) => {
               </div>
               <div>
                 <a-space>
-                  <div class="text-gray-400">上次修改时间：{{ dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss') }}</div>
+                  <div class="text-gray-400">上次修改时间：{{ dayjs(item.updateTime).format('YYYY-MM-DD HH:mm:ss') }}</div>
                   <a-button class="ml-8" @click="handleEdit(item)">编辑</a-button>
                   <a-popconfirm title="你确定要删除这道题目吗？" @confirm="handleDelete(item.id)">
                     <a-button danger>删除</a-button>
@@ -210,7 +213,7 @@ const getQuestion = async (id:number, title:string) => {
             <div class="mt-2 font-bold text-lg"> {{ index + 1 + '.' }} <span class="ml-1">{{ item.title || '--' }}
               </span></div>
             <div class="mt-4 ml-4">
-              <a-typography-paragraph :ellipsis="{rows: 4, expandable: true}" :content="'参考答案: ' + item.standard" />
+              <CommonMarkdownEditor defaultOpen="preview" :toolbarsFlag="false" v-model="item.standard" />
             </div>
           </div>
         </a-list-item>

@@ -30,6 +30,7 @@
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
     "lodash": "^4.17.21",
+    "mavon-editor": "^3.0.1",
     "nuxt": "^3.10.1",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^4.0.0",

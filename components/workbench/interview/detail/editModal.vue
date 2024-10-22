@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { updateQuestionApi } from '~/api/question';
+import { updateQuestionApi, getQuestionDetailApi } from '~/api/question';
 import { getQuestionBankListApi } from '~/api/questionBank';
 
 const props = defineProps({
@@ -26,6 +26,7 @@ const openModal = (item: any) => {
     formState.title = item.title
     formState.standard = item.standard
     getLibIds()
+    getBindedLibIds(item.id)
   }
 
   modalVisible.value = true
@@ -53,12 +54,25 @@ const onEdit = async (values: any) => {
   modalVisible.value = false
 }
 
-// 获取题目关联的题库
+// 获取所有题库
 const getLibIds = async () => {
   loading.value = true
   const res = await getQuestionBankListApi()
   if (res.code === 200) {
     libIds.value = res.data
+  } else {
+    message.error(res.message)
+  }
+
+  loading.value = false
+}
+
+// 获取题目已绑定的题库
+const getBindedLibIds = async (questionId: number) => {
+  loading.value = true
+  const res = await getQuestionDetailApi(questionId)
+  if (res.code === 200) {
+    formState.libIds = res.data.types.map((item: any) => item.id) as any
   } else {
     message.error(res.message)
   }
@@ -74,10 +88,10 @@ defineExpose({
 
 <template>
 
-  <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" title="编辑试题" :confirm-loading="loading"
+  <a-modal :width="820" v-model:open="modalVisible" @cancel="onCancel" title="编辑试题" :confirm-loading="loading"
     :footer="null">
-    <a-form ref="editRef" class="mt-12" name="basic" :model="formState" :label-col="{ span: 4 }"
-      :wrapper-col="{ span: 20 }" autocomplete="on" @finish="onEdit">
+    <a-form ref="editRef" class="mt-12" name="basic" :model="formState" autocomplete="on" @finish="onEdit"
+      layout="vertical">
 
       <a-form-item label="所属题库" name="libIds" required>
         <a-select v-model:value="formState.libIds" placeholder="请选择所属题库" mode="multiple">
@@ -92,7 +106,7 @@ defineExpose({
       </a-form-item>
 
       <a-form-item label="标准答案" name="standard" required>
-        <a-textarea style="max-height: 300px;" auto-size v-model:value="formState.standard" />
+        <CommonMarkdownEditor v-model="formState.standard" />
       </a-form-item>
 
       <a-row justify="end">
