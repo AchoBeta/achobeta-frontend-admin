@@ -10,13 +10,11 @@ const { userInfo } = storeToRefs(userStore)
 const menuStore = useMenuStore()
 const { menuList, otherMenuList } = storeToRefs(menuStore)
 const { avatar: avatarSrc, loading: avatarLoading } = useAvatar(userInfo.value.avatar)// todo 改变引用不触发响应式
-
-
 </script>
 
 <template>
   <aside data-theme="dark"
-    class="hidden md:block flex-col h-full overflow-scroll w-56 bg-bg-base p-1 border-r-2 border-gray-100">
+    class="hidden md:block flex-col h-full overflow-scroll w-56 ease bg-bg-base p-1 border-r-2 border-gray-100">
     <!-- LOGO -->
     <div class="w-full text-center mt-2 mb-2">
       <img src="~/assets/img/achobeta.jpg" class="mx-auto rounded-lg w-24 h-24 object-fill" alt="头像">

@@ -5,7 +5,6 @@ import type { UserInfo } from '~/types/userInfo'
 import { DEFAULT_AVATAR } from '~/constants/global'
 
 const router = useRouter()
-
 interface Logininfo {
   password: string
   username: string
@@ -41,7 +40,7 @@ export const useUserStore = defineStore('user', () => {
         setUserInfo(DEFAULT_USERINFO)
         router?.replace('/login') 
     }
-    const logout = () => {
+    const logOut = () => {
         reset(router)
     }
     const setRememberMe = (newRememberMe: boolean) => {
@@ -61,16 +60,15 @@ export const useUserStore = defineStore('user', () => {
         setToken,
         setUserInfo,
         reset,
-        logout,
+        logOut,
         setRememberMe,
         setLoginInfo
     }
-},
-    {
-        persist: {
-            key: 'user',
-            storage: persistedState.localStorage,
-            // @ts-ignore
-            paths: ['token', 'userInfo', 'rememberMe', 'loginInfo']
-        }
-    })
+  },
+  {
+      persist: {
+          key: 'user',
+          storage: persistedState.localStorage,
+          pick: ['token', 'userInfo', 'rememberMe', 'loginInfo']
+      }
+  })

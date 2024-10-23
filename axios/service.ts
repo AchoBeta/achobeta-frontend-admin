@@ -9,6 +9,7 @@ import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig, RequestC
 
 const config = useRuntimeConfig()
 export const PATH_URL = config.public.API_BASE_PATH
+
 const abortControllerMap: Map<string, AbortController> = new Map()
 const axiosInstance: AxiosInstance = axios.create({
   timeout: REQUEST_TIMEOUT,
@@ -36,7 +37,7 @@ axiosInstance.interceptors.response.use(
       case responseCode.UNLOGIN:
         message.error('登录失效,请重新登录')
         const userStore = useUserStore()
-        userStore.logout()
+        userStore.logOut()
         break
     }
     

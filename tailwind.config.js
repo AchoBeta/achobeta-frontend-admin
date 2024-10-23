@@ -16,7 +16,8 @@ export default {
       colors: {
         'bg-base': '#fbfbfb',
         'active-base': '#ff6175',
-        'gray-base': '#717579'
+        'gray-base': '#717579',
+        'detail-base': '#f5f5f5'
       }
     },
   },

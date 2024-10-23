@@ -4,7 +4,7 @@
 <template>
   <div>
     <ClientOnly>
-      <NuxtPage keepalive />
+      <NuxtPage />
     </ClientOnly>
   </div>
 </template>

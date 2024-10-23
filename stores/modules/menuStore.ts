@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import type { Ref } from 'vue'
 
 export const useMenuStore = defineStore('menuList', () => {
-  // 主菜单
   const menuList: Ref<MenuItem[]> = ref([{
     id: 1,
     routeName: '/',

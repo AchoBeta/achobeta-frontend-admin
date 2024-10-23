@@ -14,6 +14,9 @@ export default defineNuxtConfig({
       script: [
         { src: 'https://kit.fontawesome.com/c07f3e1d31.js', crossorigin: 'anonymous' },
       ],
+      noscript: [
+        { children: 'JavaScript is required' }
+      ]
     },
   },
   runtimeConfig: {
@@ -23,9 +26,17 @@ export default defineNuxtConfig({
     }
   },
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt', '@vueuse/nuxt', '@pinia-plugin-persistedstate/nuxt', '@ant-design-vue/nuxt',
+  modules: [
+    '@pinia/nuxt',
+    '@vueuse/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    '@ant-design-vue/nuxt',
   ],
-  css: ['@/assets/css/tailwind.css', '@/assets/css/global.css', 'mavon-editor/dist/css/index.css'],
+  css: [
+    '@/assets/css/tailwind.css',
+    '@/assets/css/global.css',
+    'mavon-editor/dist/css/index.css'
+  ],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -34,6 +45,7 @@ export default defineNuxtConfig({
   },
   vite: {
     server: {
+      // 开发环境解决跨域问题
       proxy: {
         '/api': {
           target: process.env[`PROXY_TARTGET_PATH_${currentEnv?.toUpperCase()}`],
@@ -42,11 +54,14 @@ export default defineNuxtConfig({
         },
       },
     },
+    esbuild: {
+      pure: ['console.log', 'debugger'],
+    }
   },
   plugins: [
     '~/plugins/dayjs',
     { src: '@/plugins/vue-mavon-editor', mode: 'client' }
-    ],
+  ],
   ssr: false,
   compatibilityDate: '2024-10-17',
 })

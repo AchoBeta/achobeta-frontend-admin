@@ -1,5 +1,5 @@
 import request from '@/axios'
-import type { CreateQuestion, QuestionRes, QuestionDetail, SelectQuestionCondition, selectResponse } from './types'
+import type { CreateQuestion, QuestionDetail, SelectQuestionCondition, selectResponse } from './types'
 
 /** 创建一道题 */
 export function createQuestionApi(data: CreateQuestion): Promise<IResponse<number>> {

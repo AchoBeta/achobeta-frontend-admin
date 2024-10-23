@@ -5,7 +5,6 @@ import service from './service'
 // 请求函数
 function request(option: AxiosConfig) {
   const { url, method, params, data, headers, responseType } = option
-
   const userStore = useUserStore()
 
   // 创建一个基础headers对象，包含默认的'Content-Type'
@@ -23,8 +22,6 @@ function request(option: AxiosConfig) {
     ...baseHeaders,
     ...headers,
   };
-
-
 
   return service.request({
     url,
