@@ -35,3 +35,10 @@ export interface messageFormat {
   attachments?: File[];
   [property: string]: any;
 }
+
+export interface Template {
+  id: number,
+  templateTitle: string;
+  templateContent: string;
+  [property: string]: any;
+}

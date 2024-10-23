@@ -28,14 +28,8 @@ WORKDIR /app
 # 全局安装 PM2，用于管理和运行 Node.js 应用程序
 RUN npm install -g pm2
 
-# 将第一阶段构建的 node_modules 目录复制到当前容器中，避免重新安装依赖
-COPY --from=builder /app/node_modules ./node_modules
-
 # 将第一阶段构建的 .output 目录（Nuxt.js 编译结果）复制到当前容器中
 COPY --from=builder /app/.output ./.output
-
-# 将第一阶段的 nuxt.config.ts 配置文件复制到当前容器中
-COPY --from=builder /app/nuxt.config.ts ./nuxt.config.ts
 
 # 将第一阶段的 ecosystem.config.js（PM2 配置文件）复制到当前容器中
 COPY --from=builder /app/ecosystem.config.js ./ecosystem.config.js

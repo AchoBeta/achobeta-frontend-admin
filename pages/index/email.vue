@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-import { reactive } from 'vue';
 import { getBatchListAdminApi } from '~/api/recruitBatch';
-import { selectSentableUserApi, sendEmailsMessageApi } from '~/api/interviewMessage'
-import type { messageFormat } from '~/api/interviewMessage/types'
+import { getMessageTemplateApi, selectSentableUserApi, sendEmailsMessageApi, removeMessageTemplateApi, updateMessageTemplateApi, addMessageTemplateApi } from '~/api/interviewMessage'
+import type { messageFormat, Template } from '~/api/interviewMessage/types'
 import { RESUME_STATUES } from '~/constants/resume';
-import { CONTENT_TEMPLATES } from '~/constants/email'
 
 const loading = ref(false)
 const sendLoading = ref(false)
@@ -15,7 +13,8 @@ const formState = reactive({
     userIds: undefined,
     title: '',
     content: '',
-    file: undefined
+    file: undefined,
+    batchId: null
 });
 const condition = ref({
   batchId: null,
@@ -24,6 +23,8 @@ const condition = ref({
   pageNo: 1,
   pageSize: 100,
 })
+const templateList = ref<Template[]>([])
+const selectedTemplate = ref()
 
 onMounted(async ()=> {
   init()
@@ -31,6 +32,7 @@ onMounted(async ()=> {
 
 const init = async () => {
   loading.value = true
+  getTemplate()
   const resBatch = await getBatchListAdminApi()
   if(resBatch.code === 200) {
     batchList.value = resBatch.data
@@ -42,7 +44,8 @@ const init = async () => {
 }
 
 const selectUser = async () => {
-  sendLoading.value = true 
+  sendLoading.value = true
+  condition.value.batchId = formState.batchId
   const res = await selectSentableUserApi(condition.value)
   if(res.code === 200){
     nameList.value = res.data.list.map((item: any) => {
@@ -67,6 +70,7 @@ const reset = () =>{
   formState.title = ''
   formState.content = ''
   formState.file = undefined
+  formState.batchId = null
   nameList.value = []
 }
 
@@ -80,7 +84,7 @@ const onFinish = () => {
       attachments: fileList,
       tittle: formState.title,
       content: formState.content,
-      batchId: condition.value.batchId as any,
+      batchId: formState.batchId as any,
     }
 
     sendEmailsMessageApi(data).then((res) => {
@@ -103,12 +107,93 @@ const filterOption = (input: string, option: any) => {
   return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
 
-const onTemlateChange = (value: string, option: any[]) => {
+const onTemlateChange = (value: any, options: any) => {
   if(value) {
-      formState.content = value
+    formState.title = options.templateTitle
+    formState.content = options.templateContent
+    selectedTemplate.value = options
+  } else {
+    formState.title = ''
+    formState.content = ''
+    selectedTemplate.value = undefined
   }
 }
 
+const getTemplate = async () => {
+  sendLoading.value = true
+  const res = await getMessageTemplateApi()
+  if(res.code === 200) {
+      templateList.value = res.data.map( i => ({ ...i, label: i.templateTitle, value: i.templateContent }))
+  } else {
+    message.error(res.message)
+  }
+  
+  sendLoading.value = false
+}
+
+const deleteTemplate = async () => {
+  sendLoading.value = true
+  const res = await removeMessageTemplateApi(selectedTemplate.value.id)
+  if(res.code === 200) {
+    resetTemplate()
+    message.success('删除成功')
+    getTemplate()
+  } else {
+    message.error(res.message)
+  }
+
+  sendLoading.value = false
+}
+
+const updateTemplate = async () => {
+  sendLoading.value = true
+  const data = {
+    id: selectedTemplate.value.id,
+    templateTitle: formState.title,
+    templateContent: formState.content,
+  }
+
+  const res = await updateMessageTemplateApi(data)
+  if(res.code === 200) {
+    resetTemplate()
+    message.success('更新成功')
+    getTemplate()
+  } else {
+    message.error(res.message)
+  }
+
+  sendLoading.value = false
+}
+
+const addTemplate = async () => {
+  if(!formState.title ||!formState.content) {
+    message.error('请填写标题和内容')
+    return
+  }
+
+  sendLoading.value = true
+  const data = {
+    templateTitle: formState.title,
+    templateContent: formState.content,
+  }
+
+  const res = await addMessageTemplateApi(data)
+  if(res.code === 200) {
+    resetTemplate()
+    message.success('添加成功')
+    getTemplate()
+  } else {
+    message.error(res.message)
+  }
+
+  sendLoading.value = false
+}
+
+const resetTemplate = () => {
+  formState.title = ''
+  formState.content = ''
+  selectedTemplate.value = undefined
+}
 </script>
 
 <template>
@@ -121,8 +206,8 @@ const onTemlateChange = (value: string, option: any[]) => {
         </a-divider>
         <a-row :gutter="24">
           <a-col span="12">
-            <a-form-item name="batchId" label="招新批次">
-              <a-select allow-clear v-model:value="condition.batchId as any" style="width: 100%" placeholder="请选择招新批次"
+            <a-form-item name="batchId" label="招新批次" :rules="[{required: true, message: '请选择招新批次'}]">
+              <a-select allow-clear v-model:value="formState.batchId as any" style="width: 100%" placeholder="请选择招新批次"
                 @change="selectUser">
                 <a-select-option v-for="(item, index) in batchList" :key="item.id" :value="item.id">{{ item.title
                   }}</a-select-option>
@@ -162,8 +247,8 @@ const onTemlateChange = (value: string, option: any[]) => {
 
           <a-col span="12">
             <a-form-item label="内容模版">
-              <a-select allow-clear :filter-option="filterOption" style="width: 100%" placeholder="请挑选内容模板"
-                :options="CONTENT_TEMPLATES" @change="onTemlateChange">
+              <a-select :value="selectedTemplate?.templateContent" allow-clear :filter-option="filterOption"
+                style="width: 100%" placeholder="请挑选内容模板" :options="templateList" @change="onTemlateChange">
               </a-select>
             </a-form-item>
           </a-col>
@@ -202,7 +287,14 @@ const onTemlateChange = (value: string, option: any[]) => {
 
         <a-row justify="center">
           <a-form-item>
-            <a-button :loading="sendLoading" class="ml-20 w-[100px]" type="primary" html-type="submit">发送</a-button>
+            <div class="flex">
+              <a-button @click="deleteTemplate" v-show="selectedTemplate" :loading="sendLoading" danger
+                class="mr-4">删除模板</a-button>
+              <a-button @click="updateTemplate" v-show="selectedTemplate" :loading="sendLoading"
+                class="mr-4">更新模板</a-button>
+              <a-button @click="addTemplate" :loading="sendLoading" class="mr-4">存为模板</a-button>
+              <a-button :loading="sendLoading" class="w-[140px]" type="primary" html-type="submit">发送</a-button>
+            </div>
           </a-form-item>
         </a-row>
 
