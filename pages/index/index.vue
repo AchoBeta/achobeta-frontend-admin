@@ -21,7 +21,7 @@ const init = () => {
 
 const getMember = async () => {
   loading.value = true
-  const res = await getMemInfoListApi(batchId.value)
+  const res = await getMemInfoListApi()
   if (res.code === 200)
     interviewers.value = res.data
   else
