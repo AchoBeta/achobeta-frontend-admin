@@ -1,25 +1,25 @@
 <script lang="ts" setup>
-import { selectQuestionApi } from '~/api/question';
-import { getQuestionBankListApi, insertQuestionsApi } from '~/api/questionBank';
-import type { List } from '~/api/question/types';
+import { selectQuestionApi } from '~/api/question'
+import { getQuestionBankListApi, insertQuestionsApi } from '~/api/questionBank'
+import type { List } from '~/api/question/types'
 
 const props = defineProps({
   refresh: {
     type: Function,
-    default: false
-  }
+    default: () => {},
+  },
 })
 const loading = ref(false)
 const modalVisible = ref(false)
 const okText = ref('下一步')
 const modalTitle = ref('请先选择题库')
 const modalLoading = ref(false)
-let selectedQBank = ref<any>(undefined)
-let Qbank = ref<any>([])
-let questionList = ref < { title: string, questions: List[] }[] > ([])
-let selectedQuestions = ref<any>(undefined)
+const selectedQBank = ref<any>(undefined)
+const Qbank = ref<any>([])
+const questionList = ref < { title: string, questions: List[] }[] > ([])
+const selectedQuestions = ref<any>(undefined)
 
-const onCancel = () => { 
+const onCancel = () => {
   questionList.value = []
   selectedQBank.value = undefined
   selectedQuestions.value = undefined
@@ -29,7 +29,7 @@ const onCancel = () => {
 }
 
 const insertQuestions = async () => {
-  if(!selectedQuestions.value || Array.isArray(selectedQuestions.value) && selectedQuestions.value.length <= 0 ) {
+  if ((!selectedQuestions.value || Array.isArray(selectedQuestions.value)) && selectedQuestions.value.length <= 0) {
     message.error('请先选择题目')
     return
   }
@@ -37,14 +37,15 @@ const insertQuestions = async () => {
   loading.value = true
   const data = {
     libId: selectedQBank.value[0].value,
-    questionIds: selectedQuestions.value || []
+    questionIds: selectedQuestions.value || [],
   }
 
   const res = await insertQuestionsApi(data)
-  if(res.code === 200) {
+  if (res.code === 200) {
     props?.refresh()
     message.success('添加成功')
-  } else {
+  }
+  else {
     message.error('添加失败')
   }
 
@@ -53,24 +54,26 @@ const insertQuestions = async () => {
 }
 
 const onSave = () => {
-  if(okText.value === '下一步') {
-    if(Array.isArray(selectedQBank.value)) {
+  if (okText.value === '下一步') {
+    if (Array.isArray(selectedQBank.value)) {
       modalLoading.value = true
       const request: Array<Promise<any>> = []
-      request.push(getQuestion(selectedQBank.value[0].value, selectedQBank.value[0].label)) 
+      request.push(getQuestion(selectedQBank.value[0].value, selectedQBank.value[0].label))
       Promise.all(request)
-      .then( () => {
-        okText.value = '插入'
-        modalTitle.value = '请选择要插入的题目'
-      })
-      .catch(e => message.error('出错了！'))
-      .finally(() => { 
-        modalLoading.value = false
-      })
-    } else {
+        .then(() => {
+          okText.value = '插入'
+          modalTitle.value = '请选择要插入的题目'
+        })
+        .catch(() => message.error('出错了！'))
+        .finally(() => {
+          modalLoading.value = false
+        })
+    }
+    else {
       message.error('请先选择题库！')
     }
-  } else {
+  }
+  else {
     insertQuestions()
   }
 }
@@ -82,44 +85,46 @@ const openModal = () => {
 }
 
 const getQBank = async () => {
-  modalLoading.value = true;
+  modalLoading.value = true
   const res = await getQuestionBankListApi()
-  if(res.code === 200) {
-    Qbank.value = res.data.map( i => {
+  if (res.code === 200) {
+    Qbank.value = res.data.map((i) => {
       return {
         label: i.libType,
-        value: i.id
+        value: i.id,
       }
     })
-  } else {
+  }
+  else {
     message.error(res.message)
   }
 
   modalLoading.value = false
 }
 
-const getQuestion = async (id:number, title:string) => {
+const getQuestion = async (id: number, title: string) => {
   const condition = {
     current: 1,
     pageSize: 200,
-    libIds: [id]
+    libIds: [id],
   }
 
-  selectQuestionApi(condition).then ( res => {
+  selectQuestionApi(condition).then ((res) => {
     if (res.code === 200) {
       const q = {
         title,
-        questions: res.data.list.map( item => {
+        questions: res.data.list.map((item) => {
           return {
             ...item,
             label: item.title,
-            value: item.id
+            value: item.id,
           }
-        })
+        }),
       }
 
       q.questions.length > 0 && questionList.value.push(q)
-    } else {
+    }
+    else {
       message.error(res.message)
     }
   })
@@ -130,38 +135,73 @@ const onBankChange = () => {
 }
 
 defineExpose({
-  openModal
+  openModal,
 })
-
 </script>
 
 <template>
-
-  <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="modalTitle" :confirm-loading="loading"
-    @ok="onSave" :ok-text="okText">
+  <a-modal
+    v-model:open="modalVisible"
+    :width="500"
+    :title="modalTitle"
+    :confirm-loading="loading"
+    :ok-text="okText"
+    @cancel="onCancel"
+    @ok="onSave"
+  >
     <a-spin :spinning="modalLoading">
-      <a-checkbox-group v-if="okText === '下一步'" v-model:value="selectedQBank" style="width: 100%;" name="questionBank"
-        @change="onBankChange">
+      <a-checkbox-group
+        v-if="okText === '下一步'"
+        v-model:value="selectedQBank"
+        style="width: 100%;"
+        name="questionBank"
+        @change="onBankChange"
+      >
         <a-row>
-          <a-col v-for="(item, index) in Qbank" :span="8">
-            <a-checkbox :value="item">{{ item.label }}</a-checkbox>
+          <a-col
+            v-for="(item, index) in Qbank"
+            :key="item + index"
+            :span="8"
+          >
+            <a-checkbox :value="item">
+              {{ item.label }}
+            </a-checkbox>
           </a-col>
         </a-row>
       </a-checkbox-group>
       <div v-else>
-        <a-checkbox-group v-model:value="selectedQuestions" style="width: 100%; flex-direction: column;"
-          name="questions">
-          <a-row v-for="(qBank, index) in questionList" :key="index" :wrap="true" style="width: 100%;">
-            <a-divider style="width: 100%;">{{ qBank.title }}</a-divider>
-            <a-col v-for="(item, index1) in qBank.questions" :key="index1" :span="24" style="width: 100%;">
-              <a-checkbox :value="item.id" style="white-space: normal;">{{ item.label }}</a-checkbox>
+        <a-checkbox-group
+          v-model:value="selectedQuestions"
+          style="width: 100%; flex-direction: column;"
+          name="questions"
+        >
+          <a-row
+            v-for="(qBank, index) in questionList"
+            :key="index"
+            :wrap="true"
+            style="width: 100%;"
+          >
+            <a-divider style="width: 100%;">
+              {{ qBank.title }}
+            </a-divider>
+            <a-col
+              v-for="(item, index1) in qBank.questions"
+              :key="index1"
+              :span="24"
+              style="width: 100%;"
+            >
+              <a-checkbox
+                :value="item.id"
+                style="white-space: normal;"
+              >
+                {{ item.label }}
+              </a-checkbox>
             </a-col>
           </a-row>
         </a-checkbox-group>
       </div>
     </a-spin>
   </a-modal>
-
 </template>
 
 <style scoped></style>

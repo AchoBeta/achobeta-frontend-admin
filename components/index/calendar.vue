@@ -18,7 +18,11 @@ export default {
 </script>
 
 <template>
-  <FullCalendar day-headers="false" style="width: 100%; height: 100%; padding: 15px;" :options="calendarOptions" />
+  <FullCalendar
+    day-headers="false"
+    style="width: 100%; height: 100%; padding: 15px;"
+    :options="calendarOptions"
+  />
 </template>
 
 <style scoped>

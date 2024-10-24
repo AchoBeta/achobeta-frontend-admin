@@ -1,9 +1,15 @@
+import type {
+  CommentDetail,
+  CommentRequest,
+  CreateCommentRequest,
+  InterviewQuestionDetail,
+  InterviewSituationRequest,
+  InterviewSituationResponse,
+  InterviewSummaryRequest,
+  InterviewSummaryResponse,
+  scoreQuestion,
+} from './types'
 import request from '@/axios'
-import type { 
-  scoreQuestion, InterviewQuestionDetail, CreateCommentRequest, InterviewSituationResponse, 
-   CommentRequest, InterviewSummaryRequest, InterviewSummaryResponse,InterviewSituationRequest,
-   CommentDetail
-   } from './types'
 
 /** 为面试题评分 */
 export function scoreQuestionApi(data: scoreQuestion): Promise<IResponse<undefined>> {
@@ -27,25 +33,25 @@ export function updataInterviewCommentApi(data: CommentRequest): Promise<IRespon
 
 /** 删除一条面试评论 */
 export function deleteInterviewCommentApi(commentId: string): Promise<IResponse<undefined>> {
-  return request.get({ url: `/api/v1/evaluate/comment/remove/${commentId}`})
+  return request.get({ url: `/api/v1/evaluate/comment/remove/${commentId}` })
 }
 
 /** 获取一场面试的所有评论 */
 export function getInterviewCommentApi(interviewId: string): Promise<IResponse<CommentDetail[]>> {
-  return request.get({ url: `/api/v1/evaluate/comment/list/${interviewId}`})
+  return request.get({ url: `/api/v1/evaluate/comment/list/${interviewId}` })
 }
 
 /** 为一场面试进行总结 */
 export function summarizeInterviewApi(data: InterviewSummaryRequest): Promise<IResponse<undefined>> {
-  return request.post({ url: '/api/v1/evaluate/summary/mark', data})
+  return request.post({ url: '/api/v1/evaluate/summary/mark', data })
 }
 
 /** 查询面试总结 */
 export function getInterviewSummaryApi(interviewId: string): Promise<IResponse<InterviewSummaryResponse>> {
-  return request.get({ url: `/api/v1/evaluate/summary/query/${interviewId}`})
+  return request.get({ url: `/api/v1/evaluate/summary/query/${interviewId}` })
 }
 
 /** 查看总的面试情况 */
 export function getInterviewSituationApi(data?: InterviewSituationRequest): Promise<IResponse<InterviewSituationResponse>> {
-  return request.post({ url: '/api/v1/evaluate/summary/rank', data})
+  return request.post({ url: '/api/v1/evaluate/summary/rank', data })
 }

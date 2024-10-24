@@ -1,18 +1,18 @@
 export interface ResumeStatus {
-  code: number,
-  message: string,
+  code: number
+  message: string
 }
 
 export interface ResumeEvent {
-  event: number,
-  description: string,
+  event: number
+  description: string
 }
 
 export interface eventData {
-  memberDTO: MemberDTO,
+  memberDTO: MemberDTO
 }
 
 export interface MemberDTO {
-  username: string,
-  password: string,
+  username: string
+  password: string
 }

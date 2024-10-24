@@ -1,10 +1,7 @@
-import { TRANSFORM_REQUEST_DATA } from '@/constants'
-import { objToFormData } from '@/utils'
 import qs from 'qs'
-import { useRouter } from 'vue-router'
 import type { AxiosResponse, InternalAxiosRequestConfig } from './types'
-
-const router = useRouter()
+import { objToFormData } from '@/utils'
+import { TRANSFORM_REQUEST_DATA } from '@/constants'
 
 function defaultRequestInterceptors(config: InternalAxiosRequestConfig) {
   if (
@@ -41,11 +38,12 @@ function defaultResponseInterceptors(response: AxiosResponse) {
     return response
   }
 
-  let sendedContent:{ params: any, data: any} = { params: {}, data: {} }
+  const sendedContent: { params: any, data: any } = { params: {}, data: {} }
   try {
     sendedContent.params = response.config.params
     sendedContent.data = JSON.parse(response.config.data)
-  } catch {
+  }
+  catch {
     sendedContent.data = response.config.data
   }
 
@@ -54,4 +52,3 @@ function defaultResponseInterceptors(response: AxiosResponse) {
 }
 
 export { defaultRequestInterceptors, defaultResponseInterceptors }
-

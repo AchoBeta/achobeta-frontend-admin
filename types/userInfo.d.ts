@@ -1,28 +1,27 @@
-
 export interface UserInfo {
   /**
    * 邮箱
    */
-  email?: string;
+  email?: string
   /**
    * 昵称
    */
-  nickname?: string;
+  nickname?: string
   /**
    * 手机号
    */
-  phoneNumber?: string;
+  phoneNumber?: string
   /**
    * 用户名
    */
-  username?: string;
+  username?: string
   /**
    * 用户类别
    */
-  userType?: number;
-    /**
+  userType?: number
+  /**
    * 头像
    */
-  avatar?: null | string;
-  [property: string]: any;
+  avatar?: null | string
+  [property: string]: any
 }

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { Form } from 'ant-design-vue';
-import { getBankExamPaperApi, deletePaperApi, updatePaperApi, createPaperApi } from '~/api/examPaper';
+import { Form, Modal } from 'ant-design-vue'
+import { createPaperApi, deletePaperApi, getBankExamPaperApi, updatePaperApi } from '~/api/examPaper'
 import type { List } from '~/api/examPaper/types'
-import { Modal } from 'ant-design-vue';
 
 const route = useRoute()
 const examBankId = route.params?.examBankId
@@ -10,18 +9,18 @@ const parent = ref(JSON.parse(route.query?.parent || ''))
 const condition = {
   libIds: [Number(examBankId)],
   current: 1,
-  pageSize: 20
+  pageSize: 20,
 }
 const loading = ref(false)
 const paperList = ref<List[]>([])
 const modalVisible = ref(false)
-const useForm = Form.useForm;
+const useForm = Form.useForm
 const selectedExamPaper = ref<List>()
 const formRef = reactive({
   libId: [examBankId],
   title: '',
   description: '',
-});
+})
 const rulesRef = reactive({
   title: [
     {
@@ -35,8 +34,8 @@ const rulesRef = reactive({
       message: '输入试卷描述',
     },
   ],
-});
-const { resetFields, validate, } = useForm(formRef, rulesRef);
+})
+const { resetFields, validate } = useForm(formRef, rulesRef)
 
 onMounted(() => {
   init()
@@ -49,11 +48,10 @@ const init = () => {
 const getPaper = async () => {
   loading.value = true
   const res = await getBankExamPaperApi(condition)
-  if (res.code === 200) {
+  if (res.code === 200)
     paperList.value = res.data.list
-  } else {
+  else
     message.error(res.message)
-  }
 
   loading.value = false
 }
@@ -68,10 +66,9 @@ const openModal = (data: any) => {
   modalVisible.value = true
 }
 
-const onCancel = () => { 
+const onCancel = () => {
   resetFields()
   modalVisible.value = false
-
 }
 
 const updateOrAdd = async () => {
@@ -79,7 +76,7 @@ const updateOrAdd = async () => {
   const data = {
     libIds: [Number(examBankId)],
     title: formRef.title,
-    description: formRef.description
+    description: formRef.description,
   }
   if (selectedExamPaper.value?.id) {
     const res = await updatePaperApi(selectedExamPaper.value.id, data)
@@ -88,17 +85,20 @@ const updateOrAdd = async () => {
       modalVisible.value = false
       resetFields()
       message.success('更新成功')
-    } else {
+    }
+    else {
       message.error(res.message)
     }
-  } else {
+  }
+  else {
     const res = await createPaperApi(data)
     if (res.code === 200) {
       getPaper()
       modalVisible.value = false
       resetFields()
       message.success('创建成功')
-    } else {
+    }
+    else {
       message.error(res.message)
     }
   }
@@ -108,18 +108,17 @@ const updateOrAdd = async () => {
 
 const onSave = () => {
   validate()
-    .then(res => {
+    .then(() => {
       updateOrAdd()
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(e)
-      e.errorFields.forEach(i => {
-        i.errors.forEach(err => {
+      e.errorFields.forEach((i) => {
+        i.errors.forEach((err) => {
           message.error(err)
         })
       })
     })
-
 }
 
 const onDelete = (id: string) => {
@@ -131,7 +130,7 @@ const onDelete = (id: string) => {
     okType: 'danger',
     cancelText: '取消',
     onOk: () => handleDelete(id),
-    onCancel: () => {}
+    onCancel: () => {},
   })
 }
 
@@ -141,78 +140,131 @@ const handleDelete = async (paperId: string) => {
   if (res.code === 200) {
     message.success('删除成功')
     getPaper()
-  } else {
+  }
+  else {
     message.error(res.message)
   }
 
   loading.value = false
 }
 
-const navigateToDetail = (item:any) => {
+const navigateToDetail = (item: any) => {
   return navigateTo({
     path: `detail/${item.id}`,
     query: {
       parent: JSON.stringify(item),
-      examBankId: examBankId,
-    }
+      examBankId,
+    },
   })
 }
 
-const onEdit = (item:any) => {
+const onEdit = (item: any) => {
   openModal(item)
 }
-
 </script>
 
 <template>
   <main class="flex-1 flex flex-col p-4 bg-bg-base min-h-full">
-    <a-page-header style="background-color: #fff; border: 1px solid rgb(235, 237, 240)" :title="parent?.libType"
-      :sub-title="'ID: ' + parent?.id + ' ' + '创建时间： ' + parent?.createTime"
-      @back="() => navigateTo({path: '/exampaperBank', query: { type: 'paper' }})">
+    <a-page-header
+      style="background-color: #fff; border: 1px solid rgb(235, 237, 240)"
+      :title="parent?.libType"
+      :sub-title="`ID: ${parent?.id} ` + `创建时间： ${parent?.createTime}`"
+      @back="() => navigateTo({ path: '/exampaperBank', query: { type: 'paper' } })"
+    >
       <template #extra>
-        <a-button @click="openModal(null)" type="primary" key="3">创建</a-button>
+        <a-button
+          key="3"
+          type="primary"
+          @click="openModal(null)"
+        >
+          创建
+        </a-button>
       </template>
     </a-page-header>
 
-    <a-list :loading="loading" :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }"
-      :data-source="paperList" class='flex-1 h-full mt-6'>
-      <template #renderItem="{ item, index }">
-        <a-list-item :key="item.id" style="padding: 10px 0">
-          <a-card @click="navigateToDetail( item )" :headStyle="{padding: '0 12px' }" bordered hoverable
-            :body-style="{padding: '24px 12px'}" class="w-full bg-slate-100">
+    <a-list
+      :loading="loading"
+      :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }"
+      :data-source="paperList"
+      class="flex-1 h-full mt-6"
+    >
+      <template #renderItem="{ item }">
+        <a-list-item
+          :key="item.id"
+          style="padding: 10px 0"
+        >
+          <a-card
+            :head-style="{ padding: '0 12px' }"
+            bordered
+            hoverable
+            :body-style="{ padding: '24px 12px' }"
+            class="w-full bg-slate-100"
+            @click="navigateToDetail(item)"
+          >
             <template #title>
               <div class="flex justify-between w-full mt-1">
-                <a-typography-paragraph class="font-bold" style="margin-bottom: 0;font-size: 18px;"
-                  v-model:content="item.title" />
+                <a-typography-paragraph
+                  v-model:content="item.title"
+                  class="font-bold"
+                  style="margin-bottom: 0;font-size: 18px;"
+                />
               </div>
             </template>
 
             <div>{{ item.description }}</div>
             <template #actions>
-              <edit-outlined key="edit" @click="onEdit(item)" />
-              <DeleteOutlined style="color: red;" key="delete" @click="onDelete(item.id)" />
+              <edit-outlined
+                key="edit"
+                @click="onEdit(item)"
+              />
+              <DeleteOutlined
+                key="delete"
+                style="color: red;"
+                @click="onDelete(item.id)"
+              />
             </template>
           </a-card>
         </a-list-item>
-
       </template>
     </a-list>
 
-    <a-modal :width="500" v-model:open="modalVisible" @cancel="onCancel" :title="selectedExamPaper ? '更新试卷' : '创建试卷'"
-      :confirm-loading="loading" @ok="onSave">
-      <a-form :model="formRef" class="mt-12" name="basic" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }"
-        autocomplete="on">
-        <a-form-item label="名称" name="title" required>
+    <a-modal
+      v-model:open="modalVisible"
+      :width="500"
+      :title="selectedExamPaper ? '更新试卷' : '创建试卷'"
+      :confirm-loading="loading"
+      @cancel="onCancel"
+      @ok="onSave"
+    >
+      <a-form
+        :model="formRef"
+        class="mt-12"
+        name="basic"
+        :label-col="{ span: 4 }"
+        :wrapper-col="{ span: 20 }"
+        autocomplete="on"
+      >
+        <a-form-item
+          label="名称"
+          name="title"
+          required
+        >
           <a-input v-model:value="formRef.title" />
         </a-form-item>
 
-        <a-form-item label="描述" name="description" required>
-          <a-textarea style="max-height: 300px;" v-model:value="formRef.description" />
+        <a-form-item
+          label="描述"
+          name="description"
+          required
+        >
+          <a-textarea
+            v-model:value="formRef.description"
+            style="max-height: 300px;"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
   </main>
-
 </template>
 
 <style scoped></style>

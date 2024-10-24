@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { getMemInfoListApi } from '~/api/fullMember';
-import type { AdminMemInfoData } from '~/api/fullMember/types';
-import { getBatchStudentResumeApi } from '~/api/recruitBatch';
-import type { ResumeData } from '~/api/recruitBatch/types';
+import { getMemInfoListApi } from '~/api/fullMember'
+import type { AdminMemInfoData } from '~/api/fullMember/types'
+import { getBatchStudentResumeApi } from '~/api/recruitBatch'
+import type { ResumeData } from '~/api/recruitBatch/types'
 
 const imgSrc = 'https://obscloud.ulearning.cn/resources/web/1715413452402826.png'
-const loading= ref(false)
+const loading = ref(false)
 const interviewers = ref<AdminMemInfoData[]>([])
 const interviewee = ref<ResumeData[]>([])
 const batchId = ref('1') // 批次id, todo
@@ -20,30 +20,26 @@ const init = () => {
 }
 
 const getMember = async () => {
-  loading.value = true;
+  loading.value = true
   const res = await getMemInfoListApi(batchId.value)
-  if (res.code === 200) {
+  if (res.code === 200)
     interviewers.value = res.data
-  } else {
+  else
     message.error(res.message)
-  }
 
   loading.value = false
 }
 
 const getInterviewers = async () => {
-  loading.value = true;
+  loading.value = true
   const res = await getBatchStudentResumeApi(batchId.value)
-  if (res.code === 200) {
+  if (res.code === 200)
     interviewee.value = res.data
-  } else {
+  else
     message.error(res.message)
-  }
 
   loading.value = false
-
 }
-
 </script>
 
 <template>
@@ -52,8 +48,18 @@ const getInterviewers = async () => {
       <!-- 卡片区域 -->
       <div class="left-container w-1/2">
         <div class="p-5 data-cards flex flex-wrap items-start content-start justify-around bg-[#fbfbfb] w-full  pb-10">
-          <index-singlecard :title="interviewee.length" text="面试人数" subtext="比去年增长 -100%" :icon="imgSrc" />
-          <index-singlecard :title="interviewers.length" subtext="比去年增长 +100%" text="面试官人数" color="#093cbd" />
+          <index-singlecard
+            :title="interviewee.length"
+            text="面试人数"
+            subtext="比去年增长 -100%"
+            :icon="imgSrc"
+          />
+          <index-singlecard
+            :title="interviewers.length"
+            subtext="比去年增长 +100%"
+            text="面试官人数"
+            color="#093cbd"
+          />
           <index-ringcard />
           <index-ringcard ringcolor="#ff7b6f" />
         </div>
@@ -82,7 +88,6 @@ const getInterviewers = async () => {
       </div>
     </div>
   </a-spin>
-
 </template>
 
 <style scoped>

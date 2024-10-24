@@ -1,101 +1,101 @@
-type StatusList = {
-  [property: number]: Status;
+interface StatusList {
+  [property: number]: Status
 }
 
-type Status = {
-  name: string,
-  value: number,
-  color: string,
+interface Status {
+  name: string
+  value: number
+  color: string
 
 }
 
 export const RESUME_STATUES: StatusList = {
   0: {
-    name: "草稿",
+    name: '草稿',
     value: 0,
     color: 'blue',
   },
   1: {
-    name: "待筛选",
+    name: '待筛选',
     value: 1,
-    color: 'green'
+    color: 'green',
 
   },
   2: {
-    name: "筛选不通过",
+    name: '筛选不通过',
     value: 2,
-    color: 'gray'
+    color: 'gray',
   },
   3: {
-    name: "待安排初试",
+    name: '待安排初试',
     value: 3,
-    color: 'orange'
+    color: 'orange',
   },
   4: {
-    name: "待初试",
+    name: '待初试',
     value: 4,
-    color: 'purple'
+    color: 'purple',
   },
   5: {
-    name: "初试通过",
+    name: '初试通过',
     value: 5,
-    color: 'geekblue'
+    color: 'geekblue',
   },
   6: {
-    name: "初试不通过",
+    name: '初试不通过',
     value: 6,
-    color: 'volcano'
+    color: 'volcano',
   },
   7: {
-    name: "待安排复试",
+    name: '待安排复试',
     value: 7,
-    color: 'gold'
+    color: 'gold',
 
   },
   8: {
-    name: "待复试",
+    name: '待复试',
     value: 8,
-    color: 'lime'
+    color: 'lime',
   },
   9: {
-    name: "复试通过",
+    name: '复试通过',
     value: 9,
-    color: 'cyan'
+    color: 'cyan',
   },
   10: {
-    name: "复试不通过",
+    name: '复试不通过',
     value: 10,
-    color:'magenta'
+    color: 'magenta',
   },
   11: {
-    name: "待安排终试",
+    name: '待安排终试',
     value: 11,
-    color: 'pink'
+    color: 'pink',
   },
   12: {
-    name: "待终试",
+    name: '待终试',
     value: 12,
-    color: 'crimson'
+    color: 'crimson',
   },
   13: {
-    name: "终试通过",
+    name: '终试通过',
     value: 13,
-    color:'red'
+    color: 'red',
   },
   14: {
-    name: "终试不通过",
+    name: '终试不通过',
     value: 14,
-    color:'red'
+    color: 'red',
 
   },
   15: {
-    name: "待处理",
+    name: '待处理',
     value: 15,
-    color: 'yellow'
+    color: 'yellow',
   },
   16: {
-    name: "挂起",
+    name: '挂起',
     value: 16,
-    color: 'orange'
-  }
+    color: 'orange',
+  },
 }

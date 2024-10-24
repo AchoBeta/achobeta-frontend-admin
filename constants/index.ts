@@ -2,10 +2,9 @@
  * 请求成功状态码
  */
 type AxiosContentType = | 'application/json'
-    | 'application/x-www-form-urlencoded'
-    | 'multipart/form-data'
-    | 'text/plain'
-
+  | 'application/x-www-form-urlencoded'
+  | 'multipart/form-data'
+  | 'text/plain'
 
 export const SUCCESS_CODE = 200
 

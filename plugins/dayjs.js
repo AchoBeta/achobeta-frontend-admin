@@ -1,5 +1,5 @@
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'
 
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.use(dayjs);
-});
+  nuxtApp.vueApp.use(dayjs)
+})

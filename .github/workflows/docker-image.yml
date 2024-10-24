@@ -2,7 +2,8 @@ name: Docker Image CICD
 
 on:
   push:
-    branches: [ "test" ]
+    branches:
+      - test
 
 jobs:
 
@@ -11,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: |
-        docker login -u singleeeee -p ${{ secrets.DOCKER_HUB_PASSWORD }}
-        docker buildx create --use
-        docker buildx build  . --push --tag singleeeee/achobeta-frontend-admin:test
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: |
+          docker login -u singleeeee -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+          docker buildx create --use
+          docker buildx build  . --push --tag singleeeee/achobeta-frontend-admin:test

@@ -9,7 +9,7 @@ export default {
     './error.vue',
   ],
   daisyui: {
-    themes: ["light", "dark"],
+    themes: ['light', 'dark'],
   },
   theme: {
     extend: {
@@ -17,8 +17,8 @@ export default {
         'bg-base': '#fbfbfb',
         'active-base': '#ff6175',
         'gray-base': '#717579',
-        'detail-base': '#f5f5f5'
-      }
+        'detail-base': '#f5f5f5',
+      },
     },
   },
   plugins: [

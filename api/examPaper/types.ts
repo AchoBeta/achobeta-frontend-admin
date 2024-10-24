@@ -2,51 +2,51 @@ export interface createPaper {
   /**
    * 试卷说明
    */
-  description: string;
+  description: string
   /**
    * 试卷库 id 列表
    */
-  libIds: number[];
+  libIds: number[]
   /**
    * 试卷标题
    */
-  title: string;
-  [property: string]: any;
+  title: string
+  [property: string]: any
 }
 
 export interface EBankResData {
-  list: List[];
+  list: List[]
   /**
    * 总页数
    */
-  pages: number;
+  pages: number
   /**
    * 总条数
    */
-  total: number;
-  [property: string]: any;
+  total: number
+  [property: string]: any
 }
 
 export interface List {
   /**
    * 创建时间
    */
-  createTime: string;
+  createTime: string
   /**
    * 试卷描述
    */
-  description: string;
+  description: string
   /**
    * 试卷 id
    */
-  id: number;
+  id: number
   /**
    * 试卷标题
    */
-  title: string;
+  title: string
   /**
    * 更新时间
    */
-  updateTime: string;
-  [property: string]: any;
+  updateTime: string
+  [property: string]: any
 }

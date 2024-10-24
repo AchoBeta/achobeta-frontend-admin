@@ -1,34 +1,39 @@
 <script setup>
 import { onMounted } from 'vue'
-import { getMemInfoListApi } from '~/api/fullMember';
+import { getMemInfoListApi } from '~/api/fullMember'
 
 const loading = ref(false)
 onMounted(() => {
   init()
 })
 
-let memberList = ref([])
+const memberList = ref([])
 
 const init = async () => {
   loading.value = true
   const res = await getMemInfoListApi()
-  if (res.code === 200) {
+  if (res.code === 200)
     memberList.value = res.data
-  } else {
+  else
     message.error(res.msg)
-  }
 
   loading.value = false
 }
-
 </script>
 
 <template>
   <div class="flex-1 flex flex-col p-4 bg-bg-base min-h-full">
-    <a-list :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="memberList"
-      :pagination="{hideOnSinglePage: true, pageSize: 8}" class='flex-1 h-full'>
+    <a-list
+      :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }"
+      :data-source="memberList"
+      :pagination="{ hideOnSinglePage: true, pageSize: 8 }"
+      class="flex-1 h-full"
+    >
       <template #renderItem="{ item }">
-        <a-list-item :key="item?.userVO?.username" style="padding: 12px 0; margin-bottom: 0;">
+        <a-list-item
+          :key="item?.userVO?.username"
+          style="padding: 12px 0; margin-bottom: 0;"
+        >
           <viewer-userCard :info="item" />
         </a-list-item>
       </template>

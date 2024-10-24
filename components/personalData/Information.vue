@@ -1,18 +1,20 @@
 <script lang="ts" setup>
 import { useUserStore } from '~/stores'
-import { useAvatar } from '~/utils/user';
+import { useAvatar } from '~/utils/user'
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const { avatar: avatarSrc, loading: avatarLoading } = useAvatar(userInfo.value.avatar)
-
-
 </script>
 
 <template>
   <div class="flex flex-col justify-center w-[300px] bg-blue-100 rounded-lg items-center p-4">
     <a-spin :spinning="avatarLoading">
-      <a-avatar :size="{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }" :src="avatarSrc" class="object-contain" />
+      <a-avatar
+        :size="{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }"
+        :src="avatarSrc"
+        class="object-contain"
+      />
     </a-spin>
     <div className="badge badge-accent text-white mt-2">
       {{ userInfo.userType === 2 ? '管理员' : '用户' }}

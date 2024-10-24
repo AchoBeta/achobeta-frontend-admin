@@ -9,7 +9,10 @@
       </h3>
     </div>
     <div class="hidden md:block w-full pic-container flex justify-center items-center">
-      <img class="w-full h-full object-contain" src="~/assets/img/person.png">
+      <img
+        class="w-full h-full object-contain"
+        src="~/assets/img/person.png"
+      >
     </div>
   </div>
 </template>

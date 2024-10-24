@@ -1,12 +1,12 @@
-type StatusList = {
-  [property: number]: Status;
+interface StatusList {
+  [property: number]: Status
 }
 
-type Status = {
-  key: string,
-  name: string,
-  value: number,
-  color: string,
+interface Status {
+  key: string
+  name: string
+  value: number
+  color: string
 }
 
 export const INTERVIEW_STATUS: StatusList = {
@@ -14,30 +14,30 @@ export const INTERVIEW_STATUS: StatusList = {
     key: '0',
     name: '未开始',
     value: 0,
-    color: 'orange'
+    color: 'orange',
   },
   1: {
     key: '1',
     name: '进行中',
     value: 1,
-    color: 'processing'
+    color: 'processing',
   },
   2: {
     key: '2',
     name: '已结束',
     value: 2,
-    color:'red'
+    color: 'red',
   },
 }
 
-type EventList = {
-  [property: number]: Event;
+interface EventList {
+  [property: number]: Event
 }
 
-type Event = {
-  key: string,
-  name: string,
-  value: number,
+interface Event {
+  key: string
+  name: string
+  value: number
 }
 
 export const INTERVIEW_EVENT: EventList = {
@@ -45,7 +45,7 @@ export const INTERVIEW_EVENT: EventList = {
     key: '1',
     name: '面试开始',
     value: 1,
-  }, 
+  },
   2: {
     key: '2',
     name: '面试结束',

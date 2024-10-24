@@ -5,41 +5,41 @@ export interface RecruitActivityRequest {
   /**
    * 招新批次 id
    */
-  batchId: number;
+  batchId: number
   /**
    * 截止时间
    */
-  deadline: number;
+  deadline: number
   /**
    * 活动说明
    */
-  description: string;
+  description: string
   /**
    * 面向的群体
    */
-  target: Target;
+  target: Target
   /**
    * 活动标题
    */
-  title: string;
-  [property: string]: any;
+  title: string
+  [property: string]: any
 }
 
 /**
-* 面向的群体
-*
-* StudentGroup，面向的群体
-*/
+ * 面向的群体
+ *
+ * StudentGroup，面向的群体
+ */
 export interface Target {
   /**
    * null 代表不限制此条件，若非 null，则学生必须满足 allMatch 内的所有条件
    */
-  allMatch: null | AllMatch;
+  allMatch: null | AllMatch
   /**
    * null 代表不限制此条件，若非 null，则学生必须满足 anyMatch 内至少一个条件
    */
-  anyMatch: null | AnyMatch;
-  [property: string]: any;
+  anyMatch: null | AnyMatch
+  [property: string]: any
 }
 
 export interface AllMatch {
@@ -48,167 +48,167 @@ export interface AllMatch {
    *
    * null 代表不限制此条件，若非 null，则学生必须是允许的简历状态
    */
-  status: number[];
-  [property: string]: any;
+  status: number[]
+  [property: string]: any
 }
 
 export interface AnyMatch {
   /**
    * 允许的特定年级
    */
-  grade: number[];
+  grade: number[]
   /**
    * 允许的特定学生
    */
-  uid: number[];
+  uid: number[]
   /**
    * 允许的特定学生
    */
-  userId: number[] | null;
-  [property: string]: any;
+  userId: number[] | null
+  [property: string]: any
 }
 
 export interface SetActivityPaper {
   /**
    * 活动 id
    */
-  actId: number;
-  paperId: number;
-  [property: string]: any;
+  actId: number
+  paperId: number
+  [property: string]: any
 }
 
 export interface ActivityDetail {
   /**
    * 创建时间
    */
-  createTime: string;
+  createTime: string
   /**
    * 截止时间
    */
-  deadline: string;
+  deadline: string
   /**
    * 活动描述
    */
-  description: string;
+  description: string
   /**
    * 招新活动 id
    */
-  id: number;
+  id: number
   /**
    * 是否开始
    */
-  isRun: boolean;
+  isRun: boolean
   /**
    * 试卷 id
    */
-  paperId: number | null;
+  paperId: number | null
   /**
    * 面向的人群
    */
-  target: Target;
+  target: Target
   /**
    * 活动标题
    */
-  title: string;
-  [property: string]: any;
+  title: string
+  [property: string]: any
 }
 
 export interface ActivityTime {
   /**
    * 活动 id
    */
-  actId: number;
-  endTime: number;
+  actId: number
+  endTime: number
   /**
    * 开始时间
    */
-  startTime: number;
-  [property: string]: any;
+  startTime: number
+  [property: string]: any
 }
 
 export interface ActivityModal {
   /**
    * 问题列表
    */
-  questionVOS: QuestionVO[];
+  questionVOS: QuestionVO[]
   /**
    * 活动详情
    */
-  recruitmentActivityVO: RecruitmentActivityVO;
+  recruitmentActivityVO: RecruitmentActivityVO
   /**
    * 时间段列表
    */
-  timePeriodVOS: TimePeriodVO[];
-  [property: string]: any;
+  timePeriodVOS: TimePeriodVO[]
+  [property: string]: any
 }
 
 export interface QuestionVO {
   /**
    * 问题 id
    */
-  id: number;
+  id: number
   /**
    * 问题标准答案
    */
-  standard: string;
+  standard: string
   /**
    * 问题标题
    */
-  title: string;
-  [property: string]: any;
+  title: string
+  [property: string]: any
 }
 
 /**
-* 活动详情
-*/
+ * 活动详情
+ */
 export interface RecruitmentActivityVO {
   /**
    * 活动创建时间
    */
-  createTime: string;
+  createTime: string
   /**
    * 活动截止时间
    */
-  deadline: string;
+  deadline: string
   /**
    * 活动说明
    */
-  description: string;
+  description: string
   /**
    * 活动 id
    */
-  id: number;
+  id: number
   /**
    * 是否开始
    */
-  isRun: boolean;
+  isRun: boolean
   /**
    * 活动试卷 id
    */
-  paperId: number;
+  paperId: number
   /**
    * 活动面向的群体
    */
-  target: Target;
+  target: Target
   /**
    * 活动标题
    */
-  title: string;
-  [property: string]: any;
+  title: string
+  [property: string]: any
 }
 
 export interface TimePeriodVO {
   /**
    * 结束时间
    */
-  endTime: string;
+  endTime: string
   /**
    * 时间段 id
    */
-  id: number;
+  id: number
   /**
    * 开始时间
    */
-  startTime: string;
-  [property: string]: any;
+  startTime: string
+  [property: string]: any
 }

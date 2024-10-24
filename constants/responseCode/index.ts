@@ -33,7 +33,7 @@ export const responseCode = {
   },
   UNVALID_TIME: {
     name: '招新已开始',
-    value: 5002
-  }
+    value: 5002,
+  },
 
 }

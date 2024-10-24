@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-import { DEFAULT_AVATAR } from '~/constants/global'
 import { useMenuStore } from '~/stores'
 import { useUserStore } from '~/stores/modules/userStore'
 import { useAvatar } from '~/utils/user'
@@ -13,16 +11,26 @@ const { avatar: avatarSrc, loading: avatarLoading } = useAvatar(userInfo.value.a
 </script>
 
 <template>
-  <aside data-theme="dark"
-    class="hidden md:block flex-col h-full overflow-scroll w-56 ease bg-bg-base p-1 border-r-2 border-gray-100">
+  <aside
+    data-theme="dark"
+    class="hidden md:block flex-col h-full overflow-scroll w-56 ease bg-bg-base p-1 border-r-2 border-gray-100"
+  >
     <!-- LOGO -->
     <div class="w-full text-center mt-2 mb-2">
-      <img src="~/assets/img/achobeta.jpg" class="mx-auto rounded-lg w-24 h-24 object-fill" alt="头像">
+      <img
+        src="~/assets/img/achobeta.jpg"
+        class="mx-auto rounded-lg w-24 h-24 object-fill"
+        alt="头像"
+      >
     </div>
     <!-- 头像 -->
     <div class="flex items-center ml-6 px-2 py-2 mb-4 border rounded-lg w-44 h-16 ">
       <a-spin :spinning="avatarLoading">
-        <img :src="avatarSrc" class="rounded-lg w-12 h-12 object-fill" alt="头像">
+        <img
+          :src="avatarSrc"
+          class="rounded-lg w-12 h-12 object-fill"
+          alt="头像"
+        >
       </a-spin>
       <div class="px-3">
         <h2 class="font-bold text-sm text-slate-900 pb-1">
@@ -35,11 +43,17 @@ const { avatar: avatarSrc, loading: avatarLoading } = useAvatar(userInfo.value.a
     </div>
     <!-- 菜单栏 -->
     <div>
-      <LayooutAsideMenu :menu-list="menuList" title="主菜单" />
+      <LayooutAsideMenu
+        :menu-list="menuList"
+        title="主菜单"
+      />
     </div>
     <!-- 其它栏 -->
     <div>
-      <LayooutAsideMenu :menu-list="otherMenuList" title="其它" />
+      <LayooutAsideMenu
+        :menu-list="otherMenuList"
+        title="其它"
+      />
     </div>
   </aside>
 </template>

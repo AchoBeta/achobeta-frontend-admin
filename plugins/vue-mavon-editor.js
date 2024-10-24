@@ -1,5 +1,5 @@
-import mavonEditor from 'mavon-editor';
+import mavonEditor from 'mavon-editor'
 
 export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.use(mavonEditor);
-});
+  nuxtApp.vueApp.use(mavonEditor)
+})

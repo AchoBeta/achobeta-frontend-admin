@@ -2,104 +2,104 @@ export interface scoreQuestion {
   /**
    * 面试 id
    */
-  interviewId: number;
+  interviewId: number
   /**
    * 问题 id
    */
-  questionId: number;
+  questionId: number
   /**
    * 分数（0 - 10，-1 代表超纲）
    */
-  score: number;
-  [property: string]: any;
+  score: number
+  [property: string]: any
 }
 
 export interface InterviewQuestionDetail {
   /**
    * 试卷描述
    */
-  description: string;
+  description: string
   /**
    * 试卷 id
    */
-  id: number;
+  id: number
   /**
    * 问题列表
    */
-  questions: Question[];
+  questions: Question[]
   /**
    * 试卷标题
    */
-  title: string;
+  title: string
   /**
    * 试卷类别列表
    */
-  types: Type[];
-  [property: string]: any;
+  types: Type[]
+  [property: string]: any
 }
 
 export interface Question {
   /**
    * 问题历史平均得分
    */
-  average?: number;
+  average?: number
   /**
    * 问题 id
    */
-  id?: number;
+  id?: number
   /**
    * 分数（0 - 10，-1 代表超纲）
    */
-  score?: number;
+  score?: number
   /**
    * 问题标答
    */
-  standard?: string;
+  standard?: string
   /**
    * 问题标题
    */
-  title?: string;
-  [property: string]: any;
+  title?: string
+  [property: string]: any
 }
 
 export interface Type {
   /**
    * 创建时间
    */
-  createTime?: string;
+  createTime?: string
   /**
    * 试卷库 id
    */
-  id?: number;
+  id?: number
   /**
    * 试卷库类别
    */
-  libType?: string;
-  [property: string]: any;
+  libType?: string
+  [property: string]: any
 }
 
 export interface CreateCommentRequest {
   /**
    * 面试评论内容
    */
-  content: string;
+  content: string
   /**
    * 面试 id
    */
-  interviewId: number;
-  [property: string]: any;
+  interviewId: number
+  [property: string]: any
 }
 
 export interface CommentRequest {
   /**
    * 面试评论内容
    */
-  content: string;
+  content: string
   /**
    * 面试 id
    */
-  commentId: number;
-  [property: string]: any;
+  commentId: number
+  [property: string]: any
 }
 
 /**
@@ -109,215 +109,214 @@ export interface InterviewSummaryRequest {
   /**
    * 基础能力
    */
-  basis: number;
+  basis: number
   /**
    * 编程能力
    */
-  coding: number;
+  coding: number
   /**
    * 面试总评
    */
-  evaluate: string;
+  evaluate: string
   /**
    * 表达能力
    */
-  express: number;
+  express: number
   /**
    * 面试 id
    */
-  interviewId: number;
-  playback: string;
+  interviewId: number
+  playback: string
   /**
    * 建议
    */
-  suggest: string;
+  suggest: string
   /**
    * 思维能力
    */
-  thinking: number;
-  [property: string]: any;
+  thinking: number
+  [property: string]: any
 }
 
 export interface InterviewSummaryResponse {
   /**
    * 基础能力
    */
-  basis: number;
+  basis: number
   /**
    * 编程能力
    */
-  coding: number;
+  coding: number
   /**
    * 总评
    */
-  evaluate: string;
+  evaluate: string
   /**
    * 表达能力
    */
-  express: number;
+  express: number
   /**
    * 面试总结 id
    */
-  id: number;
+  id: number
   /**
    * 面试 id
    */
-  interviewId: number;
+  interviewId: number
   /**
    * 回放
    */
-  playback: string;
+  playback: string
   /**
    * 建议
    */
-  suggest: string;
+  suggest: string
   /**
    * 思维能力
    */
-  thinking: number;
-  [property: string]: any;
+  thinking: number
+  [property: string]: any
 }
 
 export interface InterviewSituationRequest {
   /**
    * 招新活动 id
    */
-  actId?: number | null;
+  actId?: number | null
   /**
    * 招新批次 id
    */
-  batchId?: number | null;
-  [property: string]: any;
+  batchId?: number | null
+  [property: string]: any
 }
-
 
 export interface InterviewSituationResponse {
   /**
    * 四项标准平均分
    */
-  average: number | null;
+  average: number | null
   /**
    * 面试 id
    */
-  interviewId: number;
+  interviewId: number
   /**
    * 学生简单简历信息
    */
-  simpleStudentVO: SimpleStudentVO;
+  simpleStudentVO: SimpleStudentVO
   /**
    * 面试状态（0未开始、1进行中、2已结束）
    */
-  status: number;
+  status: number
   /**
    * 面试总结 id
    */
-  summaryId: number | null;
+  summaryId: number | null
   /**
    * 面试标题
    */
-  title: string;
-  [property: string]: any;
+  title: string
+  [property: string]: any
 }
 
 /**
-* 学生简单简历信息
-*/
+ * 学生简单简历信息
+ */
 export interface SimpleStudentVO {
   /**
    * 班级
    */
-  className: string;
+  className: string
   /**
    * 邮箱
    */
-  email: string;
+  email: string
   /**
    * 性别
    */
-  gender: number;
+  gender: number
   /**
    * 年级
    */
-  grade: number;
+  grade: number
   /**
    * 专业
    */
-  major: string;
+  major: string
   /**
    * 姓名
    */
-  name: string;
+  name: string
   /**
    * 简历 id
    */
-  resumeId: number;
+  resumeId: number
   /**
    * 简历状态
    */
-  status: number;
+  status: number
   /**
    * 学号
    */
-  studentId: string;
+  studentId: string
   /**
    * 用户 id
    */
-  userId: number;
+  userId: number
   /**
    * 昵称
    */
-  username: string;
-  [property: string]: any;
+  username: string
+  [property: string]: any
 }
 
 export interface CommentDetail {
-   /**
-     * 评论者
-     */
-   commentator: Commentator;
-   /**
-    * 面试评论内容
-    */
-   content: string;
-   /**
-    * 创建时间
-    */
-   createTime: string;
-   /**
-    * 面试评论 id
-    */
-   id: number;
-   /**
-    * 更新时间
-    */
-   updateTime: string;
-   [property: string]: any;
+  /**
+   * 评论者
+   */
+  commentator: Commentator
+  /**
+   * 面试评论内容
+   */
+  content: string
+  /**
+   * 创建时间
+   */
+  createTime: string
+  /**
+   * 面试评论 id
+   */
+  id: number
+  /**
+   * 更新时间
+   */
+  updateTime: string
+  [property: string]: any
 }
 
 export interface Commentator {
   /**
    * 头像
    */
-  avatar: number;
+  avatar: number
   /**
    * 邮箱
    */
-  email: string;
+  email: string
   /**
    * 管理员 id
    */
-  managerId: number;
+  managerId: number
   /**
    * 昵称
    */
-  nickname: string;
+  nickname: string
   /**
    * 手机号
    */
-  phoneNumber: string;
+  phoneNumber: string
   /**
    * 用户名
    */
-  username: string;
-  [property: string]: any;
+  username: string
+  [property: string]: any
 }

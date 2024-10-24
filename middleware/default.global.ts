@@ -1,19 +1,16 @@
-import { useUserStore } from '../stores/modules/userStore';
+import { useUserStore } from '../stores/modules/userStore'
 
 // 路由守卫
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware((to) => {
   const userStore = useUserStore()
   const { token } = userStore
 
   if (to.path === '/login') {
-    if (token) {
+    if (token)
       return navigateTo('/')
-    }
-  } else {
-    if (!token) {
+  }
+  else {
+    if (!token)
       return navigateTo('/login')
-    } else {
-    }
-
   }
 })

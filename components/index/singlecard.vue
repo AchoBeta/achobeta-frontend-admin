@@ -2,7 +2,7 @@
 const props = defineProps({
   title: {
     type: Number,
-    default: '9825',
+    default: 9825,
   },
   text: {
     type: String,
@@ -25,7 +25,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <div :style="{ backgroundColor: props.color }" class="single-card  flex  p-4 w-5/12 h-32 mb-4 rounded-2xl">
+  <div
+    :style="{ backgroundColor: props.color }"
+    class="single-card  flex  p-4 w-5/12 h-32 mb-4 rounded-2xl"
+  >
     <div class="w-2/3 h-full flex  content-center flex-wrap">
       <div class="card-title w-full  text-center text-white">
         {{ props.title }}
@@ -38,7 +41,10 @@ const props = defineProps({
       </p>
     </div>
     <div class="w-1/3 h-full flex justify-center content-center items-center">
-      <img class="w-14 h-14" :src="props.icon">
+      <img
+        class="w-14 h-14"
+        :src="props.icon"
+      >
     </div>
   </div>
 </template>

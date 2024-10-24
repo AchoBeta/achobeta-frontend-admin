@@ -1,5 +1,5 @@
+import type { ExamPageDetail, addQuestion } from './types'
 import request from '@/axios'
-import type { addQuestion, ExamPageDetail } from './types'
 
 /** 为试卷添加若干道题 */
 export function addQuesionApi(data: addQuestion): Promise<IResponse<addQuestion>> {

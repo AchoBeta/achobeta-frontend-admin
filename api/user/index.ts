@@ -1,5 +1,5 @@
+import type { LWEmail, LWPassword, LoginResponse, PasswordParams, UserInfo, UserTypeRes } from './types'
 import request from '@/axios'
-import type { LWPassword, LoginResponse, UserInfo, UserTypeRes, LWEmail, PasswordParams } from './types'
 
 /** 密码登录 */
 export function loginWithPasswordApi(data: LWPassword): Promise<IResponse<LoginResponse>> {
@@ -8,7 +8,7 @@ export function loginWithPasswordApi(data: LWPassword): Promise<IResponse<LoginR
 
 /** 邮箱登录 */
 export function loginWithEmailApi(data: LWEmail): Promise<IResponse<any>> {
-    return request.post({ url: '/api/v1/auth/login', data })
+  return request.post({ url: '/api/v1/auth/login', data })
 }
 
 /** 发送验证码 */
@@ -27,8 +27,8 @@ export function getUserInfoApi(): Promise<IResponse<UserInfo>> {
 }
 
 /** 修改当前账户信息 */
-export function updateUserInfoApi(avatar: string | null, nickname: string ): Promise<IResponse<undefined>> {
-  return request.post({ url: '/api/v1/user/update', data:{ avatar, nickname } })
+export function updateUserInfoApi(avatar: string | null, nickname: string): Promise<IResponse<undefined>> {
+  return request.post({ url: '/api/v1/user/update', data: { avatar, nickname } })
 }
 
 /** 获取用户类型列表 */

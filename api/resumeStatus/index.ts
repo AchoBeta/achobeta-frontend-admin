@@ -1,5 +1,5 @@
-import request from '@/axios'
 import type { ResumeEvent, ResumeStatus, eventData } from './types'
+import request from '@/axios'
 
 /** 获取简历状态列表 */
 export function getResumeStatusApi(): Promise<IResponse<ResumeStatus[]>> {

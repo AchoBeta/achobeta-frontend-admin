@@ -1,5 +1,5 @@
+import type { CreateRecruitBatch, RecruitBatchDetail, ResumeData, UpdateRecruitBatch, batchlistResponse } from './types'
 import request from '@/axios'
-import type { CreateRecruitBatch, batchlistResponse, UpdateRecruitBatch, RecruitBatchDetail, ResumeData } from './types'
 
 /** 创建招新批次 */
 export function createRecruitBatchApi(data: CreateRecruitBatch): Promise<IResponse<number>> {
@@ -7,12 +7,12 @@ export function createRecruitBatchApi(data: CreateRecruitBatch): Promise<IRespon
 }
 
 /** 开启招新批次 */
-export function startRecruitBatchApi(batchId: string): Promise<IResponse<undefined>> {
+export function startRecruitBatchApi(batchId: string | number): Promise<IResponse<undefined>> {
   return request.get({ url: `/api/v1/recruit/batch/shift/${batchId}`, params: { isRun: true } })
 }
 
 /** 关闭招新批次 */
-export function endRecruitBatchApi(batchId: string): Promise<IResponse<undefined>> {
+export function endRecruitBatchApi(batchId: string | number): Promise<IResponse<undefined>> {
   return request.get({ url: `/api/v1/recruit/batch/shift/${batchId}`, params: { isRun: false } })
 }
 
@@ -32,11 +32,11 @@ export function getBatchListUserApi(): Promise<IResponse<batchlistResponse>> {
 }
 
 /** 查看招新批次详情 */
-export function getBatchListDetailApi(batchId: string): Promise<IResponse<RecruitBatchDetail>> {
+export function getBatchListDetailApi(batchId: string | number): Promise<IResponse<RecruitBatchDetail>> {
   return request.get({ url: `/api/v1/recruit/batch/detail/${batchId}` })
 }
 
 /** 获取参与本批次的学生简要简历列表（管理员) */
-export function getBatchStudentResumeApi(batchId: string): Promise<IResponse<ResumeData[]>> {
+export function getBatchStudentResumeApi(batchId: string | number): Promise<IResponse<ResumeData[]>> {
   return request.get({ url: `/api/v1/recruit/batch/participants/${batchId}` })
 }

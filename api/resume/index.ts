@@ -1,5 +1,5 @@
-import request from '@/axios'
 import type { ResumeRequest, ResumeResponse } from './types'
+import request from '@/axios'
 
 /** 查询简历（管理员） */
 export function getResumeAdminApi(data: ResumeRequest): Promise<IResponse<ResumeResponse>> {
@@ -10,5 +10,3 @@ export function getResumeAdminApi(data: ResumeRequest): Promise<IResponse<Resume
 export function getResumeUserApi(batchId: string): Promise<IResponse<ResumeResponse>> {
   return request.post({ url: `/api/v1/resume/query/${batchId}` })
 }
-
-

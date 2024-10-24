@@ -16,59 +16,58 @@ const DEFAULT_USERINFO = {
   email: '暂未设置',
   phoneNumber: '暂未设置',
   userType: 2,
-  nickname: '未登录'
+  nickname: '未登录',
 }
 
 export const useUserStore = defineStore('user', () => {
-    const userInfo = ref<UserInfo>(DEFAULT_USERINFO)
-    const tokenKey = ref<string>('Authorization')
-    const token = ref<string>('')
-    const rememberMe = ref<boolean>(true)
-    const loginInfo = ref<Logininfo>({ password: '', username: '' })
+  const userInfo = ref<UserInfo>(DEFAULT_USERINFO)
+  const tokenKey = ref<string>('Authorization')
+  const token = ref<string>('')
+  const rememberMe = ref<boolean>(true)
+  const loginInfo = ref<Logininfo>({ password: '', username: '' })
 
-    const setTokenKey = (newTokenKey: string) => {
-        tokenKey.value = newTokenKey
-    }
-    const setToken = (newToken: string) => {
-        token.value = newToken
-    }
-    const setUserInfo = (newUserInfo: UserInfo) => {
-        userInfo.value = newUserInfo
-    }
-    const reset = (router:any) => {
-        setToken('')
-        setUserInfo(DEFAULT_USERINFO)
-        router?.replace('/login') 
-    }
-    const logOut = () => {
-        reset(router)
-    }
-    const setRememberMe = (newRememberMe: boolean) => {
-        rememberMe.value = newRememberMe
-    }
-    const setLoginInfo = (newLoginInfo: Logininfo) => {
-        loginInfo.value = newLoginInfo
-    }
+  const setTokenKey = (newTokenKey: string) => {
+    tokenKey.value = newTokenKey
+  }
+  const setToken = (newToken: string) => {
+    token.value = newToken
+  }
+  const setUserInfo = (newUserInfo: UserInfo) => {
+    userInfo.value = newUserInfo
+  }
+  const reset = (router: any) => {
+    setToken('')
+    setUserInfo(DEFAULT_USERINFO)
+    router?.replace('/login')
+  }
+  const logOut = () => {
+    reset(router)
+  }
+  const setRememberMe = (newRememberMe: boolean) => {
+    rememberMe.value = newRememberMe
+  }
+  const setLoginInfo = (newLoginInfo: Logininfo) => {
+    loginInfo.value = newLoginInfo
+  }
 
-    return {
-        userInfo,
-        tokenKey,
-        token,
-        rememberMe,
-        loginInfo,
-        setTokenKey,
-        setToken,
-        setUserInfo,
-        reset,
-        logOut,
-        setRememberMe,
-        setLoginInfo
-    }
+  return {
+    userInfo,
+    tokenKey,
+    token,
+    rememberMe,
+    loginInfo,
+    setTokenKey,
+    setToken,
+    setUserInfo,
+    reset,
+    logOut,
+    setRememberMe,
+    setLoginInfo,
+  }
+}, {
+  persist: {
+    key: 'user',
+    storage: persistedState.localStorage,
+    pick: ['token', 'userInfo', 'rememberMe', 'loginInfo'],
   },
-  {
-      persist: {
-          key: 'user',
-          storage: persistedState.localStorage,
-          pick: ['token', 'userInfo', 'rememberMe', 'loginInfo']
-      }
-  })
+})

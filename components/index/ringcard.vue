@@ -14,7 +14,7 @@ const props = defineProps({
     type: String,
     default: '#ffffff',
   },
-  
+
   ringcolor: {
     type: String,
     default: '#2d83da',
@@ -24,7 +24,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <div :style="{ backgroundColor: props.color }" class="single-card flex py-4 pl-4 pr-1 w-5/12 h-32 mb-4 rounded-2xl">
+  <div
+    :style="{ backgroundColor: props.color }"
+    class="single-card flex py-4 pl-4 pr-1 w-5/12 h-32 mb-4 rounded-2xl"
+  >
     <div class="flex-1 h-full flex content-center flex-wrap">
       <div class="card-title w-full text-center text-black">
         {{ props.title }}
@@ -39,9 +42,12 @@ const props = defineProps({
         70%
       </div> -->
 
-      <div :style="{ color: props.ringcolor }"
-        class="radial-progress bg-[#f5f5f5] text-primary-content border-4 border-[#f5f5f5]" style="--value:70;"
-        role="progressbar">
+      <div
+        :style="{ color: props.ringcolor }"
+        class="radial-progress bg-[#f5f5f5] text-primary-content border-4 border-[#f5f5f5]"
+        style="--value:70;"
+        role="progressbar"
+      >
         70%
       </div>
     </div>

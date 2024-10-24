@@ -48,5 +48,8 @@ export default {
 </script>
 
 <template>
-  <div ref="echartRef" style="width: 100%;height:100%" />
+  <div
+    ref="echartRef"
+    style="width: 100%;height:100%"
+  />
 </template>

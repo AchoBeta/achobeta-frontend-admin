@@ -1,17 +1,10 @@
-<template>
-  <ClientOnly>
-    <mavon-editor v-bind="$attrs" :toolbars="toolbarsOptions" @change="handleChange" v-model="localValue"
-      :subfield="false" />
-  </ClientOnly>
-</template>
-
 <script setup>
 const props = defineProps({
   modelValue: {
     type: String,
     default: '',
-    required: true
-  }
+    required: true,
+  },
 })
 
 const emits = defineEmits(['update:modelValue'])
@@ -52,7 +45,18 @@ const handleChange = (value) => {
 watch(() => props.modelValue, (newVal) => {
   localValue.value = newVal
 })
-
 </script>
+
+<template>
+  <ClientOnly>
+    <mavon-editor
+      v-bind="$attrs"
+      v-model="localValue"
+      :toolbars="toolbarsOptions"
+      :subfield="false"
+      @change="handleChange"
+    />
+  </ClientOnly>
+</template>
 
 <style scoped></style>

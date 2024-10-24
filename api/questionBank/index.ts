@@ -1,9 +1,9 @@
+import type { QBankResData, renameBank } from './types'
 import request from '@/axios'
-import type { renameBank, QBankResData } from './types'
 
 /** 创建一个题库 */
 export function createQuestionBankApi(libType: string): Promise<IResponse<number>> {
-  return request.post({ url: '/api/v1/library/question/create', params:{libType} })
+  return request.post({ url: '/api/v1/library/question/create', params: { libType } })
 }
 
 /** 题库重命名 */
@@ -17,6 +17,6 @@ export function getQuestionBankListApi(): Promise<IResponse<QBankResData[]>> {
 }
 
 /** 批量插入题目 */
-export function insertQuestionsApi(data: { libId: number, questionIds: number[]}): Promise<IResponse<undefined>> {
+export function insertQuestionsApi(data: { libId: number, questionIds: number[] }): Promise<IResponse<undefined>> {
   return request.post({ url: '/api/v1/library/question/reference', data })
 }

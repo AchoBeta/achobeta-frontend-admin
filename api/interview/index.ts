@@ -1,5 +1,5 @@
+import type { GetInterview, Interview, InterviewDetail, InterviewPaper, InterviewResponse, UpdataInterview } from './types'
 import request from '@/axios'
-import type { Interview, UpdataInterview, InterviewPaper, GetInterview, InterviewResponse, InterviewDetail } from './types'
 
 /** 创建一场面试 */
 export function createInterviewApi(data: Interview): Promise<IResponse<number>> {
@@ -17,8 +17,8 @@ export function getInterviewStatusApi(): Promise<IResponse<undefined>> {
 }
 
 /** 执行面试事件 */
-export function executeInterviewEventApi(event: number,interviewId: string ): Promise<IResponse<number>> {
-  return request.post({ url: `/api/v1/interview/execute/${interviewId}`, params:{event} })
+export function executeInterviewEventApi(event: number, interviewId: string): Promise<IResponse<number>> {
+  return request.post({ url: `/api/v1/interview/execute/${interviewId}`, params: { event } })
 }
 
 /** 为面试设置试卷 */

@@ -15,15 +15,15 @@ export default defineNuxtConfig({
         { src: 'https://kit.fontawesome.com/c07f3e1d31.js', crossorigin: 'anonymous' },
       ],
       noscript: [
-        { children: 'JavaScript is required' }
-      ]
+        { children: 'JavaScript is required' },
+      ],
     },
   },
   runtimeConfig: {
     public: {
       env: currentEnv,
-      API_BASE_PATH: process.env[`API_BASE_PATH_${currentEnv?.toUpperCase()}`]
-    }
+      API_BASE_PATH: process.env[`API_BASE_PATH_${currentEnv?.toUpperCase()}`],
+    },
   },
   devtools: { enabled: true },
   modules: [
@@ -35,7 +35,7 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/tailwind.css',
     '@/assets/css/global.css',
-    'mavon-editor/dist/css/index.css'
+    'mavon-editor/dist/css/index.css',
   ],
   postcss: {
     plugins: {
@@ -56,11 +56,11 @@ export default defineNuxtConfig({
     },
     esbuild: {
       pure: ['console.log', 'debugger'],
-    }
+    },
   },
   plugins: [
     '~/plugins/dayjs',
-    { src: '@/plugins/vue-mavon-editor', mode: 'client' }
+    { src: '@/plugins/vue-mavon-editor', mode: 'client' },
   ],
   ssr: false,
   compatibilityDate: '2024-10-17',

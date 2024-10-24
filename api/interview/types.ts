@@ -2,55 +2,55 @@ export interface Interview {
   /**
    * 面试地址
    */
-  address: string;
+  address: string
   /**
    * 面试说明
    */
-  description: string;
+  description: string
   /**
    * 面试预约 id
    */
-  scheduleId: number;
+  scheduleId: number
   /**
    * 面试标题
    */
-  title: string;
-  [property: string]: any;
+  title: string
+  [property: string]: any
 }
 
 export interface UpdataInterview {
-  address: string;
+  address: string
   /**
    * 面试说明
    */
-  description: string;
+  description: string
   /**
    * 面试 id
    */
-  interviewId: number;
+  interviewId: number
   /**
    * 面试标题
    */
-  title: string;
-  [property: string]: any;
+  title: string
+  [property: string]: any
 }
 
 export interface status {
-  status: number;
+  status: number
   /**
    * 面试说明
    */
-  description: string;
-  [property: string]: any;
+  description: string
+  [property: string]: any
 }
 
 export interface InterviewPaper {
   /**
    * 面试 id
    */
-  interviewId: number;
-  paperId: number;
-  [property: string]: any;
+  interviewId: number
+  paperId: number
+  [property: string]: any
 }
 
 /**
@@ -60,100 +60,100 @@ export interface GetInterview {
   /**
    * 招新活动 id
    */
-  actId?: number | null;
+  actId?: number | null
   /**
    * 招新批次 id
    */
-  batchId?: number | null;
-  [property: string]: any;
+  batchId?: number | null
+  [property: string]: any
 }
 
 export interface InterviewResponse {
   /**
    * 面试 id
    */
-  id?: number;
+  id?: number
   /**
    * 面试预约
    */
-  scheduleVO?: ScheduleVO;
+  scheduleVO?: ScheduleVO
   /**
    * 面试状态（0未开始、1进行中、2已结束）
    */
-  status?: number;
+  status?: number
   /**
    * 面试标题
    */
-  title?: string;
-  [property: string]: any;
+  title?: string
+  [property: string]: any
 }
 
 /**
-* 面试预约
-*/
+ * 面试预约
+ */
 export interface ScheduleVO {
   /**
    * 结束时间
    */
-  endTime: string;
+  endTime: string
   /**
    * 面试预约 id
    */
-  id: number;
+  id: number
   /**
    * “活动参与” id
    */
-  participationId: number;
+  participationId: number
   /**
    * 开始时间
    */
-  startTime: string;
-  [property: string]: any;
+  startTime: string
+  [property: string]: any
 }
 
 export interface InterviewDetail {
-    /**
-     * 面试地址
-     */
-    address: string;
-    /**
-     * 面试说明
-     */
-    description: string;
-    /**
-     * 面试 id
-     */
-    id: number;
-    /**
-     * 预约信息
-     */
-    scheduleVO: ScheduleVO;
-    /**
-     * 简要学生信息
-     */
-    simpleStudentVO: SimpleStudentVO;
-    /**
-     * 面试状态（0未开始、1进行中、2已结束）
-     */
-    status: number;
-    /**
-     * 面试标题
-     */
-    title: string;
-    [property: string]: any;
+  /**
+   * 面试地址
+   */
+  address: string
+  /**
+   * 面试说明
+   */
+  description: string
+  /**
+   * 面试 id
+   */
+  id: number
+  /**
+   * 预约信息
+   */
+  scheduleVO: ScheduleVO
+  /**
+   * 简要学生信息
+   */
+  simpleStudentVO: SimpleStudentVO
+  /**
+   * 面试状态（0未开始、1进行中、2已结束）
+   */
+  status: number
+  /**
+   * 面试标题
+   */
+  title: string
+  [property: string]: any
 }
 
 export interface SimpleStudentVO {
-  className: string;
-  email: string;
-  gender: number;
-  grade: number;
-  major: string;
-  name: string;
-  resumeId: number;
-  status: number;
-  studentId: string;
-  userId: number;
-  username: string;
-  [property: string]: any;
+  className: string
+  email: string
+  gender: number
+  grade: number
+  major: string
+  name: string
+  resumeId: number
+  status: number
+  studentId: string
+  userId: number
+  username: string
+  [property: string]: any
 }

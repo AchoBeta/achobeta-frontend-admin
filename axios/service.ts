@@ -1,11 +1,11 @@
-import { REQUEST_TIMEOUT } from '@/constants'
-import { responseCode } from '@/constants/responseCode'
 import { message } from 'ant-design-vue'
 import type { AxiosError } from 'axios'
 import axios from 'axios'
-import { useUserStore } from '~/stores/modules/userStore'
 import { defaultRequestInterceptors, defaultResponseInterceptors } from './config'
 import type { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig, RequestConfig } from './types'
+import { useUserStore } from '~/stores/modules/userStore'
+import { responseCode } from '@/constants/responseCode'
+import { REQUEST_TIMEOUT } from '@/constants'
 
 const config = useRuntimeConfig()
 export const PATH_URL = config.public.API_BASE_PATH
@@ -31,16 +31,16 @@ axiosInstance.interceptors.response.use(
   (res: AxiosResponse) => {
     const url = res.config.url || ''
     const code = res.data?.code
+    const userStore = useUserStore()
     switch (code) {
       case responseCode.UNAUTHORIZED.value:
       case responseCode.UNVALID_TOKEN.value:
       case responseCode.UNLOGIN:
         message.error('登录失效,请重新登录')
-        const userStore = useUserStore()
         userStore.logOut()
         break
     }
-    
+
     abortControllerMap.delete(url)
     // 这里不能做任何处理，否则后面的 interceptors 拿不到完整的上下文了
     return res

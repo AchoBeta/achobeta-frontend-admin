@@ -1,5 +1,5 @@
-import request from '@/axios'
 import type { CreateQuestion, QuestionDetail, SelectQuestionCondition, selectResponse } from './types'
+import request from '@/axios'
 
 /** 创建一道题 */
 export function createQuestionApi(data: CreateQuestion): Promise<IResponse<number>> {
@@ -12,7 +12,7 @@ export function updateQuestionApi(questionId: number, data: CreateQuestion): Pro
 }
 
 /** 删除一道题 */
-export function deleteQuestionApi(questionId: number): Promise<IResponse<{paperId: number}>> {
+export function deleteQuestionApi(questionId: number): Promise<IResponse<{ paperId: number }>> {
   return request.get({ url: `/api/v1/question/remove/${questionId}` })
 }
 
@@ -23,7 +23,5 @@ export function getQuestionDetailApi(questionId: number): Promise<IResponse<Ques
 
 /** 获取题目 */
 export function selectQuestionApi(data: SelectQuestionCondition): Promise<IResponse<selectResponse>> {
-  return request.post({ url: '/api/v1/question/query', data})
+  return request.post({ url: '/api/v1/question/query', data })
 }
-
-  

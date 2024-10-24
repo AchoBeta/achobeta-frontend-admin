@@ -1,5 +1,5 @@
+import type { ActivityDetail, ActivityModal, ActivityTime, RecruitActivityRequest, SetActivityPaper } from './types'
 import request from '@/axios'
-import type { RecruitActivityRequest, SetActivityPaper, ActivityDetail, ActivityTime, ActivityModal } from './types'
 
 /** 创建一个题库 */
 export function createActivityApi(data: RecruitActivityRequest): Promise<IResponse<number>> {
@@ -8,12 +8,12 @@ export function createActivityApi(data: RecruitActivityRequest): Promise<IRespon
 
 /** 开启招新活动 */
 export function startActivityApi(actId: string): Promise<IResponse<undefined>> {
-  return request.get({ url: `/api/v1/recruit/activity/shift/${actId}`, params: {isRun: true} })
+  return request.get({ url: `/api/v1/recruit/activity/shift/${actId}`, params: { isRun: true } })
 }
 
 /** 关闭招新活动 */
 export function endActivityApi(actId: string): Promise<IResponse<undefined>> {
-  return request.get({ url: `/api/v1/recruit/activity/shift/${actId}`, params: {isRun: false} })
+  return request.get({ url: `/api/v1/recruit/activity/shift/${actId}`, params: { isRun: false } })
 }
 /** 更新招新活动信息 */
 export function updateActivityApi(data: RecruitActivityRequest): Promise<IResponse<undefined>> {
@@ -41,6 +41,6 @@ export function getActivityDetailApi(actId: string): Promise<IResponse<ActivityM
 }
 
 /** 查看某批次招新活动列表 */
-export function getActivityApi(batchId: string, isRun?: boolean ): Promise<IResponse<ActivityDetail[]>> {
-  return request.get({ url: `/api/v1/recruit/activity/list/manager/${batchId}`, params: {isRun} })
+export function getActivityApi(batchId: string, isRun?: boolean): Promise<IResponse<ActivityDetail[]>> {
+  return request.get({ url: `/api/v1/recruit/activity/list/manager/${batchId}`, params: { isRun } })
 }

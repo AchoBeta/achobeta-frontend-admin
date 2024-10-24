@@ -1,28 +1,13 @@
-<template>
-  <div class="p-4 bg-[#f5f5f5] ">
-    <div class="py-1 flex overflow-scroll">
-      <a-segmented @change="changeTab" v-model:value="tabValue" :options="batchList">
-        <template #label="{ payload }">
-          <div style="padding: 4px 4px">
-            <div>{{ payload.title }}</div>
-          </div>
-        </template>
-      </a-segmented>
-    </div>
-    <a-button class="my-3 hidden md:block" type="primary" @click="mangerbatch">管理招新批次</a-button>
-    <resume-table :loading="loading" :batchId="tabValue" :Data="tabledata"></resume-table>
-  </div>
-  <resume-drawer @getBatchlist="getbatchlist" :Data="drawData" ref="childRef"
-    v-model:showDrawer="showDrawer"></resume-drawer>
-</template>
-
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { getBatchListAdminApi, getBatchStudentResumeApi } from "~/api/recruitBatch";
-import type { DataItem } from '~/components/resume/types';
-const loading = ref(false);//控制loading
-const childRef = ref<any | null>(null);//子组件实例
-const showDrawer = ref(false);//控制抽屉显示
+import type { SegmentedValue } from 'ant-design-vue/es/segmented/src/segmented'
+import { onMounted, ref } from 'vue'
+import { getBatchListAdminApi, getBatchStudentResumeApi } from '~/api/recruitBatch'
+import type { ResumeData } from '~/api/recruitBatch/types'
+import type { DataItem } from '~/components/resume/types'
+
+const loading = ref(false)// 控制loading
+const childRef = ref<any | null>(null)// 子组件实例
+const showDrawer = ref(false)// 控制抽屉显示
 const batchList = ref([
   {
     value: '26',
@@ -31,26 +16,26 @@ const batchList = ref([
     },
   },
 
-]);
-const tabValue = ref(batchList.value[0].value);//默认显示第一个批次
-const tabledata = ref([
-]);//表格数据
-const drawData = ref<DataItem[]>();//抽屉数据
+])
+const tabValue = ref(batchList.value[0].value)// 默认显示第一个批次
+const tabledata = ref<ResumeData[]>([
+])// 表格数据
+const drawData = ref<DataItem[]>()// 抽屉数据
 const mangerbatch = () => {
-  //调用子组件的方法展开
+  // 调用子组件的方法展开
   childRef.value.showDrawer()
   // isDisabled.value = true;
-};//管理招新批次按钮点击事件
+}// 管理招新批次按钮点击事件
 const getbatchlist = async () => {
-  loading.value = true;
-  const res = await getBatchListAdminApi();
+  loading.value = true
+  const res = await getBatchListAdminApi()
   batchList.value = res.data.map((item: any) => ({
     value: item.id,
     payload: {
       title: item.title,
 
     },
-  }));
+  }))
   drawData.value = res.data.map((item: any) => ({
     id: item.id,
     batch: item.batch,
@@ -58,10 +43,10 @@ const getbatchlist = async () => {
     status: 'normal',
     isRun: item.isRun,
     deadline: item.deadline,
-  }));
-  tabValue.value = batchList.value[0].value;
+  }))
+  tabValue.value = batchList.value[0].value
 
-  //获取表格数据
+  // 获取表格数据
   if (drawData.value) {
     getBatchStudentResumeApi(drawData.value[0].id).then((res) => {
       tabledata.value = res.data.map((item: any) => ({
@@ -76,16 +61,16 @@ const getbatchlist = async () => {
         className: item.className,
         status: item.status,
         name: item.name,
-      }));
-    });
+      }))
+    })
   }
 
-  loading.value = false;
-}//获取招新批次列表
-//切换批次
-const changeTab = (value: string) => {
-  loading.value = true;
-  getBatchStudentResumeApi(Number(value)).then((res) => {
+  loading.value = false
+}// 获取招新批次列表
+// 切换批次
+const changeTab = (value: SegmentedValue) => {
+  loading.value = true
+  getBatchStudentResumeApi(value).then((res) => {
     tabledata.value = res.data.map((item: any) => ({
       resumeId: item.resumeId,
       userId: item.userId,
@@ -98,7 +83,7 @@ const changeTab = (value: string) => {
       className: item.className,
       status: item.status,
       name: item.name,
-    }));
+    }))
   })
     .finally(() => {
       loading.value = false
@@ -107,8 +92,43 @@ const changeTab = (value: string) => {
 onMounted(() => {
   getbatchlist()
 })
-
 </script>
+
+<template>
+  <div class="p-4 bg-[#f5f5f5] ">
+    <div class="py-1 flex overflow-scroll">
+      <a-segmented
+        v-model:value="tabValue"
+        :options="batchList"
+        @change="changeTab"
+      >
+        <template #label="{ payload }">
+          <div style="padding: 4px 4px">
+            <div>{{ payload.title }}</div>
+          </div>
+        </template>
+      </a-segmented>
+    </div>
+    <a-button
+      class="my-3 hidden md:block"
+      type="primary"
+      @click="mangerbatch"
+    >
+      管理招新批次
+    </a-button>
+    <resume-table
+      :loading="loading"
+      :batch-id="tabValue"
+      :data="tabledata"
+    />
+  </div>
+  <resume-drawer
+    ref="childRef"
+    v-model:showDrawer="showDrawer"
+    :data="drawData"
+    @get-batchlist="getbatchlist"
+  />
+</template>
 
 <style scoped>
 .ant-segmented-group {
