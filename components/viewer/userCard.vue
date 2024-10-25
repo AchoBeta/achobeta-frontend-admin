@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import type { AdminMemInfoData } from '~/api/fullMember/types'
-import { useAvatar } from '~/utils/user'
 
 const props = defineProps({
   info: {

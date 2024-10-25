@@ -29,8 +29,7 @@ const getBatch = async () => {
       isRun: true,
     }]
     selectedBatchId.value = batchList.value[0].id
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

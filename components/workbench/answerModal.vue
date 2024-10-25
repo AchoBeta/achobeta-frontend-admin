@@ -24,8 +24,7 @@ const getQuestionDetail = async () => {
   if (res.code === 200) {
     answerList.value = res.data.questionAnswerVOS
     userName.value = res.data.simpleStudentVO.name
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

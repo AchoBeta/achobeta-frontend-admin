@@ -44,8 +44,7 @@ const handleFinish = async (values: any) => {
   if (res.code === 200) {
     message.success('更新成功')
     onCancel()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 }

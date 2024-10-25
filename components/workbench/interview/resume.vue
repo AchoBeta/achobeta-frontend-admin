@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { getResumeAdminApi } from '~/api/resume'
 import { RESUME_STATUES } from '~/constants/resume'
-import { useAvatar } from '~/utils/user'
 
 const props = defineProps({
   interviewId: {
@@ -32,8 +31,7 @@ const getResumeDetail = () => {
       const { avatar: imageUrl, loading: imgLoading } = useAvatar(res.data.stuSimpleResumeVO.image)
       avatarSrc = imageUrl
       avatarLoading = imgLoading
-    }
-    else {
+    } else {
       message.error(res.message)
     }
 

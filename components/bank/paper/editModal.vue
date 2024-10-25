@@ -46,8 +46,7 @@ const onEdit = async (values: any) => {
   if (res.code === 200) {
     message.success('更新成功!')
     props.refresh()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

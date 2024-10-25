@@ -37,8 +37,7 @@ const handleEvent = (event: number, description: string) => {
       if (res.code === 200) {
         message.success(`${description}成功`)
         props.getResumeDetail()
-      }
-      else {
+      } else {
         message.error(res.message)
       }
     })

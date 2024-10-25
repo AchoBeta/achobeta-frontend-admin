@@ -18,8 +18,7 @@ const updateBaseinfo = async () => {
   if (res.code === 200) {
     message.success('更新成功')
     userStore.setUserInfo(cloneDeep(formState.value))
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

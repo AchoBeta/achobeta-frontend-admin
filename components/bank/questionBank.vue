@@ -43,8 +43,7 @@ const createQBank = async () => {
     createModal.value = false
     message.success(res.message)
     getQBankList()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

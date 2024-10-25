@@ -68,8 +68,7 @@ const addQuestions = async () => {
   if (res.code === 200) {
     getPaper()
     message.success('添加成功')
-  }
-  else {
+  } else {
     message.error('添加失败')
   }
 
@@ -94,12 +93,10 @@ const onSave = () => {
         .finally(() => {
           modalLoading.value = false
         })
-    }
-    else {
+    } else {
       message.error('请先选择题库！')
     }
-  }
-  else {
+  } else {
     addQuestions()
   }
 }
@@ -115,8 +112,7 @@ const handleDelete = async (id: number) => {
   if (res.code === 200) {
     message.success('删除成功')
     getPaper()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -144,8 +140,7 @@ const getQBank = async () => {
         value: i.id,
       }
     })
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -173,8 +168,7 @@ const getQuestion = async (id: number, title: string) => {
       }
 
       q.questions.length > 0 && questionList.value.push(q)
-    }
-    else {
+    } else {
       message.error(res.message)
     }
   })

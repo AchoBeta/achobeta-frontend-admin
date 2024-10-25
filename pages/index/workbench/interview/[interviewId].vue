@@ -75,8 +75,7 @@ const executeEvent = async (key: number) => {
   if (res.code === 200) {
     message.success('执行成功')
     getInterview()
-  }
-  else {
+  } else {
     if (res.message === '面试状态流转失败')
       message.error('请确保面试已经结束')
     else

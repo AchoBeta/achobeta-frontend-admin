@@ -33,8 +33,7 @@ const openPaperModal = async (item: any) => {
       })
       paperFormState.paperId = res.data.id
     }
-  }
-  else {
+  } else {
     if (res.message !== '试卷不存在')
       message.error(res.message)
   }
@@ -88,8 +87,7 @@ const handlePaperEdit = async (values: any) => {
   if (res.code === 200) {
     message.success('设置成功')
     paperVisible.value = false
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 }

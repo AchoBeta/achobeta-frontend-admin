@@ -53,8 +53,7 @@ const getBatchList = async () => {
         value: item.id,
       }
     })
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -83,8 +82,7 @@ const createActivity = async (values: any) => {
 
       editActivityId.value = undefined
       modalVisible.value = false
-    }
-    else {
+    } else {
       message.error(res.message)
     }
 
@@ -101,8 +99,7 @@ const createActivity = async (values: any) => {
       activityRef.value[0].getActivity()
 
     modalVisible.value = false
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -167,8 +164,7 @@ const batchTransform = (values: any, value: null | []) => {
     values.target.allMatch = {
       status: value,
     }
-  }
-  else {
+  } else {
     if (values.target.allMatch.status === null || values.target.allMatch.status?.length === 0)
       values.target.allMatch.status = value
   }
@@ -179,8 +175,7 @@ const batchTransform = (values: any, value: null | []) => {
       grade: value,
       userId: value,
     }
-  }
-  else {
+  } else {
     if (values.target.anyMatch.grade === null || values.target.anyMatch.grade?.length === 0)
       values.target.anyMatch.grade = value
 

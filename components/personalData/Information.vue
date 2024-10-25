@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useUserStore } from '~/stores'
-import { useAvatar } from '~/utils/user'
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)

@@ -18,23 +18,19 @@ export const useAvatar = (avatar: string | null | undefined | number): Response 
       if (avatar) {
         if (typeof avatar === 'string' && avatar.startsWith('http')) {
           avatarUrl.value = avatar
-        }
-        else if (typeof avatar === 'number') {
+        } else if (typeof avatar === 'number') {
           const res = await getPreviewApi(String(avatar))
           const src = `data:image/jpeg;base64,${btoa(new Uint8Array(res as any).reduce((data, byte) => data + String.fromCharCode(byte), ''))}`
           avatarUrl.value = src
         }
-      }
-      else {
+      } else {
         avatarUrl.value = DEFAULT_AVATAR
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.error(err)
       avatarUrl.value = DEFAULT_AVATAR
       error.value = err
-    }
-    finally {
+    } finally {
       loading.value = false
     }
   }

@@ -54,8 +54,7 @@ const selectUser = async () => {
         value: item.userId,
       }
     })
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -91,15 +90,13 @@ const onFinish = () => {
       if (res.code === 200) {
         message.success('发送成功')
         reset()
-      }
-      else {
+      } else {
         message.error(res.message)
       }
 
       sendLoading.value = false
     })
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error)
   }
 }
@@ -113,8 +110,7 @@ const onTemlateChange = (value: any, options: any) => {
     formState.title = options.templateTitle
     formState.content = options.templateContent
     selectedTemplate.value = options
-  }
-  else {
+  } else {
     formState.title = ''
     formState.content = ''
     selectedTemplate.value = undefined
@@ -139,8 +135,7 @@ const deleteTemplate = async () => {
     resetTemplate()
     message.success('删除成功')
     getTemplate()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -160,8 +155,7 @@ const updateTemplate = async () => {
     resetTemplate()
     message.success('更新成功')
     getTemplate()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -185,8 +179,7 @@ const addTemplate = async () => {
     resetTemplate()
     message.success('添加成功')
     getTemplate()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

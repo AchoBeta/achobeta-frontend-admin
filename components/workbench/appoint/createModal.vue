@@ -47,8 +47,7 @@ const createInterview = async (values: any) => {
     reset()
     loading.value = false
     modalVisible.value = false
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -72,8 +71,7 @@ const applyMeeting = async () => {
     meetingState.value.meetingId = res.data.meetingNo
     meetingState.value.url = res.data.url
     meetingState.value.appUrl = res.data.appLink
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

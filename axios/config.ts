@@ -42,8 +42,7 @@ function defaultResponseInterceptors(response: AxiosResponse) {
   try {
     sendedContent.params = response.config.params
     sendedContent.data = JSON.parse(response.config.data)
-  }
-  catch {
+  } catch {
     sendedContent.data = response.config.data
   }
 

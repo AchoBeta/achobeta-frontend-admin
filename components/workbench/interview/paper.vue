@@ -43,8 +43,7 @@ const handleDelete = async (questionId: number) => {
   if (res.code === 200) {
     message.success('移除成功')
     getPaper()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

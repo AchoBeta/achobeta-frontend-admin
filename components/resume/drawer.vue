@@ -51,8 +51,7 @@ const onClose = (index: number) => {
 const onSave = (index: number) => {
   if (data.value[index].title.trim() === '') {
     message.error('请输入招新标题')
-  }
-  else {
+  } else {
     loading.value = true
     let time
     if (childRef.value) {
@@ -74,8 +73,7 @@ const onSave = (index: number) => {
           message.error('保存失败，招新时间已开始')
         else
           message.success('保存成功')
-      }
-      else {
+      } else {
         message.error('保存失败')
       }
     }).finally(() => {
@@ -107,8 +105,7 @@ const shiftStatus = (index: number) => {
           message.error('结束招新失败')
       }
     })
-  }
-  else {
+  } else {
     startRecruitBatchApi(String(data.value[index].id)).then((res) => {
       if (res) {
         if (res.code === responseCode.SUCCESS.value)
@@ -147,14 +144,11 @@ const handleOk = () => {
   if (inputTitle.value.trim() === '') {
     message.error('请输入招新标题')
     return
-  }
-  else if (!validateBatch(inputBatch.value)) {
+  } else if (!validateBatch(inputBatch.value)) {
     return
-  }
-  else if (!childRef.value.timestamp) {
+  } else if (!childRef.value.timestamp) {
     message.error('请选择正确的截止时间')
-  }
-  else {
+  } else {
     loading.value = true
     let time
     showModal.value = false
@@ -176,15 +170,13 @@ const handleOk = () => {
         if (res) {
           if (res.code === responseCode.UNVALID_TIME.value) {
             message.error('创建失败，招新时间已开始')
-          }
-          else {
+          } else {
             message.success('创建成功')
 
             emit('getBatchlist')
             loading.value = false
           }
-        }
-        else {
+        } else {
           message.error('创建失败')
         }
       }).finally(() => {

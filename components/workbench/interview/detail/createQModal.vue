@@ -68,8 +68,7 @@ const addQuestion = (questionId: number) => {
       message.success('添加成功')
       props.refresh()
       onCancel()
-    }
-    else {
+    } else {
       message.error(res.message)
     }
   })

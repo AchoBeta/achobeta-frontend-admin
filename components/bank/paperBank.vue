@@ -46,8 +46,7 @@ const createPaperBank = async () => {
     createModal.value = false
     message.success(res.message)
     getPaperBankList()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

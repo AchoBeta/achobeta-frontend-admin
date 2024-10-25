@@ -1,6 +1,4 @@
 <script setup>
-import { useAvatar } from '~/utils/user'
-
 const props = defineProps({
   data: {
     type: Object,

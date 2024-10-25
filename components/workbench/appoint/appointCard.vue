@@ -91,8 +91,7 @@ const joinInInterview = async () => {
     selectedRow.value.interviewerVOList.push({
       username: userInfo.username,
     })
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -106,8 +105,7 @@ const exitInterview = async () => {
   if (res.code === 200) {
     message.success('退出成功')
     selectedRow.value.interviewerVOList = selectedRow.value.interviewerVOList.filter((i: any) => i.username !== userInfo.username)
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -120,8 +118,7 @@ const deleteInterview = async (row: any) => {
   if (res.code === 200) {
     message.success('删除成功')
     interviewList.value = interviewList.value.filter((i: any) => i.id !== row.id)
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -140,8 +137,7 @@ const updateTimeRange = async (time: any) => {
     message.success('修改预约时间成功')
     selectedRow.value.startTime = data.startTime
     selectedRow.value.endTime = data.endTime
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

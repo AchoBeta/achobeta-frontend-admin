@@ -44,8 +44,7 @@ const insertQuestions = async () => {
   if (res.code === 200) {
     props?.refresh()
     message.success('添加成功')
-  }
-  else {
+  } else {
     message.error('添加失败')
   }
 
@@ -68,12 +67,10 @@ const onSave = () => {
         .finally(() => {
           modalLoading.value = false
         })
-    }
-    else {
+    } else {
       message.error('请先选择题库！')
     }
-  }
-  else {
+  } else {
     insertQuestions()
   }
 }
@@ -94,8 +91,7 @@ const getQBank = async () => {
         value: i.id,
       }
     })
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -123,8 +119,7 @@ const getQuestion = async (id: number, title: string) => {
       }
 
       q.questions.length > 0 && questionList.value.push(q)
-    }
-    else {
+    } else {
       message.error(res.message)
     }
   })

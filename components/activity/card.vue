@@ -93,11 +93,9 @@ const handleAnyMatch = () => {
 
   if (anyCondition?.grade === null && anyCondition?.userId === null) {
     anyMatch.value = ['条件矛盾']
-  }
-  else if (anyCondition?.grade?.length === 0 && anyCondition?.userId?.length === 0) {
+  } else if (anyCondition?.grade?.length === 0 && anyCondition?.userId?.length === 0) {
     anyMatch.value = ['无']
-  }
-  else {
+  } else {
     anyCondition?.grade && anyCondition?.grade.forEach((grade) => {
       anyMatch.value?.push(`${String(grade)}级`)
     })
@@ -113,8 +111,7 @@ const handleAllMatch = () => {
   const allCondition = props.data?.target.allMatch
   if (allCondition === null || allCondition?.status === null || allCondition?.status?.length === 0) {
     allMatch.value = ['所有']
-  }
-  else {
+  } else {
     allCondition?.status && allCondition?.status.forEach((status: number) => {
       allMatch.value?.push(status)
     })
@@ -139,21 +136,18 @@ const changeActicityStatu = async () => {
     if (res.code === 200) {
       message.success('开启成功')
       isActivityRun.value = true
-    }
-    else {
+    } else {
       message.error(res.message)
       isActivityRun.value = false
     }
 
     modalVisible.value = false
-  }
-  else {
+  } else {
     const res = await endActivityApi(String(props.data?.id))
     if (res.code === 200) {
       message.success('关闭成功')
       isActivityRun.value = false
-    }
-    else {
+    } else {
       message.error(res.message)
       isActivityRun.value = true
     }
@@ -177,8 +171,7 @@ const openPaperModal = async () => {
       value: res.data.id,
       key: res.data.id,
     })
-  }
-  else {
+  } else {
     message.error(res.message)
   }
   paperVisible.value = true
@@ -231,8 +224,7 @@ const handlePaperEdit = async (values: any) => {
   if (res.code === 200) {
     message.success('设置成功')
     paperVisible.value = false
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -265,8 +257,7 @@ const removeTimeRange = async (item: Domain) => {
     if (res.code === 200) {
       message.success('删除成功')
       timeState.value.timeRanges.splice(index, 1)
-    }
-    else {
+    } else {
       message.error(res.message)
     }
 
@@ -330,8 +321,7 @@ const getTimeRange = async () => {
       }
     })
     timeState.value.timeRanges = timeRangeBack
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

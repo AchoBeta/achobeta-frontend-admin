@@ -89,8 +89,7 @@ const removeTimeRange = async (item: any) => {
     if (res.code === 200) {
       message.success('删除成功')
       timeState.value.timeRanges.splice(index, 1)
-    }
-    else {
+    } else {
       message.error(res.message)
     }
 
@@ -113,8 +112,7 @@ const updateTimeRange = async (record: any) => {
   if (res.code === 200) {
     message.success('更新成功')
     getData()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -134,8 +132,7 @@ const getData = async () => {
         key: _.id,
       }
     })
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

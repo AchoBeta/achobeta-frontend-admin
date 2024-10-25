@@ -4,7 +4,6 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { createInterviewCommentApi, deleteInterviewCommentApi, getInterviewCommentApi, updataInterviewCommentApi } from '~/api/interviewEvaluation'
 import type { CommentDetail } from '~/api/interviewEvaluation/types'
 import { useUserStore } from '~/stores'
-import { useAvatar } from '~/utils/user'
 
 const props = defineProps({
   interviewId: {
@@ -67,8 +66,7 @@ const deleteComment = async (id: number) => {
   if (res.code === 200) {
     message.success('删除成功')
     getComment()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -91,12 +89,10 @@ const addComment = async () => {
       newComment.value = ''
       selectedId.value = undefined
       getComment()
-    }
-    else {
+    } else {
       message.error(res.message)
     }
-  }
-  else {
+  } else {
     const data = {
       interviewId: Number(props.interviewId),
       content: newComment.value,
@@ -107,8 +103,7 @@ const addComment = async () => {
       message.success('评论成功')
       newComment.value = ''
       getComment()
-    }
-    else {
+    } else {
       message.error(res.message)
     }
   }

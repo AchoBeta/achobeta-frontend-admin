@@ -85,20 +85,17 @@ const updateOrAdd = async () => {
       modalVisible.value = false
       resetFields()
       message.success('更新成功')
-    }
-    else {
+    } else {
       message.error(res.message)
     }
-  }
-  else {
+  } else {
     const res = await createPaperApi(data)
     if (res.code === 200) {
       getPaper()
       modalVisible.value = false
       resetFields()
       message.success('创建成功')
-    }
-    else {
+    } else {
       message.error(res.message)
     }
   }
@@ -140,8 +137,7 @@ const handleDelete = async (paperId: string) => {
   if (res.code === 200) {
     message.success('删除成功')
     getPaper()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

@@ -4,7 +4,6 @@ import type { PropType } from 'vue'
 import { message } from 'ant-design-vue'
 import type { UploadChangeParam } from 'ant-design-vue'
 import { DEFAULT_AVATAR } from '~/constants/global'
-import { useAvatar } from '~/utils/user'
 import { uploadImageApi } from '~/api/resource'
 
 const props = defineProps({

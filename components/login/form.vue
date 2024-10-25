@@ -50,14 +50,12 @@ async function login() {
         username: inputUsername.value,
         password: inputPassword.value,
       })
-    }
-    else {
+    } else {
       userStore.setLoginInfo({ password: '', username: '' })
     }
 
     router.push('/')
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

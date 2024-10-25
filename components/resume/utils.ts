@@ -41,49 +41,6 @@ export const getcolorCode = (message: string) => {
   }
 }
 
-// export const getColor = (code: number) => {
-//   switch (code) {
-//       case 0:
-//           return 'blue'; // 草稿状态使用蓝色
-//       case 1:
-//           return 'green'; // 待筛选状态使用绿色
-//       case 2:
-//           return 'gray'; // 假设筛选不通过状态使用灰色
-//       case 3:
-//           return 'orange'; // 假设待安排初试状态使用橙色
-//       case 4:
-//           return 'purple'; // 假设待初试状态使用紫色
-//       case 5:
-//           return 'geekblue'; // 假设初试通过状态使用极客蓝
-//       case 6:
-//           return 'volcano'; // 假设初试不通过状态使用火山红
-//       case 7:
-//           return 'gold'; // 假设待安排复试状态使用金色
-//       case 8:
-//           return 'lime'; // 假设待复试状态使用青绿色
-//       case 9:
-//           return 'cyan'; // 假设复试通过状态使用青色
-//       case 10:
-//           return 'magenta'; // 假设复试不通过状态使用品红色
-//       case 11:
-//           return 'pink'; // 假设待安排终试状态使用粉色
-//       case 12:
-//           return 'crimson'; // 假设待终试状态使用深红色
-//       case 13:
-//           return 'blue'; // 假设终试通过状态使用蓝色
-//       case 14:
-//           return 'red'; // 假设终试不通过状态使用红色
-//       case 15:
-//           return 'yellow'; // 假设待处理状态使用黄色
-//       case 16:
-//           return 'red'; // 挂起状态使用红色
-//       case 17:
-//           return 'default'; // 所有状态使用默认颜色
-//       default:
-//           return 'default'; // 默认颜色
-//   }
-// };
-
 export const getColor = (code: number) => {
   switch (code) {
     case 0:

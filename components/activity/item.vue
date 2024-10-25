@@ -38,8 +38,7 @@ const getActivity = async () => {
     activities.value = res.data
     if (cardRef.value)
       cardRef.value.init()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

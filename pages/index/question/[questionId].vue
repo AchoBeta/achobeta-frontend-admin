@@ -72,8 +72,7 @@ const getQuestion = async () => {
   if (res.code === 200) {
     pagination.total = res.data.total
     questionList.value = res.data.list
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -108,20 +107,17 @@ const updateOrAdd = async () => {
       modalVisible.value = false
       resetFields()
       message.success('更新成功')
-    }
-    else {
+    } else {
       message.error(res.message)
     }
-  }
-  else {
+  } else {
     const res = await createQuestionApi(data)
     if (res.code === 200) {
       getQuestion()
       modalVisible.value = false
       resetFields()
       message.success('创建成功')
-    }
-    else {
+    } else {
       message.error(res.message)
     }
   }
@@ -149,8 +145,7 @@ const handleDelete = async (id) => {
   if (res.code === 200) {
     message.success('删除成功')
     getQuestion()
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
@@ -164,8 +159,7 @@ const getLibIds = async () => {
   if (res.code === 200) {
     bankList.value = res.data
     formState.libIds = [Number(questionId)]
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 

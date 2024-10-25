@@ -1,7 +1,6 @@
 <script setup>
 import { useMenuStore } from '~/stores'
 import { useUserStore } from '~/stores/modules/userStore'
-import { useAvatar } from '~/utils/user'
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)

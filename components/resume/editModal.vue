@@ -2,7 +2,6 @@
 import { getResumeAdminApi } from '~/api/resume'
 import type { ResumeRequest } from '~/api/resume/types'
 import { getResumeEventsApi } from '~/api/resumeStatus'
-import { useAvatar } from '~/utils/user'
 import { RESUME_STATUES } from '~/constants/resume'
 
 interface eventType {
@@ -62,8 +61,7 @@ const getResumeDetail = async () => {
     const { avatar: imageUrl, loading: imgLoading } = useAvatar(res.data.stuSimpleResumeVO.image)
     avatarSrc = imageUrl
     avatarLoading = imgLoading
-  }
-  else {
+  } else {
     message.error(res.message)
   }
 
