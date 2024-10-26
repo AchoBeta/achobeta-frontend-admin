@@ -9,7 +9,18 @@ export default {
     './error.vue',
   ],
   daisyui: {
-    themes: ['light', 'dark'],
+    themes: [
+      {
+        light: {
+          ...require('daisyui/src/theming/themes').light,
+          'bg-custom': '#f5222d',
+        },
+        dark: {
+          ...require('daisyui/src/theming/themes').dark,
+          'bg-custom': '#ffec3d',
+        },
+      },
+    ],
   },
   theme: {
     extend: {
@@ -24,4 +35,5 @@ export default {
   plugins: [
     require('daisyui'),
   ],
+  darkMode: ['class', '[data-theme="dark"]'], // 将talwind和daisyui结合起来
 }

@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { UserInfo } from '~/types/userInfo'
 import { DEFAULT_AVATAR } from '~/constants/global'

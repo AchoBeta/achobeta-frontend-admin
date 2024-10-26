@@ -2,12 +2,13 @@
 import { message } from 'ant-design-vue'
 import { useUserStore } from '~/stores/modules/userStore'
 
-function logOut() {
-  const userStore = useUserStore()
+const userStore = useUserStore()
 
-  message.success('退出成功')
+function logOut() {
   userStore.logOut()
-  window.location.href = '/login'
+  setTimeout(() => {
+    message.success('退出成功')
+  }, 200)
 }
 </script>
 

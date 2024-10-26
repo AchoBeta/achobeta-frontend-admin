@@ -7,7 +7,7 @@ interface Response {
   error: Ref<any>
 }
 
-export const useAvatar = (avatar: string | null | undefined | number): Response => {
+export const useAvatar = (avatar: null | number): Response => {
   const avatarUrl = ref<string>('')
   const loading = ref<boolean>(false)
   const error = ref<any>(null)
@@ -16,13 +16,9 @@ export const useAvatar = (avatar: string | null | undefined | number): Response 
     loading.value = true
     try {
       if (avatar) {
-        if (typeof avatar === 'string' && avatar.startsWith('http')) {
-          avatarUrl.value = avatar
-        } else if (typeof avatar === 'number') {
-          const res = await getPreviewApi(String(avatar))
-          const src = `data:image/jpeg;base64,${btoa(new Uint8Array(res as any).reduce((data, byte) => data + String.fromCharCode(byte), ''))}`
-          avatarUrl.value = src
-        }
+        const res = await getPreviewApi(String(avatar))
+        const src = `data:image/jpeg;base64,${btoa(new Uint8Array(res as any).reduce((data, byte) => data + String.fromCharCode(byte), ''))}`
+        avatarUrl.value = src
       } else {
         avatarUrl.value = DEFAULT_AVATAR
       }

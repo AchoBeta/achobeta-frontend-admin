@@ -1,9 +1,20 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import { useMenuStore } from '@/stores'
+import { useMenuStore, useThemeStore } from '@/stores'
 
 const menueStore = storeToRefs(useMenuStore())
 const menuList = [...menueStore.menuList.value, ...menueStore.otherMenuList.value]
+const themeStore = useThemeStore()
+const theme = themeStore.theme
+// const ANOTHER_THEME = 'dark'
+// const DEFAULT_THEME = 'light'
+
+const changeTheme = () => {
+  // if (themeStore.theme === ANOTHER_THEME)
+  //   themeStore.theme = DEFAULT_THEME
+  // else
+  //   themeStore.theme = ANOTHER_THEME
+}
 </script>
 
 <template>
@@ -101,7 +112,8 @@ const menuList = [...menueStore.menuList.value, ...menueStore.otherMenuList.valu
         <input
           type="checkbox"
           class="theme-controller"
-          value="black"
+          :checked="theme === 'light'"
+          @input="changeTheme"
         >
 
         <!-- sun icon -->
