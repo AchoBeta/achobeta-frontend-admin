@@ -1,20 +1,14 @@
 # 使用 Node.js 18 的 Alpine Linux 版本作为基础镜像，体积小且适合生产环境
-FROM node:18-alpine AS builder
+FROM ianwalter/pnpm:v1.4.0 AS builder
 
 # 设置工作目录为 /app
 WORKDIR /app
 
-# 全局安装 pnpm 包管理工具
-RUN npm install -g pnpm
-
 # 将 package.json 和 pnpm-lock.yaml 文件复制到工作目录中
-COPY package.json pnpm-lock.yaml ./
+COPY . .
 
 # 使用 pnpm 安装项目依赖，并确保使用的是锁定的依赖版本
 RUN pnpm install --frozen-lockfile
-
-# 将项目的所有文件复制到工作目录中
-COPY . .
 
 # 执行项目的构建过程（通常是针对 Nuxt.js 等框架生成静态文件或打包项目）
 RUN pnpm build
