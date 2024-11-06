@@ -72,6 +72,8 @@ Ensure that the script has executable permissions:
 chmod +x build.sh
 ```
 
+Or you can only through ```git push ``` in the test banrch. it will be deploy on test enviroment [http://8.138.151.35:3000](http://8.138.151.35:3000) automatically.
+.
 ## Contribution Guidelines 👥
 
 We welcome contributions! If you'd like to help improve the codebase, please follow our contribution process:
