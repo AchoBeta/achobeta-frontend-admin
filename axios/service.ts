@@ -46,7 +46,11 @@ axiosInstance.interceptors.response.use(
     return res
   },
   (error: AxiosError) => {
-    console.error(error) // for debug
+    // console.log(error, '会经过这里吗')
+    console.log(error, '@@')
+    if (error.response?.status === 500)
+      error.message = '服务器内部错误'
+
     return Promise.reject(error)
   },
 )
@@ -55,7 +59,7 @@ axiosInstance.interceptors.request.use(defaultRequestInterceptors)
 axiosInstance.interceptors.response.use(defaultResponseInterceptors)
 const service = {
   request: (config: RequestConfig) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if (config.interceptors?.requestInterceptors)
         config = config.interceptors.requestInterceptors(config as any)
 
@@ -65,7 +69,7 @@ const service = {
           resolve(res)
         })
         .catch((err: any) => {
-          reject(err)
+          resolve(err)
         })
     })
   },

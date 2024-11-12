@@ -14,9 +14,9 @@ export const SUCCESS_CODE = 200
 export const CONTENT_TYPE: AxiosContentType = 'application/json'
 
 /**
- * 请求超时时间
+ * 请求超时时间, 开发环境下20s, 生产环境下10s
  */
-export const REQUEST_TIMEOUT = 60000
+export const REQUEST_TIMEOUT = process.env.NODE_ENV === 'development' ? 20000 : 10000
 
 /**
  * 不重定向白名单
