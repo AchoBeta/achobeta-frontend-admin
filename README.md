@@ -58,20 +58,6 @@ pnpm build
 
 This command compiles and minifies your application for optimal performance 💪.
 
-## Deploy 🚀
-
-To deploy the application, you can use the provided shell script:
-
-```bash
-./build.sh
-```
-
-Ensure that the script has executable permissions:
-
-```bash
-chmod +x build.sh
-```
-
 ## Contribution Guidelines 👥
 
 We welcome contributions! If you'd like to help improve the codebase, please follow our contribution process:
